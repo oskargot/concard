@@ -1,12 +1,21 @@
 import { createServerClient } from '@supabase/ssr';
 import { redirect, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { supabaseEnv } from '$lib/supabase/env';
+import { missingSupabaseEnv, supabaseEnv } from '$lib/supabase/env';
+import { setupPage } from '$lib/server/setup-page';
 
 // Routes that require a signed-in user with a finished profile.
 const PROTECTED_PREFIXES = ['/me', '/binder', '/scan'];
 
 const supabase: Handle = async ({ event, resolve }) => {
+	// A deploy without its environment variables would 500 on every request.
+	// Show a setup page that names what's missing instead.
+	const missing = missingSupabaseEnv();
+	if (missing.length) {
+		console.error(`concard: missing environment variables: ${missing.join(', ')}`);
+		return setupPage(missing);
+	}
+
 	const { url, key } = supabaseEnv();
 
 	event.locals.supabase = createServerClient(url, key, {
