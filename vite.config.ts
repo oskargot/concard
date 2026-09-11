@@ -1,6 +1,6 @@
 import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-netlify';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 
@@ -14,8 +14,7 @@ export default defineConfig({
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
 
-			// adapter-auto picks Vercel/Netlify/Cloudflare from the deploy environment.
-			// Switch to a specific adapter once hosting is settled.
+			// Hosted on Netlify: server-rendered pages run as a Netlify function.
 			adapter: adapter()
 		}),
 		SvelteKitPWA({

@@ -49,6 +49,14 @@ Product and architecture notes live in [`docs/DESIGN.md`](docs/DESIGN.md).
    To test collecting, sign up a second account in a private window and visit
    the first account's `/<username>` page.
 
+## Deploying
+
+The app is set up for Netlify (`netlify.toml`, `@sveltejs/adapter-netlify`).
+Import the GitHub repo in Netlify, set `PUBLIC_SUPABASE_URL` and
+`PUBLIC_SUPABASE_PUBLISHABLE_KEY` as environment variables, and deploy. Then
+add the site URL and `<site>/auth/callback` under Supabase → Authentication →
+URL Configuration.
+
 ## Scripts
 
 | Command                       | What it does                                                                                                                                                                            |

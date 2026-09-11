@@ -1,0 +1,8 @@
+# Netlify build settings. SvelteKit's adapter-auto detects Netlify and emits
+# the site plus a serverless function for server-rendered pages.
+[build]
+  command = "pnpm build"
+  publish = "build"
+
+[build.environment]
+  NODE_VERSION = "22"
