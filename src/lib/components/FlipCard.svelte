@@ -79,6 +79,7 @@
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	class="flip"
+	class:flipped
 	class:dragging
 	class:reduce={reduceMotion}
 	role={canFlip ? 'button' : 'presentation'}
@@ -103,6 +104,14 @@
 	.flip {
 		display: block;
 		width: 100%;
+		--turn: 0.6s;
+		/*
+		  The turn's easing is front-loaded, so the card passes edge-on at 36% of
+		  the duration rather than halfway (measured off the computed matrix, not
+		  guessed). The side swap below is timed to that crossing; at the halfway
+		  point it would land ~80ms late and WebKit would flash the mirrored front.
+		*/
+		--turn-edge-on: calc(var(--turn) * 0.36);
 		perspective: 1600px;
 		cursor: pointer;
 		touch-action: none;
@@ -114,7 +123,7 @@
 		cursor: grab;
 	}
 	.flip:focus-visible {
-		outline: 3px solid var(--color-accent, #f59e0b);
+		outline: 3px solid var(--color-gold, #d8ab4e);
 		outline-offset: 8px;
 		border-radius: 12px;
 	}
@@ -123,25 +132,44 @@
 		width: 100%;
 		aspect-ratio: 5 / 7;
 		transform-style: preserve-3d;
-		transition: transform 0.6s cubic-bezier(0.4, 0.1, 0.2, 1);
+		transition: transform var(--turn) cubic-bezier(0.4, 0.1, 0.2, 1);
 	}
 	.dragging .inner {
 		transition: transform 0.08s linear;
 	}
+	/*
+	  backface-visibility alone is not enough here. Every card face contains
+	  separately-composited subtrees — the shell's container-type, the fx layers'
+	  mix-blend-mode, the drop-shadow filters on stickers — and WebKit stops
+	  applying an ancestor's backface culling across those, so the front showed
+	  through the back, mirrored, on top of the QR. Cull the away-facing side
+	  explicitly as well. The swap is timed to the edge-on crossing, where the
+	  card is a zero-width sliver and neither side is visible, so nothing pops.
+	*/
 	.side {
 		position: absolute;
 		inset: 0;
 		backface-visibility: hidden;
 		-webkit-backface-visibility: hidden;
+		transition: visibility 0s linear var(--turn-edge-on);
 	}
 	.back {
 		transform: rotateY(180deg);
+		visibility: hidden;
 	}
-	.reduce .inner {
+	.flipped .front {
+		visibility: hidden;
+	}
+	.flipped .back {
+		visibility: visible;
+	}
+	.reduce .inner,
+	.reduce .side {
 		transition: none;
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.inner {
+		.inner,
+		.side {
 			transition: none;
 		}
 	}
