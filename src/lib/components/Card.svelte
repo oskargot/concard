@@ -73,12 +73,13 @@
 	const more = $derived(Math.max(0, view.links.length - MAX_CHIPS));
 	const stickers = $derived([...view.stickers].sort((a, b) => a.z_index - b.z_index));
 
-	// Foil stickers shimmer on the same drag tilt as the card's own holo frame
-	// (mirrors CardShell's --lx). Holo also drifts its grain with the tilt —
-	// the parallax shelved for the card face itself (see docs/DESIGN.md) —
-	// while glitter's grain holds still.
+	// Foil stickers get a glow behind them, lit by the same drag tilt as the
+	// card's own holo frame (mirrors CardShell's --lx/--ly). Holo also drifts
+	// its grain with the tilt — the parallax shelved for the card face itself
+	// (see docs/DESIGN.md) — while glitter's grain holds still.
 	const clampFx = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
 	const foilLx = $derived(clampFx(50 - ry * 2.1, -15, 115));
+	const foilLy = $derived(clampFx(30 - rx * 2.4, -15, 115));
 	const foilGx = $derived(clampFx(ry * 3, -30, 30));
 	const foilGy = $derived(clampFx(-rx * 3, -30, 30));
 	// While the badge is still sitting over the footer, the chips leave room for
@@ -319,8 +320,9 @@
 						<FoilFx
 							foil={s.foil}
 							sticker={catalog.get(s.sticker_id)}
-							outset={0.16}
+							iconSize={0.86}
 							lx={foilLx}
+							ly={foilLy}
 							gx={s.foil === 'holo' ? foilGx : undefined}
 							gy={s.foil === 'holo' ? foilGy : undefined}
 						/>
