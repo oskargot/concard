@@ -18,6 +18,7 @@ export interface Database {
 					avatar_url: string | null;
 					links: Json;
 					active_card_id: string | null;
+					is_admin: boolean;
 					created_at: string;
 					updated_at: string;
 				};
@@ -105,8 +106,27 @@ export interface Database {
 					sort_order: number;
 					is_active: boolean;
 				};
-				Insert: never;
-				Update: never;
+				Insert: {
+					id: string;
+					name: string;
+					glyph?: string | null;
+					image_url?: string | null;
+					rarity?: StickerRarity;
+					source?: StickerSource;
+					price_cents?: number | null;
+					sort_order?: number;
+					is_active?: boolean;
+				};
+				Update: {
+					name?: string;
+					glyph?: string | null;
+					image_url?: string | null;
+					rarity?: StickerRarity;
+					source?: StickerSource;
+					price_cents?: number | null;
+					sort_order?: number;
+					is_active?: boolean;
+				};
 				Relationships: [];
 			};
 			sticker_inventory: {

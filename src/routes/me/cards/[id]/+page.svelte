@@ -19,6 +19,7 @@
 		normalizeStyle,
 		PHOTO_SHAPES,
 		SHAPES,
+		stickerRotation,
 		STICKER_X_RANGE,
 		STICKER_Y_RANGE,
 		type CardStyle
@@ -107,11 +108,17 @@
 
 	let cardEl: HTMLDivElement | undefined = $state();
 	type Drag =
-		{ kind: 'sticker'; id: string; pointerId: number } | { kind: 'badge'; pointerId: number };
+		| { kind: 'sticker'; id: string; pointerId: number }
+		| { kind: 'badge'; pointerId: number }
+		| { kind: 'sticker-rotate'; id: string; pointerId: number }
+		| { kind: 'sticker-resize'; id: string; pointerId: number };
 	let drag: Drag | null = null;
 
 	const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
 	const round = (n: number) => Math.round(n * 10000) / 10000;
+	// The sticker's own unscaled box is 15.33cqw square (see Card.svelte); cqw
+	// is 1% of the card's own width, which cardEl is sized to.
+	const STICKER_BASE_RADIUS_FRAC = 0.1533 / 2;
 
 	function relPos(e: PointerEvent) {
 		const r = cardEl!.getBoundingClientRect();
@@ -121,11 +128,30 @@
 		};
 	}
 
+	/** The pointer's angle around a sticker's center, converted to the stored
+	 *  rotation (which excludes the small per-sticker jitter Card.svelte adds). */
+	function angleFor(id: string, cx: number, cy: number, px: number, py: number): number {
+		const screenAngle = (Math.atan2(py - cy, px - cx) * 180) / Math.PI;
+		const raw = screenAngle + 90 - stickerRotation(id);
+		return ((((raw + 180) % 360) + 360) % 360) - 180;
+	}
+
 	function onStickerDown(s: PlacedSticker, e: PointerEvent) {
 		if (!s.id) return;
 		badgeSelected = false;
 		selectedId = s.id;
 		drag = { kind: 'sticker', id: s.id, pointerId: e.pointerId };
+		(e.currentTarget as HTMLElement | null)?.setPointerCapture?.(e.pointerId);
+	}
+	function onStickerHandleDown(s: PlacedSticker, handle: 'rotate' | 'resize', e: PointerEvent) {
+		if (!s.id) return;
+		badgeSelected = false;
+		selectedId = s.id;
+		drag = {
+			kind: handle === 'rotate' ? 'sticker-rotate' : 'sticker-resize',
+			id: s.id,
+			pointerId: e.pointerId
+		};
 		(e.currentTarget as HTMLElement | null)?.setPointerCapture?.(e.pointerId);
 	}
 	function onBadgeDown(e: PointerEvent) {
@@ -137,13 +163,32 @@
 	function onMove(e: PointerEvent) {
 		const d = drag;
 		if (!d || e.pointerId !== d.pointerId) return;
-		const { x, y } = relPos(e);
 		if (d.kind === 'badge') {
+			const { x, y } = relPos(e);
 			badgeX = x;
 			badgeY = y;
 			return;
 		}
-		placed = placed.map((p) => (p.id === d.id ? { ...p, x, y } : p));
+		if (d.kind === 'sticker') {
+			const { x, y } = relPos(e);
+			placed = placed.map((p) => (p.id === d.id ? { ...p, x, y } : p));
+			return;
+		}
+		// rotate/resize pivot around the sticker's own center, not the pointer's
+		// raw position, so they need the sticker's current placement.
+		const p = placed.find((q) => q.id === d.id);
+		if (!p) return;
+		const r = cardEl!.getBoundingClientRect();
+		const cx = r.left + p.x * r.width;
+		const cy = r.top + p.y * r.height;
+		if (d.kind === 'sticker-rotate') {
+			const rotation = angleFor(d.id, cx, cy, e.clientX, e.clientY);
+			placed = placed.map((q) => (q.id === d.id ? { ...q, rotation } : q));
+		} else {
+			const baseRadius = r.width * STICKER_BASE_RADIUS_FRAC;
+			const scale = clamp(round(Math.hypot(e.clientX - cx, e.clientY - cy) / baseRadius), 0.25, 3);
+			placed = placed.map((q) => (q.id === d.id ? { ...q, scale } : q));
+		}
 	}
 	async function onUp(e: PointerEvent) {
 		const d = drag;
@@ -157,7 +202,10 @@
 			return;
 		}
 		const p = placed.find((q) => q.id === d.id);
-		if (p) await persist(d.id, { x: round(p.x), y: round(p.y) });
+		if (!p) return;
+		if (d.kind === 'sticker') await persist(d.id, { x: round(p.x), y: round(p.y) });
+		else if (d.kind === 'sticker-rotate') await persist(d.id, { rotation: round(p.rotation) });
+		else await persist(d.id, { scale: round(p.scale) });
 	}
 	function onFaceDown() {
 		selectedId = null;
@@ -227,13 +275,6 @@
 		if (error) stickerError = error.message;
 		await invalidateAll();
 	}
-
-	async function nudge(patch: (p: PlacedSticker) => PlacementPatch) {
-		if (!selected?.id) return;
-		const next = patch(selected);
-		placed = placed.map((p) => (p.id === selected!.id ? { ...p, ...next } : p));
-		await persist(selected.id, next);
-	}
 </script>
 
 <svelte:head><title>Edit card · concard</title></svelte:head>
@@ -265,6 +306,7 @@
 			{selectedId}
 			{badgeSelected}
 			onstickerdown={onStickerDown}
+			onstickerhandledown={onStickerHandleDown}
 			onbadgedown={onBadgeDown}
 			onfacedown={onFaceDown}
 			onframestep={stepFrame}
@@ -291,37 +333,11 @@
 	<input type="hidden" form="card-save" name="art_scale" value={artScale} />
 
 	{#if selected}
-		<div class="mt-3 flex items-center justify-center gap-1.5">
-			<button
-				type="button"
-				class="btn-secondary !px-2.5 !py-1.5"
-				aria-label="Rotate left"
-				onclick={() => nudge((p) => ({ rotation: p.rotation - 15 }))}>↺</button
-			>
-			<button
-				type="button"
-				class="btn-secondary !px-2.5 !py-1.5"
-				aria-label="Rotate right"
-				onclick={() => nudge((p) => ({ rotation: p.rotation + 15 }))}>↻</button
-			>
-			<button
-				type="button"
-				class="btn-secondary !px-2.5 !py-1.5"
-				aria-label="Smaller"
-				onclick={() => nudge((p) => ({ scale: clamp(round(p.scale - 0.15), 0.25, 3) }))}>−</button
-			>
-			<button
-				type="button"
-				class="btn-secondary !px-2.5 !py-1.5"
-				aria-label="Bigger"
-				onclick={() => nudge((p) => ({ scale: clamp(round(p.scale + 0.15), 0.25, 3) }))}>+</button
-			>
-			<button
-				type="button"
-				class="btn-danger !px-2.5 !py-1.5"
-				aria-label="Remove sticker"
-				onclick={removeSelected}>✕</button
-			>
+		<div class="mt-3 flex flex-col items-center gap-2">
+			<p class="meta text-faint">Drag the dots to rotate or resize</p>
+			<button type="button" class="btn-danger !px-2.5 !py-1.5" onclick={removeSelected}>
+				✕ Remove sticker
+			</button>
 		</div>
 	{:else if badgeSelected}
 		<p class="mt-3 text-center meta text-faint">Drag the badge to move it</p>

@@ -27,6 +27,12 @@
 		/** The fandom badge is placed like a sticker, so it can be picked up too. */
 		badgeSelected?: boolean;
 		onstickerdown?: (sticker: PlacedSticker, event: PointerEvent) => void;
+		/** The rotate or resize handle on the selected sticker was grabbed. */
+		onstickerhandledown?: (
+			sticker: PlacedSticker,
+			handle: 'rotate' | 'resize',
+			event: PointerEvent
+		) => void;
 		onbadgedown?: (event: PointerEvent) => void;
 		onfacedown?: (event: PointerEvent) => void;
 		/** Look controls, each stepped from right where it applies on the card. */
@@ -50,6 +56,7 @@
 		selectedId = null,
 		badgeSelected = false,
 		onstickerdown,
+		onstickerhandledown,
 		onbadgedown,
 		onfacedown,
 		onframestep,
@@ -279,11 +286,12 @@
 			</div>
 		{/if}
 		{#each stickers as s (s.id ?? `${s.sticker_id}-${s.x}-${s.y}`)}
+			{@const isSelected = editable && s.id != null && s.id === selectedId}
 			<div
 				class="sticker"
-				class:selected={editable && s.id != null && s.id === selectedId}
+				class:selected={isSelected}
 				role={editable ? 'presentation' : undefined}
-				style="left: {s.x * 100}%; top: {s.y * 100}%; z-index: {s.z_index + 1};
+				style="left: {s.x * 100}%; top: {s.y * 100}%; z-index: {isSelected ? 1000 : s.z_index + 1};
 					transform: translate(-50%, -50%) rotate({s.rotation +
 					stickerRotation(s.id ?? s.sticker_id)}deg) scale({s.scale});"
 				onpointerdown={editable && onstickerdown
@@ -296,6 +304,29 @@
 				<div class="cut">
 					<StickerGlyph sticker={catalog.get(s.sticker_id)} label={false} />
 				</div>
+				{#if isSelected && onstickerhandledown}
+					{@const handleScale = Math.min(2, Math.max(0.6, 1 / s.scale))}
+					<button
+						type="button"
+						class="grip grip-rotate"
+						style="transform: translate(-50%, -50%) scale({handleScale})"
+						aria-label="Rotate sticker"
+						onpointerdown={(e) => {
+							e.stopPropagation();
+							onstickerhandledown(s, 'rotate', e);
+						}}>↻</button
+					>
+					<button
+						type="button"
+						class="grip grip-resize"
+						style="transform: translate(50%, 50%) scale({handleScale})"
+						aria-label="Resize sticker"
+						onpointerdown={(e) => {
+							e.stopPropagation();
+							onstickerhandledown(s, 'resize', e);
+						}}
+					></button>
+				{/if}
 			</div>
 		{/each}
 	{/snippet}
@@ -633,6 +664,12 @@
 		transform-origin: center;
 		--rim: #fbf9f3;
 		--rim-w: 0.7cqw;
+		/* the 8 diagonal offsets below, at cos/sin 30°: with the 4 cardinal
+		   offsets that makes 12 evenly-spaced copies instead of 4, so the rim
+		   traces an actual round dilation instead of a diamond that notches
+		   sharp points (a star's, say) into a little blunt double-bump. */
+		--rim-a: calc(var(--rim-w) * 0.866);
+		--rim-b: calc(var(--rim-w) * 0.5);
 	}
 	.cut {
 		width: 100%;
@@ -641,11 +678,19 @@
 		place-items: center;
 		font-size: 11cqw;
 		line-height: 1;
-		/* four hard shadows trace the paper rim around the alpha; a soft dark edge
+		/* 12 hard shadows trace the paper rim around the alpha; a soft dark edge
 		   keeps pale stickers legible on pale cards; the last one lifts it off the card */
 		filter: drop-shadow(var(--rim-w) 0 0 var(--rim))
 			drop-shadow(calc(-1 * var(--rim-w)) 0 0 var(--rim)) drop-shadow(0 var(--rim-w) 0 var(--rim))
 			drop-shadow(0 calc(-1 * var(--rim-w)) 0 var(--rim))
+			drop-shadow(var(--rim-a) var(--rim-b) 0 var(--rim))
+			drop-shadow(calc(-1 * var(--rim-a)) var(--rim-b) 0 var(--rim))
+			drop-shadow(var(--rim-a) calc(-1 * var(--rim-b)) 0 var(--rim))
+			drop-shadow(calc(-1 * var(--rim-a)) calc(-1 * var(--rim-b)) 0 var(--rim))
+			drop-shadow(var(--rim-b) var(--rim-a) 0 var(--rim))
+			drop-shadow(calc(-1 * var(--rim-b)) var(--rim-a) 0 var(--rim))
+			drop-shadow(var(--rim-b) calc(-1 * var(--rim-a)) 0 var(--rim))
+			drop-shadow(calc(-1 * var(--rim-b)) calc(-1 * var(--rim-a)) 0 var(--rim))
 			drop-shadow(0 0 0.25cqw rgb(23 22 27 / 0.45)) drop-shadow(0 1cqw 1.6cqw rgb(23 22 27 / 0.3));
 	}
 	.cut :global(img) {
@@ -660,5 +705,33 @@
 	.sticker.selected {
 		--rim: var(--ink, #17161b);
 		--rim-w: 0.85cqw;
+	}
+
+	/* rotate/resize handles: nested inside the sticker's own rotate+scale
+	   transform, so they swing and move out with it automatically; the inline
+	   scale() counters that so the dot itself stays a constant size. */
+	.grip {
+		position: absolute;
+		display: grid;
+		place-items: center;
+		width: 1.35rem;
+		height: 1.35rem;
+		border-radius: 50%;
+		border: 1px solid var(--color-line, #34323d);
+		background: var(--color-surface, #1c1b22);
+		color: var(--color-paper, #efedf2);
+		font-size: 0.7rem;
+		line-height: 1;
+		box-shadow: 0 2px 6px rgb(0 0 0 / 0.4);
+		touch-action: none;
+		cursor: grab;
+	}
+	.grip-rotate {
+		top: -6%;
+		left: 50%;
+	}
+	.grip-resize {
+		bottom: 0;
+		right: 0;
 	}
 </style>
