@@ -13,6 +13,17 @@
 	 * emoji glyph's own shape) and painted over the artwork rather than
 	 * behind it — so it reads as the sticker itself shimmering, not a glow
 	 * sitting near it.
+	 *
+	 * Both layers use exactly one mask-image each, with no mask-composite —
+	 * an earlier version intersected two or three mask layers to confine the
+	 * grain texture to the icon shape, which turned out to not clip at all on
+	 * at least one real device (the effect showed as its full untrimmed box
+	 * instead of the sticker's shape). Multi-layer mask compositing is a much
+	 * newer, shakier corner of CSS than a single mask-image, so the grain
+	 * texture is drawn as an ordinary background layer (blended in with
+	 * background-blend-mode, a long-supported property) instead of as a
+	 * second mask — leaving only the one masking operation everything here
+	 * actually depends on.
 	 */
 	interface Props {
 		foil: StickerFoil;
@@ -60,14 +71,11 @@
 	);
 
 	const pct = $derived(`${iconSize * 100}%`);
-	// Only .wash's mask-image varies per instance (one layer: the icon); .grain
-	// stays a fixed two-layer expression (icon ∩ grain texture) in the
-	// stylesheet below, so it only needs the icon slotted in here too.
-	const washMaskStyle = $derived(iconMask ? `mask-image: ${iconMask};` : '');
-	const grainMaskStyle = $derived(
-		iconMask
-			? `mask-image: ${iconMask}, url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='g' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  18 0 0 0 -12'/></filter><rect width='120' height='120' filter='url(%23g)'/></svg>");`
-			: ''
+	// The one mask-image both layers use is set inline (it's per-instance);
+	// -webkit-mask-image is included alongside it for older engines that
+	// never picked up the unprefixed property.
+	const maskStyle = $derived(
+		iconMask ? `-webkit-mask-image: ${iconMask}; mask-image: ${iconMask};` : ''
 	);
 	const style = $derived(
 		[
@@ -84,8 +92,8 @@
 
 {#if foil !== 'none' && iconMask}
 	<div class="foilfx {foil}" class:idle aria-hidden="true" {style}>
-		<div class="wash" style={washMaskStyle}></div>
-		<div class="grain" style={grainMaskStyle}></div>
+		<div class="wash" style={maskStyle}></div>
+		<div class="grain" style={maskStyle}></div>
 	</div>
 {/if}
 
@@ -101,36 +109,43 @@
 	.grain {
 		position: absolute;
 		inset: 0;
-		background: linear-gradient(118deg, var(--holo-stops));
+		-webkit-mask-position: center;
 		mask-position: center;
+		-webkit-mask-repeat: no-repeat;
 		mask-repeat: no-repeat;
+		-webkit-mask-size: var(--icon-size) var(--icon-size);
+		mask-size: var(--icon-size) var(--icon-size);
 	}
 	.wash {
+		background: linear-gradient(118deg, var(--holo-stops));
 		background-size: 240% 100%;
 		background-position: var(--lx, 30%) 50%;
 		mix-blend-mode: hard-light;
 		opacity: 0.55;
-		mask-size: var(--icon-size) var(--icon-size);
 	}
 	.holo .wash {
 		opacity: 0.7;
 	}
 	.grain {
-		mix-blend-mode: screen;
-		opacity: 0.95;
-		mask-size:
-			var(--icon-size) var(--icon-size),
+		/* the tint and the sparkle texture, blended into one background stack —
+		   background-blend-mode long predates mask-composite and is far more
+		   consistently supported */
+		background-image:
+			linear-gradient(118deg, var(--holo-stops)),
+			url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='g' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' seed='7' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  18 0 0 0 -12'/></filter><rect width='120' height='120' filter='url(%23g)'/></svg>");
+		background-size:
+			100% 100%,
 			46% 46%;
-		mask-position:
+		background-position:
 			center,
 			calc(12% + var(--gx, 0%)) calc(18% + var(--gy, 0%));
-		mask-repeat: no-repeat, repeat;
-		/* A single value applies to every layer above: icon ∩ grain texture.
-		   The -webkit- form is the same operation under Safari's older,
-		   differently-named keyword — declaring both is the standard way to
-		   get consistent masking across engines. */
-		-webkit-mask-composite: source-in;
-		mask-composite: intersect;
+		background-repeat: no-repeat, repeat;
+		background-blend-mode: screen;
+		mix-blend-mode: screen;
+		opacity: 0.5;
+	}
+	.holo .grain {
+		opacity: 0.65;
 	}
 
 	/* idle: no tilt input (the flat sticker grid), so animate the same
