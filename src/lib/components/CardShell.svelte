@@ -8,6 +8,9 @@
 		faceColor?: string;
 		/** Draw the holo wash, specular and edge layers. */
 		fx?: boolean;
+		/** The back's light: a bare sheen under the content, so it never washes
+		 *  over the QR. */
+		light?: boolean;
 		rx?: number;
 		ry?: number;
 		dragging?: boolean;
@@ -22,6 +25,7 @@
 		style,
 		faceColor,
 		fx = false,
+		light = false,
 		rx = 0,
 		ry = 0,
 		dragging = false,
@@ -64,6 +68,7 @@
 			onpointerdown={editable ? onfacedown : undefined}
 		>
 			<div class="face">
+				{#if light}<div class="fx sheen"></div>{/if}
 				<div class="content">{@render children()}</div>
 				{#if fx}
 					<div class="fx holo"></div>
@@ -167,6 +172,28 @@
 		inset: 0;
 		pointer-events: none;
 		border-radius: inherit;
+	}
+	/*
+	  The back's light. The same moving highlight as .spec, but beneath the
+	  content rather than over it — z-index 1 against the content's 2 — so the
+	  opaque QR plate occludes it. The sheen plays across the ink around the code
+	  and never over the code itself, which has to stay scannable.
+
+	  No mix-blend-mode, unlike the front's layers: plain alpha over a dark face
+	  looks the same, and every blended layer is another separately composited
+	  subtree of the kind that already cost us the card's backface culling.
+	*/
+	.sheen {
+		z-index: 1;
+		background: radial-gradient(
+			62% 45% at var(--lx) var(--ly),
+			rgb(255 255 255 / 0.17),
+			rgb(255 255 255 / 0.05) 48%,
+			transparent 74%
+		);
+		transition:
+			--lx var(--fx-t),
+			--ly var(--fx-t);
 	}
 	.holo {
 		z-index: 3;

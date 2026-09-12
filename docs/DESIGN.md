@@ -46,8 +46,11 @@ over the glitter rather than the glitter moving), and an inner edge. A
 parallax version, where the flecks drift with tilt, was tried and shelved: it
 read as depth rather than surface. It may return for holographic stickers. `Card.svelte` puts the face content and the sticker overlay in
 it; `CardBack.svelte` puts the QR or the collector's record in it.
-`FlipCard.svelte` owns pointer tilt and tap-to-flip and passes `rx`/`ry` down
-so the light can never desync from the card. Tokens live in
+`CardBack.svelte` takes the same tilt and draws a bare sheen _under_ its
+content, so the light plays across the ink but the opaque QR plate occludes
+it and the code stays scannable. `FlipCard.svelte` owns pointer tilt and
+tap-to-flip and passes `rx`/`ry` down to both faces, so the light can never
+desync from the card. Tokens live in
 `src/lib/card-style.ts`. Everything is sized in `cqw` off the container, and
 below 180px the card drops its bio and chips so binder thumbnails stay legible.
 

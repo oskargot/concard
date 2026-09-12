@@ -16,13 +16,26 @@
 		/** Human-readable link shown under the QR, e.g. concard.me/oskar */
 		url?: string;
 		record?: Record;
+		/** Pointer tilt from FlipCard, so the back's light tracks the front's. */
+		rx?: number;
+		ry?: number;
+		dragging?: boolean;
 	}
 
-	let { style, variant, qrSvg = '', url = '', record }: Props = $props();
+	let {
+		style,
+		variant,
+		qrSvg = '',
+		url = '',
+		record,
+		rx = 0,
+		ry = 0,
+		dragging = false
+	}: Props = $props();
 </script>
 
 <!-- The back is always ink, whatever the front's background: the reverse of a printed card. -->
-<CardShell {style} faceColor="#17161b">
+<CardShell {style} faceColor="#17161b" light {rx} {ry} {dragging}>
 	<div class="back">
 		{#if variant === 'qr'}
 			<div class="centre">

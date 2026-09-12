@@ -23,7 +23,7 @@ for (const t of targets) {
 // Maskable icons get cropped to a circle/squircle by the OS: pad the artwork
 // so nothing important sits in the outer 10%.
 const inner = await sharp(svg).resize(410, 410).png().toBuffer();
-await sharp({ create: { width: 512, height: 512, channels: 4, background: '#0f172a' } })
+await sharp({ create: { width: 512, height: 512, channels: 4, background: '#121116' } })
 	.composite([{ input: inner, gravity: 'centre' }])
 	.png()
 	.toFile(outDir + 'maskable-512.png');

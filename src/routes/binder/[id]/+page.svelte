@@ -48,7 +48,14 @@
 				ry={t.ry}
 				dragging={t.dragging}
 			/>{/snippet}
-		{#snippet back()}<CardBack variant="record" style={snap.style} {record} />{/snippet}
+		{#snippet back(t)}<CardBack
+				variant="record"
+				style={snap.style}
+				{record}
+				rx={t.rx}
+				ry={t.ry}
+				dragging={t.dragging}
+			/>{/snippet}
 	</FlipCard>
 </div>
 <p class="mt-3 text-center text-xs text-faint">

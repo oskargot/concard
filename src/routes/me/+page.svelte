@@ -56,12 +56,15 @@
 						ry={t.ry}
 						dragging={t.dragging}
 					/>{/snippet}
-				{#snippet back()}
+				{#snippet back(t)}
 					<CardBack
 						variant="qr"
 						style={normalizeStyle(active.style)}
 						qrSvg={data.qr}
 						url={prettyLink}
+						rx={t.rx}
+						ry={t.ry}
+						dragging={t.dragging}
 					/>
 				{/snippet}
 			</FlipCard>
