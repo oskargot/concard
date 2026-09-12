@@ -1,5 +1,28 @@
 <script lang="ts">
+	import Card from '$lib/components/Card.svelte';
+	import CardBack from '$lib/components/CardBack.svelte';
+	import FlipCard from '$lib/components/FlipCard.svelte';
+	import { DEMO_CARD, demoCatalog } from '$lib/demo-card';
+
 	let { data } = $props();
+
+	const catalog = demoCatalog();
+	let flipped = $state(false);
+
+	const steps = [
+		{
+			title: 'Make your card',
+			body: 'Your name, your photo, your links, and whatever stickers you have picked up.'
+		},
+		{
+			title: 'Wear your code',
+			body: 'It is an ordinary link. Print it on your badge and any camera will open it — the other person does not need the app.'
+		},
+		{
+			title: 'Collect each other',
+			body: 'Scan, and you both keep a copy of the other card, frozen the way it looked that day.'
+		}
+	];
 </script>
 
 <svelte:head>
@@ -10,45 +33,55 @@
 	/>
 </svelte:head>
 
-<section class="mt-10 text-center">
-	<p class="text-xs font-bold tracking-[0.3em] text-amber-300 uppercase">concard</p>
-	<h1 class="mt-3 text-4xl font-black tracking-tight">You are the card.</h1>
-	<p class="mx-auto mt-3 max-w-sm text-white/70">
-		Make a trading card for yourself. Flip it to show your QR code. Collect everyone you meet at the
-		con, and pick up a sticker from each card you grab.
+<section class="mt-8 text-center">
+	<p class="meta text-gold">concard</p>
+	<h1 class="mt-3 display text-[2.5rem] leading-[1.06] text-balance">You are the card.</h1>
+	<p class="mx-auto mt-3 max-w-xs text-[15px] leading-relaxed text-dim">
+		Make one for yourself, put the code on your badge, and collect everyone you meet.
 	</p>
-	<div class="mt-6 flex justify-center gap-2">
-		{#if data.session}
-			<a class="btn-primary" href="/me">Your card</a>
-			<a class="btn-secondary" href="/scan">Scan</a>
-		{:else}
-			<a class="btn-primary" href="/login">Make your card</a>
-			<a class="btn-secondary" href="/login">Sign in</a>
-		{/if}
-	</div>
 </section>
 
-<section class="mt-12 grid gap-3">
-	<div class="panel">
-		<div class="text-2xl">◉</div>
-		<h2 class="mt-1 font-bold">One code, many cards</h2>
-		<p class="text-sm text-white/60">
-			Your QR code never changes. Swap which card it shows whenever you like.
-		</p>
+<section class="mt-8">
+	<div class="mx-auto max-w-[300px]">
+		<FlipCard bind:flipped label={flipped ? 'Show the card front' : 'Show the QR code'}>
+			{#snippet front(t)}
+				<Card view={DEMO_CARD} {catalog} rx={t.rx} ry={t.ry} dragging={t.dragging} />
+			{/snippet}
+			{#snippet back()}
+				<CardBack variant="qr" style={DEMO_CARD.style} qrSvg={data.demoQr} url={data.demoLink} />
+			{/snippet}
+		</FlipCard>
 	</div>
-	<div class="panel">
-		<div class="text-2xl">▣</div>
-		<h2 class="mt-1 font-bold">Scan to trade</h2>
-		<p class="text-sm text-white/60">
-			Scan each other and you both walk away with a card. Print your code on a badge and let anyone
-			grab it.
-		</p>
-	</div>
-	<div class="panel">
-		<div class="text-2xl">✨</div>
-		<h2 class="mt-1 font-bold">Sticker drops</h2>
-		<p class="text-sm text-white/60">
-			Decorate your card with stickers. Everyone who collects it gets a copy of one at random.
-		</p>
-	</div>
+	<p class="mt-4 text-center meta text-faint">Drag to tilt · tap to flip</p>
+</section>
+
+<section class="mt-8 flex justify-center gap-2">
+	{#if data.session}
+		<a class="btn-primary" href="/me">Your card</a>
+		<a class="btn-secondary" href="/scan">Scan someone</a>
+	{:else}
+		<a class="btn-primary" href="/login">Make your card</a>
+		<a class="btn-secondary" href="/login">Sign in</a>
+	{/if}
+</section>
+
+<section class="mt-14">
+	<ol class="grid gap-6">
+		{#each steps as step, i (step.title)}
+			<li class="flex gap-4">
+				<span class="font-mono text-sm font-bold text-gold tabular-nums">{i + 1}</span>
+				<div class="min-w-0">
+					<h2 class="display text-lg">{step.title}</h2>
+					<p class="mt-1 text-sm leading-relaxed text-dim">{step.body}</p>
+				</div>
+			</li>
+		{/each}
+	</ol>
+</section>
+
+<section class="mt-12 border-t border-line pt-6 text-center">
+	<p class="mx-auto max-w-xs text-sm leading-relaxed text-dim">
+		Every card you collect drops one of its stickers into your hands. Put them on your own and pass
+		them along.
+	</p>
 </section>

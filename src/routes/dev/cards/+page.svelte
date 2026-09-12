@@ -3,55 +3,10 @@
 	import CardBack from '$lib/components/CardBack.svelte';
 	import FlipCard from '$lib/components/FlipCard.svelte';
 	import { BG_KEYS, FRAME_KEYS, PHOTO_SHAPES, SHAPES, type CardStyle } from '$lib/card-style';
-	import type { CardView, Sticker } from '$lib/types';
+	import { demoCatalog } from '$lib/demo-card';
+	import type { CardView } from '$lib/types';
 
-	const stickers: Sticker[] = [
-		{
-			id: 'star',
-			name: 'Star',
-			glyph: '⭐',
-			image_url: null,
-			rarity: 'common',
-			source: 'starter',
-			price_cents: null,
-			sort_order: 1,
-			is_active: true
-		},
-		{
-			id: 'cat',
-			name: 'Cat',
-			glyph: '🐱',
-			image_url: null,
-			rarity: 'uncommon',
-			source: 'drop',
-			price_cents: null,
-			sort_order: 2,
-			is_active: true
-		},
-		{
-			id: 'dragon',
-			name: 'Dragon',
-			glyph: '🐉',
-			image_url: null,
-			rarity: 'rare',
-			source: 'drop',
-			price_cents: null,
-			sort_order: 3,
-			is_active: true
-		},
-		{
-			id: 'rainbow',
-			name: 'Rainbow',
-			glyph: '🌈',
-			image_url: null,
-			rarity: 'legendary',
-			source: 'drop',
-			price_cents: null,
-			sort_order: 4,
-			is_active: true
-		}
-	];
-	const catalog = new Map(stickers.map((s) => [s.id, s]));
+	const catalog = demoCatalog();
 
 	const base: Omit<CardView, 'style'> = {
 		title: 'Oskar',
@@ -97,8 +52,8 @@
 
 <svelte:head><title>Card gallery · dev</title></svelte:head>
 
-<h1 class="text-xl font-black">Card gallery</h1>
-<p class="text-xs text-white/50">Dev only. Drag the hero to tilt, tap to flip.</p>
+<h1 class="display text-xl">Card gallery</h1>
+<p class="text-xs text-faint">Dev only. Drag the hero to tilt, tap to flip.</p>
 
 <section class="mx-auto mt-6 max-w-[320px]" data-shot="hero">
 	<FlipCard bind:flipped>
@@ -121,19 +76,19 @@
 	>
 </section>
 
-<h2 class="mt-10 text-sm font-bold text-white/70">Variants</h2>
+<h2 class="mt-10 text-sm font-bold text-dim">Variants</h2>
 <ul class="mt-3 grid grid-cols-3 gap-5" data-shot="variants">
 	{#each variants as style (JSON.stringify(style))}
 		<li>
 			<Card view={{ ...base, style }} {catalog} />
-			<p class="mt-2 text-center text-[10px] text-white/50">
+			<p class="mt-2 text-center text-[10px] text-faint">
 				{style.frame} · {style.bg} · {style.shape} · {style.photo_shape}
 			</p>
 		</li>
 	{/each}
 </ul>
 
-<h2 class="mt-10 text-sm font-bold text-white/70">Every background</h2>
+<h2 class="mt-10 text-sm font-bold text-dim">Every background</h2>
 <ul class="mt-3 grid grid-cols-3 gap-4" data-shot="bgs">
 	{#each BG_KEYS as bg (bg)}
 		<li>
@@ -145,12 +100,12 @@
 				}}
 				{catalog}
 			/>
-			<p class="mt-1 text-center text-[10px] text-white/50">{bg}</p>
+			<p class="mt-1 text-center text-[10px] text-faint">{bg}</p>
 		</li>
 	{/each}
 </ul>
 
-<h2 class="mt-10 text-sm font-bold text-white/70">Backs</h2>
+<h2 class="mt-10 text-sm font-bold text-dim">Backs</h2>
 <ul class="mt-3 grid grid-cols-2 gap-5" data-shot="backs">
 	<li>
 		<CardBack
@@ -173,14 +128,14 @@
 	</li>
 </ul>
 
-<h2 class="mt-10 text-sm font-bold text-white/70">Thumbnail size</h2>
+<h2 class="mt-10 text-sm font-bold text-dim">Thumbnail size</h2>
 <ul class="mt-3 grid grid-cols-6 gap-3" data-shot="thumbs">
 	{#each variants as style (JSON.stringify(style))}
 		<li><Card view={{ ...withArt, style }} {catalog} /></li>
 	{/each}
 </ul>
 
-<p class="mt-10 text-xs text-white/40">
+<p class="mt-10 text-xs text-faint">
 	All frames: {FRAME_KEYS.join(', ')}. Backgrounds: {BG_KEYS.join(', ')}. Shapes: {SHAPES.join(
 		', '
 	)}. Photo: {PHOTO_SHAPES.join(', ')}.

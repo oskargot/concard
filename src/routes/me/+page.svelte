@@ -39,10 +39,8 @@
 
 <header class="flex items-start justify-between gap-4">
 	<div>
-		<h1 class="text-2xl font-black tracking-tight">{data.profile.display_name}</h1>
-		<a class="text-sm text-white/60 hover:text-white" href="/{data.profile.username}"
-			>{prettyLink}</a
-		>
+		<h1 class="display text-2xl">{data.profile.display_name}</h1>
+		<a class="text-sm text-dim hover:text-cream" href="/{data.profile.username}">{prettyLink}</a>
 	</div>
 	{#if active}<a href="/me/cards/{active.id}" class="btn-secondary">Edit card</a>{/if}
 </header>
@@ -68,7 +66,7 @@
 				{/snippet}
 			</FlipCard>
 		</div>
-		<p class="mt-3 text-center text-xs text-white/50">
+		<p class="mt-3 text-center text-xs text-faint">
 			Drag to tilt. Tap to {flipped ? 'see the front' : 'show your QR code'}.
 		</p>
 		<div class="mt-4 flex justify-center gap-2">
@@ -82,23 +80,23 @@
 	{:else}
 		<div class="panel text-center">
 			<p class="text-lg font-bold">You don't have a card yet</p>
-			<p class="mt-1 text-sm text-white/60">Make one and it goes on display right away.</p>
+			<p class="mt-1 text-sm text-dim">Make one and it goes on display right away.</p>
 			<form method="POST" action="?/newCard" use:enhance class="mt-4">
 				<button class="btn-primary">Make my first card</button>
 			</form>
-			{#if form?.error}<p class="mt-3 text-sm text-rose-300" role="alert">{form.error}</p>{/if}
+			{#if form?.error}<p class="mt-3 text-sm text-ember" role="alert">{form.error}</p>{/if}
 		</div>
 	{/if}
 </section>
 
 <section class="mt-8 grid grid-cols-2 gap-3">
 	<a href="/binder" class="panel">
-		<div class="text-3xl font-black">{data.stats.collected}</div>
-		<div class="text-xs tracking-wide text-white/60 uppercase">cards collected</div>
+		<div class="font-mono text-3xl font-bold tabular-nums">{data.stats.collected}</div>
+		<div class="mt-1 meta text-faint">cards collected</div>
 	</a>
 	<div class="panel">
-		<div class="text-3xl font-black">{data.stats.collectors}</div>
-		<div class="text-xs tracking-wide text-white/60 uppercase">people have yours</div>
+		<div class="font-mono text-3xl font-bold tabular-nums">{data.stats.collectors}</div>
+		<div class="mt-1 meta text-faint">people have yours</div>
 	</div>
 </section>
 
@@ -110,7 +108,7 @@
 				<button class="btn-secondary">New card</button>
 			</form>
 		</div>
-		{#if form?.error}<p class="mt-2 text-sm text-rose-300" role="alert">{form.error}</p>{/if}
+		{#if form?.error}<p class="mt-2 text-sm text-ember" role="alert">{form.error}</p>{/if}
 		<ul class="mt-3 grid grid-cols-3 gap-4">
 			{#each data.cards as card (card.id)}
 				{@const isActive = card.id === data.profile.active_card_id}
@@ -122,7 +120,7 @@
 						/>
 					</a>
 					{#if isActive}
-						<span class="text-center text-xs font-semibold text-amber-300">On display</span>
+						<span class="text-center text-xs font-semibold text-gold">On display</span>
 					{:else}
 						<form method="POST" action="?/setActive" use:enhance>
 							<input type="hidden" name="card_id" value={card.id} />
@@ -132,10 +130,10 @@
 				</li>
 			{/each}
 		</ul>
-		<p class="mt-2 text-xs text-white/40">Stickers only show on the card that's on display.</p>
+		<p class="mt-2 text-xs text-faint">Stickers only show on the card that's on display.</p>
 	</section>
 {/if}
 
 <form method="POST" action="/logout" class="mt-12 text-center">
-	<button class="text-sm text-white/50 hover:text-white">Sign out</button>
+	<button class="text-sm text-faint hover:text-cream">Sign out</button>
 </form>

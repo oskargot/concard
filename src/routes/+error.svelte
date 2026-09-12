@@ -5,7 +5,7 @@
 <svelte:head><title>{page.status} · concard</title></svelte:head>
 
 <div class="mt-16 text-center">
-	<p class="text-6xl font-black text-white/20">{page.status}</p>
+	<p class="display text-6xl text-line">{page.status}</p>
 	<h1 class="mt-2 text-xl font-bold">{page.error?.message ?? 'Something went wrong'}</h1>
 	<a href="/" class="mt-6 btn-secondary">Go home</a>
 </div>

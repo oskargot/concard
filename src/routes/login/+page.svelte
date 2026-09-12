@@ -14,34 +14,34 @@
 <svelte:head><title>Sign in · concard</title></svelte:head>
 
 <div class="mx-auto mt-8 max-w-sm">
-	<a href="/" class="text-sm text-white/60 hover:text-white">← concard</a>
-	<h1 class="mt-4 text-3xl font-black tracking-tight">
+	<a href="/" class="text-sm text-dim hover:text-cream">← concard</a>
+	<h1 class="mt-4 display text-3xl">
 		{mode === 'signin' ? 'Welcome back' : 'Make your card'}
 	</h1>
-	<p class="mt-1 text-white/60">
+	<p class="mt-1 text-dim">
 		{mode === 'signin'
 			? 'Sign in to collect cards and show yours.'
 			: 'One account, one QR code, as many cards as you like.'}
 	</p>
 
 	{#if form?.checkEmail}
-		<div class="mt-6 panel border-emerald-400/30 bg-emerald-400/10">
+		<div class="mt-6 panel border-sage/30 bg-sage/10">
 			<p class="font-semibold">Check your email</p>
-			<p class="mt-1 text-sm text-white/70">
+			<p class="mt-1 text-sm text-dim">
 				We sent a confirmation link to <b>{form.email}</b>. Open it on this device to finish signing
 				up.
 			</p>
 		</div>
 	{:else}
-		<div class="mt-6 flex gap-1 rounded-xl bg-white/5 p-1 text-sm font-semibold">
+		<div class="mt-6 flex gap-1 rounded-xl bg-surface p-1 text-sm font-semibold">
 			<button
 				type="button"
-				class="flex-1 rounded-lg py-2 {mode === 'signin' ? 'bg-white/15' : 'text-white/60'}"
+				class="flex-1 rounded-lg py-2 {mode === 'signin' ? 'bg-raised' : 'text-dim'}"
 				onclick={() => (mode = 'signin')}>Sign in</button
 			>
 			<button
 				type="button"
-				class="flex-1 rounded-lg py-2 {mode === 'signup' ? 'bg-white/15' : 'text-white/60'}"
+				class="flex-1 rounded-lg py-2 {mode === 'signup' ? 'bg-raised' : 'text-dim'}"
 				onclick={() => (mode = 'signup')}>Create account</button
 			>
 		</div>
@@ -85,9 +85,9 @@
 			</div>
 
 			{#if form?.error}
-				<p class="text-sm text-rose-300" role="alert">{form.error}</p>
+				<p class="text-sm text-ember" role="alert">{form.error}</p>
 			{:else if data.authError}
-				<p class="text-sm text-rose-300" role="alert">That sign-in link didn't work. Try again.</p>
+				<p class="text-sm text-ember" role="alert">That sign-in link didn't work. Try again.</p>
 			{/if}
 
 			<button class="btn-primary w-full" disabled={busy}>
