@@ -44,7 +44,7 @@
 			>{prettyLink}</a
 		>
 	</div>
-	<a href="/me/edit" class="btn-secondary">Edit profile</a>
+	{#if active}<a href="/me/cards/{active.id}" class="btn-secondary">Edit card</a>{/if}
 </header>
 
 <section class="mt-6">
@@ -78,7 +78,6 @@
 			<button class="btn-secondary" type="button" onclick={share}>
 				{copied ? 'Link copied' : 'Share link'}
 			</button>
-			<a class="btn-secondary" href="/me/cards/{active.id}">Edit card</a>
 		</div>
 	{:else}
 		<div class="panel text-center">
@@ -116,7 +115,7 @@
 			{#each data.cards as card (card.id)}
 				{@const isActive = card.id === data.profile.active_card_id}
 				<li class="flex flex-col gap-2">
-					<a href="/me/cards/{card.id}" class="block" aria-label="Edit {card.title}">
+					<a href="/me/cards/{card.id}" class="block" aria-label="Edit this card">
 						<Card
 							view={cardToView(card, data.profile, isActive ? data.placements : [], fandoms)}
 							{catalog}

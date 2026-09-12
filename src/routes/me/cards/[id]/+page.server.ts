@@ -1,7 +1,8 @@
 import { error, fail, redirect } from '@sveltejs/kit';
 import { normalizeStyle } from '$lib/card-style';
+import { IMAGE_MAX_BYTES, IMAGE_TYPES, imageExt, isHttpUrl, str } from '$lib/server/forms';
 import type { Json } from '$lib/supabase/types';
-import { IMAGE_MAX_BYTES, IMAGE_TYPES, imageExt, str } from '$lib/server/forms';
+import type { ProfileLink } from '$lib/types';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
@@ -44,6 +45,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
 	return {
 		card,
+		profile: locals.profile!,
 		isActive: locals.profile!.active_card_id === card.id,
 		fandoms: fandoms.data ?? [],
 		stickers: stickers.data ?? [],
@@ -63,11 +65,24 @@ async function ownCard(locals: App.Locals, id: string) {
 }
 
 export const actions: Actions = {
+	/** One save for everything on the screen: who you are (profile) and how this card looks (card). */
 	save: async ({ request, locals, params }) => {
 		await ownCard(locals, params.id);
 		const form = await request.formData();
-		const title = str(form, 'title', 40);
-		if (!title) return fail(400, { error: 'Your card needs a name.' });
+
+		const displayName = str(form, 'display_name', 40);
+		if (!displayName) return fail(400, { error: 'Your card needs a name.' });
+		const bio = str(form, 'bio', 200);
+
+		const labels = form.getAll('link_label').map((v) => String(v).trim().slice(0, 30));
+		const urls = form.getAll('link_url').map((v) => String(v).trim().slice(0, 500));
+		const links: ProfileLink[] = [];
+		for (let i = 0; i < Math.min(urls.length, 8); i++) {
+			if (!urls[i]) continue;
+			const url = /^https?:\/\//i.test(urls[i]) ? urls[i] : `https://${urls[i]}`;
+			if (!isHttpUrl(url)) return fail(400, { error: `"${urls[i]}" is not a valid link.` });
+			links.push({ label: labels[i] || new URL(url).hostname.replace(/^www\./, ''), url });
+		}
 
 		const style = normalizeStyle({
 			frame: str(form, 'frame', 20),
@@ -89,11 +104,20 @@ export const actions: Actions = {
 			affiliation = f.id;
 		}
 
-		const { error: err } = await locals.supabase
+		const profileUpdate = await locals.supabase
+			.from('profiles')
+			.update({ display_name: displayName, bio, links: links as unknown as Json })
+			.eq('id', locals.user!.id);
+		if (profileUpdate.error)
+			return fail(400, { error: profileUpdate.error.hint ?? profileUpdate.error.message });
+
+		const cardUpdate = await locals.supabase
 			.from('cards')
-			.update({ title, bio: str(form, 'bio', 200), style: style as unknown as Json, affiliation })
+			.update({ style: style as unknown as Json, affiliation })
 			.eq('id', params.id);
-		if (err) return fail(400, { error: err.hint ?? err.message });
+		if (cardUpdate.error)
+			return fail(400, { error: cardUpdate.error.hint ?? cardUpdate.error.message });
+
 		return { saved: true };
 	},
 

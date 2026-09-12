@@ -47,19 +47,7 @@
 	{#if data.card?.art_url}<meta property="og:image" content={data.card.art_url} />{/if}
 </svelte:head>
 
-<header class="flex items-center gap-3">
-	{#if data.profile.avatar_url}
-		<img src={data.profile.avatar_url} alt="" class="h-12 w-12 rounded-full object-cover" />
-	{/if}
-	<div class="min-w-0">
-		<h1 class="truncate text-2xl font-black tracking-tight">{data.profile.display_name}</h1>
-		<p class="text-sm text-white/60">@{data.profile.username}</p>
-	</div>
-</header>
-
-{#if data.profile.bio}<p class="mt-3 text-white/80">{data.profile.bio}</p>{/if}
-
-<section class="mx-auto mt-5 max-w-[320px]">
+<section class="mx-auto mt-2 max-w-[320px]">
 	{#if view}
 		<FlipCard canFlip={false}>
 			{#snippet front(t)}<Card

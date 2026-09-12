@@ -27,7 +27,7 @@
 		STICKER_Y_RANGE,
 		type CardStyle
 	} from '$lib/card-style';
-	import type { CardView, PlacedSticker } from '$lib/types';
+	import type { CardView, PlacedSticker, ProfileLink } from '$lib/types';
 
 	type PlacementPatch = Partial<Pick<PlacedSticker, 'x' | 'y' | 'rotation' | 'scale' | 'z_index'>>;
 
@@ -35,13 +35,20 @@
 
 	const catalog = $derived(catalogFrom(data.stickers));
 	const fandoms = $derived(fandomMap(data.fandoms));
+	// protected route: the hook guarantees a profile here
+	const profile = $derived(data.profile!);
 
-	// ---- text / look (form-driven, previewed live) ----
+	// ---- who you are (profile) and how this card looks (card); previewed live ----
 	// Seeded once from the server; later invalidations must not clobber edits in progress.
 	// svelte-ignore state_referenced_locally
-	let title = $state(data.card.title);
+	let displayName = $state(profile.display_name);
 	// svelte-ignore state_referenced_locally
-	let bio = $state(data.card.bio);
+	let bio = $state(profile.bio);
+	// svelte-ignore state_referenced_locally
+	const existingLinks = readLinks(profile.links);
+	let links = $state<ProfileLink[]>(
+		existingLinks.length ? existingLinks.map((l) => ({ ...l })) : [{ label: '', url: '' }]
+	);
 	// svelte-ignore state_referenced_locally
 	let style = $state<CardStyle>(normalizeStyle(data.card.style));
 	// svelte-ignore state_referenced_locally
@@ -55,13 +62,13 @@
 	const selected = $derived(placed.find((p) => p.id === selectedId) ?? null);
 
 	const view = $derived<CardView>({
-		title: title || 'Untitled',
-		handle: data.profile!.username,
+		title: displayName || 'Your name',
+		handle: profile.username,
 		bio,
 		art_url: data.card.art_url,
 		style,
 		affiliation: fandomToAffiliation(affiliation ? fandoms.get(affiliation) : null),
-		links: readLinks(data.profile!.links),
+		links: links.filter((l) => l.url.trim()),
 		stickers: placed
 	});
 
@@ -259,111 +266,174 @@
 	{/if}
 </section>
 
-<!-- text and look -->
-<form method="POST" action="?/save" use:enhance class="mt-4 space-y-5 panel">
-	<div>
-		<label class="label" for="title">Name on the card</label>
-		<input id="title" class="field" name="title" maxlength="40" required bind:value={title} />
-	</div>
-	<div>
-		<label class="label" for="bio">Bio</label>
-		<textarea id="bio" class="field" name="bio" rows="3" maxlength="200" bind:value={bio}
-		></textarea>
-	</div>
-
-	<fieldset>
-		<legend class="label">Frame</legend>
-		<div class="grid grid-cols-4 gap-2">
-			{#each FRAME_KEYS as key (key)}
-				<label class="cursor-pointer">
-					<input
-						type="radio"
-						name="frame"
-						value={key}
-						class="peer sr-only"
-						bind:group={style.frame}
-					/>
-					<span
-						class="swatch peer-checked:ring-2 peer-checked:ring-amber-400"
-						style="background: {FRAMES[key]}"
-					></span>
-					<span class="swatch-label">{FRAME_LABEL[key]}</span>
-				</label>
-			{/each}
+<!-- you + look: one form, one save -->
+<form method="POST" action="?/save" use:enhance class="mt-4 space-y-4">
+	<section class="space-y-4 panel">
+		<div>
+			<h2 class="font-bold">You</h2>
+			<p class="text-xs text-white/50">
+				Shared by all your cards. @{profile.username} can't be changed.
+			</p>
 		</div>
-	</fieldset>
-
-	<fieldset>
-		<legend class="label">Background</legend>
-		<div class="grid grid-cols-6 gap-2">
-			{#each BG_KEYS as key (key)}
-				<label class="cursor-pointer">
-					<input type="radio" name="bg" value={key} class="peer sr-only" bind:group={style.bg} />
-					<span
-						class="swatch peer-checked:ring-2 peer-checked:ring-amber-400"
-						style="background: {BGS[key]}"
-					></span>
-					<span class="swatch-label">{BG_LABEL[key]}</span>
-				</label>
-			{/each}
+		<div>
+			<label class="label" for="display_name">Name</label>
+			<input
+				id="display_name"
+				class="field"
+				name="display_name"
+				maxlength="40"
+				required
+				bind:value={displayName}
+			/>
 		</div>
-	</fieldset>
-
-	<div class="grid grid-cols-2 gap-3">
+		<div>
+			<label class="label" for="bio">Bio</label>
+			<textarea id="bio" class="field" name="bio" rows="3" maxlength="200" bind:value={bio}
+			></textarea>
+		</div>
 		<fieldset>
-			<legend class="label">Corners</legend>
-			<div class="flex flex-col gap-1">
-				{#each SHAPES as key (key)}
-					<label class="option">
+			<legend class="label">Links</legend>
+			<p class="mb-2 text-xs text-white/50">
+				The first three show on the card as chips; all of them are tappable under it. Up to 8.
+			</p>
+			<div class="space-y-2">
+				{#each links as link, i (i)}
+					<div class="flex gap-2">
+						<input
+							class="field !w-28"
+							name="link_label"
+							placeholder="Label"
+							maxlength="30"
+							bind:value={link.label}
+						/>
+						<input
+							class="field flex-1"
+							name="link_url"
+							placeholder="https://…"
+							inputmode="url"
+							bind:value={link.url}
+						/>
+						<button
+							type="button"
+							class="btn-secondary !px-3"
+							aria-label="Remove link"
+							onclick={() => (links = links.filter((_, j) => j !== i))}>×</button
+						>
+					</div>
+				{/each}
+			</div>
+			{#if links.length < 8}
+				<button
+					type="button"
+					class="mt-2 btn-secondary"
+					onclick={() => (links = [...links, { label: '', url: '' }])}
+				>
+					Add link
+				</button>
+			{/if}
+		</fieldset>
+	</section>
+
+	<section class="space-y-5 panel">
+		<div>
+			<h2 class="font-bold">Look</h2>
+			<p class="text-xs text-white/50">Just this card.</p>
+		</div>
+
+		<fieldset>
+			<legend class="label">Frame</legend>
+			<div class="grid grid-cols-4 gap-2">
+				{#each FRAME_KEYS as key (key)}
+					<label class="cursor-pointer">
 						<input
 							type="radio"
-							name="shape"
+							name="frame"
 							value={key}
 							class="peer sr-only"
-							bind:group={style.shape}
+							bind:group={style.frame}
 						/>
-						<span class="pill peer-checked:border-amber-400 peer-checked:bg-amber-400/10"
-							>{SHAPE_LABEL[key]}</span
-						>
+						<span
+							class="swatch peer-checked:ring-2 peer-checked:ring-amber-400"
+							style="background: {FRAMES[key]}"
+						></span>
+						<span class="swatch-label">{FRAME_LABEL[key]}</span>
 					</label>
 				{/each}
 			</div>
 		</fieldset>
+
 		<fieldset>
-			<legend class="label">Photo shape</legend>
-			<div class="flex flex-col gap-1">
-				{#each PHOTO_SHAPES as key (key)}
-					<label class="option">
-						<input
-							type="radio"
-							name="photo_shape"
-							value={key}
-							class="peer sr-only"
-							bind:group={style.photo_shape}
-						/>
-						<span class="pill peer-checked:border-amber-400 peer-checked:bg-amber-400/10"
-							>{PHOTO_SHAPE_LABEL[key]}</span
-						>
+			<legend class="label">Background</legend>
+			<div class="grid grid-cols-6 gap-2">
+				{#each BG_KEYS as key (key)}
+					<label class="cursor-pointer">
+						<input type="radio" name="bg" value={key} class="peer sr-only" bind:group={style.bg} />
+						<span
+							class="swatch peer-checked:ring-2 peer-checked:ring-amber-400"
+							style="background: {BGS[key]}"
+						></span>
+						<span class="swatch-label">{BG_LABEL[key]}</span>
 					</label>
 				{/each}
 			</div>
 		</fieldset>
-	</div>
 
-	<div>
-		<label class="label" for="affiliation">Fandom badge</label>
-		<select id="affiliation" class="field" name="affiliation" bind:value={affiliation}>
-			<option value="">None</option>
-			{#each data.fandoms as f (f.id)}
-				<option value={f.id}>{f.name}</option>
-			{/each}
-		</select>
-	</div>
+		<div class="grid grid-cols-2 gap-3">
+			<fieldset>
+				<legend class="label">Corners</legend>
+				<div class="flex flex-col gap-1">
+					{#each SHAPES as key (key)}
+						<label class="option">
+							<input
+								type="radio"
+								name="shape"
+								value={key}
+								class="peer sr-only"
+								bind:group={style.shape}
+							/>
+							<span class="pill peer-checked:border-amber-400 peer-checked:bg-amber-400/10"
+								>{SHAPE_LABEL[key]}</span
+							>
+						</label>
+					{/each}
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend class="label">Photo shape</legend>
+				<div class="flex flex-col gap-1">
+					{#each PHOTO_SHAPES as key (key)}
+						<label class="option">
+							<input
+								type="radio"
+								name="photo_shape"
+								value={key}
+								class="peer sr-only"
+								bind:group={style.photo_shape}
+							/>
+							<span class="pill peer-checked:border-amber-400 peer-checked:bg-amber-400/10"
+								>{PHOTO_SHAPE_LABEL[key]}</span
+							>
+						</label>
+					{/each}
+				</div>
+			</fieldset>
+		</div>
+
+		<div>
+			<label class="label" for="affiliation">Fandom badge</label>
+			<select id="affiliation" class="field" name="affiliation" bind:value={affiliation}>
+				<option value="">None</option>
+				{#each data.fandoms as f (f.id)}
+					<option value={f.id}>{f.name}</option>
+				{/each}
+			</select>
+		</div>
+	</section>
 
 	{#if form?.error}<p class="text-sm text-rose-300" role="alert">{form.error}</p>{/if}
 	{#if form?.saved}<p class="text-sm text-emerald-300" role="status">Saved.</p>{/if}
 
-	<button class="btn-primary w-full">Save card</button>
+	<button class="btn-primary w-full">Save</button>
 </form>
 
 <form
