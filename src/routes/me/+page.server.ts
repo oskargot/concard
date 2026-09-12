@@ -1,4 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
+import { randomStyle } from '$lib/card-style';
+import type { Json } from '$lib/supabase/types';
 import { qrSvg } from '$lib/server/qr';
 import { siteOrigin } from '$lib/supabase/env';
 import { profileUrl } from '$lib/username';
@@ -8,9 +10,9 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	const profile = locals.profile!;
 	const supabase = locals.supabase;
 
-	const [cards, templates, stickers, collected, collectors] = await Promise.all([
+	const [cards, fandoms, stickers, collected, collectors] = await Promise.all([
 		supabase.from('cards').select('*').eq('owner_id', profile.id).order('created_at'),
-		supabase.from('card_templates').select('*').eq('is_active', true).order('sort_order'),
+		supabase.from('fandoms').select('*').eq('is_active', true).order('sort_order'),
 		supabase.from('stickers').select('*').order('sort_order'),
 		supabase
 			.from('collections')
@@ -32,7 +34,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	return {
 		profile,
 		cards: cards.data ?? [],
-		templates: templates.data ?? [],
+		fandoms: fandoms.data ?? [],
 		stickers: stickers.data ?? [],
 		placements,
 		link,
@@ -59,8 +61,9 @@ export const actions: Actions = {
 			.from('cards')
 			.insert({
 				owner_id: profile.id,
-				template_id: 'classic',
-				title: profile.display_name
+				title: profile.display_name,
+				bio: profile.bio,
+				style: randomStyle() as unknown as Json
 			})
 			.select('id')
 			.single();

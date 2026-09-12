@@ -1,37 +1,15 @@
+import { normalizeStyle } from '$lib/card-style';
 import type {
+	Affiliation,
 	Card,
-	CardColors,
 	CardSnapshot,
-	CardTemplate,
 	CardView,
+	Fandom,
 	PlacedSticker,
+	ProfileLink,
 	Sticker,
-	StickerPlacement,
-	TemplateConfig
+	StickerPlacement
 } from '$lib/types';
-
-const DEFAULT_COLORS: Required<CardColors> = {
-	primary: '#1f2937',
-	secondary: '#f8fafc',
-	accent: '#f59e0b'
-};
-
-export function templateConfig(template: CardTemplate | undefined): TemplateConfig {
-	const cfg = (template?.config ?? {}) as TemplateConfig;
-	return {
-		frame: cfg.frame ?? 'solid',
-		font: cfg.font ?? 'sans',
-		defaultColors: { ...DEFAULT_COLORS, ...(cfg.defaultColors ?? {}) }
-	};
-}
-
-/** Card colours with template defaults filled in for anything the user left unset. */
-export function resolveColors(
-	colors: CardColors | null | undefined,
-	template: CardTemplate | undefined
-): Required<CardColors> {
-	return { ...templateConfig(template).defaultColors!, ...(colors ?? {}) };
-}
 
 export function placementToPlaced(p: StickerPlacement): PlacedSticker {
 	return {
@@ -45,33 +23,76 @@ export function placementToPlaced(p: StickerPlacement): PlacedSticker {
 	};
 }
 
+export function readLinks(input: unknown): ProfileLink[] {
+	if (!Array.isArray(input)) return [];
+	return input
+		.filter(
+			(l): l is ProfileLink =>
+				!!l && typeof l === 'object' && typeof (l as ProfileLink).url === 'string'
+		)
+		.map((l) => ({ label: String(l.label ?? ''), url: l.url }));
+}
+
+export function fandomToAffiliation(f: Fandom | undefined | null): Affiliation | null {
+	if (!f) return null;
+	return { id: f.id, name: f.name, mark: f.mark, color_a: f.color_a, color_b: f.color_b };
+}
+
 /** Build the renderable view of a live card from its database rows. */
-export function cardToView(card: Card, placements: StickerPlacement[]): CardView {
+export function cardToView(
+	card: Card,
+	owner: { username: string; links: unknown },
+	placements: StickerPlacement[],
+	fandoms: Map<string, Fandom>
+): CardView {
 	return {
-		template_id: card.template_id,
 		title: card.title,
-		subtitle: card.subtitle,
-		flavor_text: card.flavor_text,
+		handle: owner.username,
+		bio: card.bio,
 		art_url: card.art_url,
-		colors: (card.colors ?? {}) as CardColors,
+		style: normalizeStyle(card.style),
+		affiliation: fandomToAffiliation(card.affiliation ? fandoms.get(card.affiliation) : null),
+		links: readLinks(owner.links),
 		stickers: placements.map(placementToPlaced)
 	};
 }
 
-/** Read a frozen snapshot back out of collections.card_snapshot. */
-export function snapshotToView(snapshot: unknown): CardSnapshot {
-	const s = (snapshot ?? {}) as Partial<CardSnapshot> & { stickers?: unknown[] };
-	const stickers = Array.isArray(s.stickers) ? (s.stickers as PlacedSticker[]) : [];
+function readAffiliation(input: unknown): Affiliation | null {
+	if (!input || typeof input !== 'object') return null;
+	const a = input as Partial<Affiliation>;
+	if (!a.id || !a.mark) return null;
 	return {
-		version: 1,
-		card_id: s.card_id ?? '',
-		template_id: s.template_id ?? 'classic',
-		title: s.title ?? 'Untitled',
-		subtitle: s.subtitle ?? '',
-		flavor_text: s.flavor_text ?? '',
-		art_url: s.art_url ?? null,
-		colors: s.colors ?? {},
-		stickers: stickers.map((p) => ({
+		id: String(a.id),
+		name: String(a.name ?? a.id),
+		mark: String(a.mark),
+		color_a: String(a.color_a ?? '#b4b8c4'),
+		color_b: String(a.color_b ?? '#8f96a5')
+	};
+}
+
+/**
+ * Read a frozen snapshot back out of collections.card_snapshot.
+ * Version 1 rows (the magic-card era) map forward to silver / paper / rounded so
+ * existing binders keep working and never change appearance twice.
+ */
+export function snapshotToView(snapshot: unknown): CardSnapshot {
+	const s = (snapshot ?? {}) as Record<string, unknown>;
+	const version = Number(s.version ?? 1);
+	const owner = (s.owner ?? {}) as Partial<CardSnapshot['owner']>;
+	const rawStickers = Array.isArray(s.stickers) ? (s.stickers as Partial<PlacedSticker>[]) : [];
+
+	const v1 = version < 2;
+	return {
+		version: 2,
+		card_id: String(s.card_id ?? ''),
+		title: String(s.title ?? 'Untitled'),
+		handle: String(owner.username ?? ''),
+		bio: String((v1 ? s.flavor_text : s.bio) ?? ''),
+		art_url: typeof s.art_url === 'string' ? s.art_url : null,
+		style: v1 ? normalizeStyle({}) : normalizeStyle(s.style),
+		affiliation: v1 ? null : readAffiliation(s.affiliation),
+		links: v1 ? [] : readLinks(s.links),
+		stickers: rawStickers.map((p) => ({
 			id: undefined,
 			sticker_id: String(p.sticker_id),
 			x: Number(p.x),
@@ -81,10 +102,10 @@ export function snapshotToView(snapshot: unknown): CardSnapshot {
 			z_index: Number(p.z_index ?? 0)
 		})),
 		owner: {
-			id: s.owner?.id ?? '',
-			username: s.owner?.username ?? '',
-			display_name: s.owner?.display_name ?? s.owner?.username ?? 'Someone',
-			avatar_url: s.owner?.avatar_url ?? null
+			id: String(owner.id ?? ''),
+			username: String(owner.username ?? ''),
+			display_name: String(owner.display_name ?? owner.username ?? 'Someone'),
+			avatar_url: owner.avatar_url ?? null
 		}
 	};
 }
@@ -93,6 +114,10 @@ export type StickerCatalog = Map<string, Sticker>;
 
 export function catalogFrom(stickers: Sticker[]): StickerCatalog {
 	return new Map(stickers.map((s) => [s.id, s]));
+}
+
+export function fandomMap(fandoms: Fandom[]): Map<string, Fandom> {
+	return new Map(fandoms.map((f) => [f.id, f]));
 }
 
 export const RARITY_LABEL: Record<Sticker['rarity'], string> = {

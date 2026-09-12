@@ -21,7 +21,7 @@
 		<a href="/scan" class="mt-4 btn-primary">Scan a code</a>
 	</div>
 {:else}
-	<ul class="mt-4 grid grid-cols-3 gap-3">
+	<ul class="mt-5 grid grid-cols-3 gap-4">
 		{#each data.collections as c (c.id)}
 			{@const snap = snapshotToView(c.card_snapshot)}
 			<li>
@@ -30,12 +30,8 @@
 					class="block"
 					aria-label="{snap.title} from {snap.owner.display_name}"
 				>
-					<Card
-						view={snap}
-						template={data.templates.find((t) => t.id === snap.template_id)}
-						{catalog}
-					/>
-					<div class="mt-1.5 truncate text-center text-xs text-white/70">
+					<Card view={snap} {catalog} />
+					<div class="mt-2 truncate text-center text-xs text-white/70">
 						{snap.owner.display_name}
 					</div>
 				</a>

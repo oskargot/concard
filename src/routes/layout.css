@@ -49,3 +49,15 @@ body {
 @utility panel {
 	@apply rounded-2xl border border-white/10 bg-white/5 p-4;
 }
+
+/* Card light position: registered so the highlight can transition on release. */
+@property --lx {
+	syntax: '<percentage>';
+	inherits: true;
+	initial-value: 50%;
+}
+@property --ly {
+	syntax: '<percentage>';
+	inherits: true;
+	initial-value: 30%;
+}

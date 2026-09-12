@@ -1,8 +1,9 @@
 import type { Tables } from '$lib/supabase/types';
+import type { CardStyle } from '$lib/card-style';
 
 export type Profile = Tables<'profiles'>;
 export type Card = Tables<'cards'>;
-export type CardTemplate = Tables<'card_templates'>;
+export type Fandom = Tables<'fandoms'>;
 export type Sticker = Tables<'stickers'>;
 export type StickerPlacement = Tables<'sticker_placements'>;
 export type Collection = Tables<'collections'>;
@@ -12,16 +13,13 @@ export interface ProfileLink {
 	url: string;
 }
 
-export interface CardColors {
-	primary?: string;
-	secondary?: string;
-	accent?: string;
-}
-
-export interface TemplateConfig {
-	frame?: 'solid' | 'gradient' | 'pixel' | 'none';
-	font?: 'serif' | 'sans' | 'mono';
-	defaultColors?: Required<CardColors>;
+/** The fandom badge as rendered on a card; frozen into snapshots. */
+export interface Affiliation {
+	id: string;
+	name: string;
+	mark: string;
+	color_a: string;
+	color_b: string;
 }
 
 /** A sticker as positioned on a card face. Positions are 0..1 of the card size. */
@@ -40,18 +38,21 @@ export interface PlacedSticker {
  * snapshots both reduce to this shape, so one component renders both.
  */
 export interface CardView {
-	template_id: string;
+	/** display name on the card */
 	title: string;
-	subtitle: string;
-	flavor_text: string;
+	/** owner's username, shown as @handle */
+	handle: string;
+	bio: string;
 	art_url: string | null;
-	colors: CardColors;
+	style: CardStyle;
+	affiliation: Affiliation | null;
+	links: ProfileLink[];
 	stickers: PlacedSticker[];
 }
 
-/** Shape written by collect_card() into collections.card_snapshot. */
+/** Shape written by collect_card() into collections.card_snapshot (version 2). */
 export interface CardSnapshot extends CardView {
-	version: 1;
+	version: 2;
 	card_id: string;
 	owner: {
 		id: string;

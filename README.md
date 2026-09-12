@@ -74,7 +74,8 @@ URL Configuration.
 ```
 supabase/migrations/   schema, RLS policies, collect_card() and friends
 supabase/dev/          fake auth schema + SQL tests for local Postgres
-src/lib/components/    Card, CardBack, FlipCard, Nav
-src/lib/               card view helpers, collect error mapping, username rules
+src/lib/components/    CardShell, Card, CardBack, FlipCard, Nav
+src/lib/               card tokens (card-style), view helpers (card), collect error mapping, username rules
 src/routes/            pages: /, /login, /onboarding, /me, /me/cards/[id], /binder, /scan, /[username]
+src/routes/dev/cards   dev-only gallery of every card style on fixture data
 ```
