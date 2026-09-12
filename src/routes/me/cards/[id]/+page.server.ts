@@ -1,5 +1,12 @@
 import { error, fail, redirect } from '@sveltejs/kit';
-import { BADGE_HOME, normalizeStyle, STICKER_X_RANGE, STICKER_Y_RANGE } from '$lib/card-style';
+import {
+	ART_DEFAULT,
+	ART_SCALE_RANGE,
+	BADGE_HOME,
+	normalizeStyle,
+	STICKER_X_RANGE,
+	STICKER_Y_RANGE
+} from '$lib/card-style';
 import { IMAGE_MAX_BYTES, IMAGE_TYPES, imageExt, isHttpUrl, num, str } from '$lib/server/forms';
 import type { Json } from '$lib/supabase/types';
 import type { ProfileLink } from '$lib/types';
@@ -119,7 +126,10 @@ export const actions: Actions = {
 				style: style as unknown as Json,
 				affiliation,
 				affiliation_x: num(form, 'affiliation_x', BADGE_HOME.x, ...STICKER_X_RANGE),
-				affiliation_y: num(form, 'affiliation_y', BADGE_HOME.y, ...STICKER_Y_RANGE)
+				affiliation_y: num(form, 'affiliation_y', BADGE_HOME.y, ...STICKER_Y_RANGE),
+				art_x: num(form, 'art_x', ART_DEFAULT.x, 0, 1),
+				art_y: num(form, 'art_y', ART_DEFAULT.y, 0, 1),
+				art_scale: num(form, 'art_scale', ART_DEFAULT.scale, ...ART_SCALE_RANGE)
 			})
 			.eq('id', params.id);
 		if (cardUpdate.error)

@@ -59,6 +59,9 @@ export interface Database {
 					id: string;
 					owner_id: string;
 					art_url: string | null;
+					art_x: number;
+					art_y: number;
+					art_scale: number;
 					style: Json;
 					affiliation: string | null;
 					affiliation_x: number;
@@ -70,6 +73,9 @@ export interface Database {
 					id?: string;
 					owner_id: string;
 					art_url?: string | null;
+					art_x?: number;
+					art_y?: number;
+					art_scale?: number;
 					style?: Json;
 					affiliation?: string | null;
 					affiliation_x?: number;
@@ -77,6 +83,9 @@ export interface Database {
 				};
 				Update: {
 					art_url?: string | null;
+					art_x?: number;
+					art_y?: number;
+					art_scale?: number;
 					style?: Json;
 					affiliation?: string | null;
 					affiliation_x?: number;

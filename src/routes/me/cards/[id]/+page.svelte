@@ -12,17 +12,12 @@
 		readLinks
 	} from '$lib/card';
 	import {
+		ART_SCALE_RANGE,
 		BADGE_HOME,
 		BG_KEYS,
-		BG_LABEL,
-		BGS,
 		FRAME_KEYS,
-		FRAME_LABEL,
-		FRAMES,
 		normalizeStyle,
-		PHOTO_SHAPE_LABEL,
 		PHOTO_SHAPES,
-		SHAPE_LABEL,
 		SHAPES,
 		STICKER_X_RANGE,
 		STICKER_Y_RANGE,
@@ -58,6 +53,12 @@
 	let badgeX = $state(Number(data.card.affiliation_x));
 	// svelte-ignore state_referenced_locally
 	let badgeY = $state(Number(data.card.affiliation_y));
+	// svelte-ignore state_referenced_locally
+	let artX = $state(Number(data.card.art_x));
+	// svelte-ignore state_referenced_locally
+	let artY = $state(Number(data.card.art_y));
+	// svelte-ignore state_referenced_locally
+	let artScale = $state(Number(data.card.art_scale));
 
 	// Style and profile fields only persist on Save, while stickers and the photo
 	// write straight through. Track what is still unsaved so the save bar can say
@@ -75,6 +76,9 @@
 			style.photo_shape !== savedStyle.photo_shape ||
 			badgeX !== Number(data.card.affiliation_x) ||
 			badgeY !== Number(data.card.affiliation_y) ||
+			artX !== Number(data.card.art_x) ||
+			artY !== Number(data.card.art_y) ||
+			artScale !== Number(data.card.art_scale) ||
 			filledLinks.length !== savedLinks.length ||
 			filledLinks.some((l, i) => l.url !== savedLinks[i]?.url || l.label !== savedLinks[i]?.label)
 	);
@@ -92,6 +96,9 @@
 		handle: profile.username,
 		bio,
 		art_url: data.card.art_url,
+		art_x: artX,
+		art_y: artY,
+		art_scale: artScale,
 		style,
 		affiliation: fandomToAffiliation(affiliation ? fandoms.get(affiliation) : null, badgeX, badgeY),
 		links: links.filter((l) => l.url.trim()),
@@ -161,6 +168,17 @@
 	function step<T>(values: readonly T[], current: T, dir: 1 | -1): T {
 		const i = values.indexOf(current);
 		return values[(i + dir + values.length) % values.length];
+	}
+	const stepFrame = (dir: 1 | -1) => (style.frame = step(FRAME_KEYS, style.frame, dir));
+	const stepBg = (dir: 1 | -1) => (style.bg = step(BG_KEYS, style.bg, dir));
+	const stepCorners = (dir: 1 | -1) => (style.shape = step(SHAPES, style.shape, dir));
+	const stepPhotoShape = (dir: 1 | -1) =>
+		(style.photo_shape = step(PHOTO_SHAPES, style.photo_shape, dir));
+	const stepZoom = (dir: 1 | -1) =>
+		(artScale = clamp(round(artScale + dir * 0.15), ...ART_SCALE_RANGE));
+	function onArtPan(x: number, y: number) {
+		artX = x;
+		artY = y;
 	}
 
 	function pickFandom(id: string) {
@@ -238,7 +256,7 @@
   The card stays put while the controls scroll under it. Every control here
   previews live, which is worth nothing if the card has scrolled off the top.
 -->
-<div class="sticky top-0 z-20 -mx-4 border-b border-line bg-ground px-4 pt-3 pb-3">
+<div class="sticky top-0 z-20 -mx-4 border-b border-line bg-ground px-4 pt-4 pb-4">
 	<div class="mx-auto max-w-[228px]" bind:this={cardEl}>
 		<Card
 			{view}
@@ -249,8 +267,28 @@
 			onstickerdown={onStickerDown}
 			onbadgedown={onBadgeDown}
 			onfacedown={onFaceDown}
+			onframestep={stepFrame}
+			onbgstep={stepBg}
+			oncornersstep={stepCorners}
+			onphotoshapestep={stepPhotoShape}
+			onzoomstep={stepZoom}
+			onartpan={onArtPan}
 		/>
 	</div>
+
+	<!--
+	  Look and photo framing live on the card itself: pills at the frame,
+	  background, corners and photo shape's own spot on the card, stepped with
+	  their arrows, plus drag-to-pan and the zoom buttons on the photo. These
+	  hidden inputs carry the current values into the save form below.
+	-->
+	<input type="hidden" form="card-save" name="frame" value={style.frame} />
+	<input type="hidden" form="card-save" name="bg" value={style.bg} />
+	<input type="hidden" form="card-save" name="shape" value={style.shape} />
+	<input type="hidden" form="card-save" name="photo_shape" value={style.photo_shape} />
+	<input type="hidden" form="card-save" name="art_x" value={artX} />
+	<input type="hidden" form="card-save" name="art_y" value={artY} />
+	<input type="hidden" form="card-save" name="art_scale" value={artScale} />
 
 	{#if selected}
 		<div class="mt-3 flex items-center justify-center gap-1.5">
@@ -288,108 +326,11 @@
 	{:else if badgeSelected}
 		<p class="mt-3 text-center meta text-faint">Drag the badge to move it</p>
 	{:else}
-		<p class="mt-3 text-center meta text-faint">Tap a sticker or badge to pick it up</p>
+		<p class="mt-3 text-center meta text-faint">
+			Tap a sticker or badge to pick it up, or drag the photo to reframe it
+		</p>
 	{/if}
 </div>
-
-<!--
-  Look first: these are the controls that change the card most, so they sit
-  closest to it. Their values reach the save bar's form through hidden inputs,
-  which lets the sticker and photo forms sit between them without nesting.
--->
-<section class="mt-5 space-y-3 panel">
-	<div>
-		<h2 class="display text-lg">Look</h2>
-		<p class="text-xs text-faint">Just this card.</p>
-	</div>
-
-	<input type="hidden" form="card-save" name="frame" value={style.frame} />
-	<input type="hidden" form="card-save" name="bg" value={style.bg} />
-	<input type="hidden" form="card-save" name="shape" value={style.shape} />
-	<input type="hidden" form="card-save" name="photo_shape" value={style.photo_shape} />
-
-	<div class="row">
-		<span class="meta text-dim">Frame</span>
-		<div class="stepper">
-			<button
-				type="button"
-				class="arrow"
-				aria-label="Previous frame"
-				onclick={() => (style.frame = step(FRAME_KEYS, style.frame, -1))}>‹</button
-			>
-			<span class="val" aria-live="polite">
-				<span class="dot" style="background: {FRAMES[style.frame]}"></span>
-				{FRAME_LABEL[style.frame]}
-			</span>
-			<button
-				type="button"
-				class="arrow"
-				aria-label="Next frame"
-				onclick={() => (style.frame = step(FRAME_KEYS, style.frame, 1))}>›</button
-			>
-		</div>
-	</div>
-
-	<div class="row">
-		<span class="meta text-dim">Background</span>
-		<div class="stepper">
-			<button
-				type="button"
-				class="arrow"
-				aria-label="Previous background"
-				onclick={() => (style.bg = step(BG_KEYS, style.bg, -1))}>‹</button
-			>
-			<span class="val" aria-live="polite">
-				<span class="dot" style="background: {BGS[style.bg]}"></span>
-				{BG_LABEL[style.bg]}
-			</span>
-			<button
-				type="button"
-				class="arrow"
-				aria-label="Next background"
-				onclick={() => (style.bg = step(BG_KEYS, style.bg, 1))}>›</button
-			>
-		</div>
-	</div>
-
-	<div class="row">
-		<span class="meta text-dim">Corners</span>
-		<div class="stepper">
-			<button
-				type="button"
-				class="arrow"
-				aria-label="Previous corner style"
-				onclick={() => (style.shape = step(SHAPES, style.shape, -1))}>‹</button
-			>
-			<span class="val" aria-live="polite">{SHAPE_LABEL[style.shape]}</span>
-			<button
-				type="button"
-				class="arrow"
-				aria-label="Next corner style"
-				onclick={() => (style.shape = step(SHAPES, style.shape, 1))}>›</button
-			>
-		</div>
-	</div>
-
-	<div class="row">
-		<span class="meta text-dim">Photo shape</span>
-		<div class="stepper">
-			<button
-				type="button"
-				class="arrow"
-				aria-label="Previous photo shape"
-				onclick={() => (style.photo_shape = step(PHOTO_SHAPES, style.photo_shape, -1))}>‹</button
-			>
-			<span class="val" aria-live="polite">{PHOTO_SHAPE_LABEL[style.photo_shape]}</span>
-			<button
-				type="button"
-				class="arrow"
-				aria-label="Next photo shape"
-				onclick={() => (style.photo_shape = step(PHOTO_SHAPES, style.photo_shape, 1))}>›</button
-			>
-		</div>
-	</div>
-</section>
 
 <!-- the badge is placed and dragged like a sticker, so it is picked the same way -->
 <section class="mt-4 panel">
@@ -617,54 +558,6 @@
 		backdrop-filter: blur(10px);
 		padding: 0.75rem;
 		box-shadow: 0 12px 32px rgb(0 0 0 / 0.6);
-	}
-	.row {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 0.75rem;
-	}
-	.stepper {
-		display: flex;
-		align-items: center;
-		gap: 0.25rem;
-		border-radius: 0.5rem;
-		border: 1px solid var(--color-line);
-		background: var(--color-ground);
-		padding: 0.2rem;
-	}
-	.arrow {
-		flex: none;
-		width: 1.9rem;
-		height: 1.9rem;
-		border-radius: 0.375rem;
-		font-size: 1.15rem;
-		line-height: 1;
-		color: var(--color-dim);
-		transition: background 0.12s ease;
-	}
-	.arrow:hover {
-		background: var(--color-raised);
-		color: var(--color-paper);
-	}
-	.arrow:active {
-		transform: scale(0.94);
-	}
-	.val {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.4rem;
-		min-width: 8.5rem;
-		font-size: 0.8125rem;
-		font-weight: 600;
-	}
-	.dot {
-		flex: none;
-		width: 1rem;
-		height: 1rem;
-		border-radius: 0.25rem;
-		border: 1px solid var(--color-line);
 	}
 	.fandom {
 		display: flex;

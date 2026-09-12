@@ -3,7 +3,7 @@
  * card looks like before the viewer has one: the signed-out home page and the
  * /dev/cards gallery.
  */
-import { BADGE_HOME } from '$lib/card-style';
+import { ART_DEFAULT, BADGE_HOME } from '$lib/card-style';
 import type { CardView, Sticker } from '$lib/types';
 
 export const DEMO_STICKERS: Sticker[] = [
@@ -61,6 +61,9 @@ export const DEMO_CARD: CardView = {
 	handle: 'oskar',
 	bio: 'Anime and sci-fi con regular. Making concard. Will trade stickers for good tea recommendations.',
 	art_url: null,
+	art_x: ART_DEFAULT.x,
+	art_y: ART_DEFAULT.y,
+	art_scale: ART_DEFAULT.scale,
 	style: { frame: 'gold', bg: 'butter', shape: 'rounded', photo_shape: 'arch' },
 	affiliation: {
 		id: 'anime',

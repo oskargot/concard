@@ -47,6 +47,10 @@ export interface CardView {
 	handle: string;
 	bio: string;
 	art_url: string | null;
+	/** Where the photo is panned to, 0..1 of the image, and how far it's zoomed in (>=1). */
+	art_x: number;
+	art_y: number;
+	art_scale: number;
 	style: CardStyle;
 	affiliation: Affiliation | null;
 	links: ProfileLink[];

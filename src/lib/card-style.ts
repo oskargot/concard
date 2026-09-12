@@ -235,6 +235,10 @@ export function stickerRotation(id: string): number {
  */
 export const BADGE_HOME = { x: 0.853, y: 0.895 } as const;
 
+/** A freshly uploaded photo: centered, uncropped by any pan, unzoomed. */
+export const ART_DEFAULT = { x: 0.5, y: 0.5, scale: 1 } as const;
+export const ART_SCALE_RANGE = [1, 3] as const;
+
 /** Sticker position range on the card face (0..1); stickers may overhang the edge. */
 export const STICKER_X_RANGE = [-0.14, 1.02] as const;
 export const STICKER_Y_RANGE = [-0.1, 0.96] as const;
