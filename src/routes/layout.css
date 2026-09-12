@@ -61,3 +61,13 @@ body {
 	inherits: true;
 	initial-value: 30%;
 }
+@property --rx {
+	syntax: '<number>';
+	inherits: true;
+	initial-value: 0;
+}
+@property --ry {
+	syntax: '<number>';
+	inherits: true;
+	initial-value: 0;
+}
