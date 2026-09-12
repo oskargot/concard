@@ -60,8 +60,8 @@
 				<a
 					href={t.href}
 					class="flex flex-col items-center gap-1 py-2.5 transition-colors {on
-						? 'text-gold'
-						: 'text-faint hover:text-cream'}"
+						? 'text-holo'
+						: 'text-faint hover:text-paper'}"
 					aria-current={on ? 'page' : undefined}
 				>
 					<svg

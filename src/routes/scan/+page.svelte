@@ -93,7 +93,7 @@
 	<video bind:this={video} class="h-full w-full object-cover" playsinline muted></video>
 	<div class="pointer-events-none absolute inset-0 grid place-items-center">
 		<div
-			class="h-56 w-56 rounded-2xl border-4 border-gold/80 shadow-[0_0_0_9999px_rgba(0,0,0,0.45)]"
+			class="h-56 w-56 rounded-2xl border-4 border-holo/80 shadow-[0_0_0_9999px_rgba(0,0,0,0.45)]"
 		></div>
 	</div>
 	{#if status !== 'scanning'}

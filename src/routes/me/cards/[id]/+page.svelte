@@ -222,11 +222,11 @@
 
 <svelte:window onpointermove={onMove} onpointerup={onUp} onpointercancel={onUp} />
 
-<a href="/me" class="text-sm text-dim hover:text-cream">← Your card</a>
+<a href="/me" class="text-sm text-dim hover:text-paper">← Your card</a>
 <div class="mt-2 flex items-center justify-between gap-3">
 	<h1 class="display text-2xl">Edit card</h1>
 	{#if data.isActive}
-		<span class="meta text-gold">On display</span>
+		<span class="meta text-holo">On display</span>
 	{:else}
 		<form method="POST" action="?/setActive" use:enhance>
 			<button class="btn-secondary !py-1.5 text-xs">Put on display</button>
@@ -422,7 +422,7 @@
 	{#if affiliation}
 		<button
 			type="button"
-			class="mt-3 text-xs text-faint hover:text-cream"
+			class="mt-3 text-xs text-faint hover:text-paper"
 			onclick={() => {
 				affiliation = '';
 				badgeSelected = false;
@@ -478,7 +478,7 @@
 	</form>
 	{#if data.card.art_url}
 		<form method="POST" action="?/removeArt" use:enhance class="mt-2">
-			<button class="text-xs text-faint hover:text-cream">Remove current photo</button>
+			<button class="text-xs text-faint hover:text-paper">Remove current photo</button>
 		</form>
 	{/if}
 </section>
@@ -577,7 +577,7 @@
 			<button class="btn-primary">Save</button>
 		</div>
 	{:else if dirty}
-		<div class="bar border-gold/40">
+		<div class="bar border-holo/40">
 			<p class="text-sm text-dim">Unsaved changes</p>
 			<button class="btn-primary">Save</button>
 		</div>
@@ -645,7 +645,7 @@
 	}
 	.arrow:hover {
 		background: var(--color-raised);
-		color: var(--color-cream);
+		color: var(--color-paper);
 	}
 	.arrow:active {
 		transform: scale(0.94);
@@ -684,8 +684,8 @@
 		background: var(--color-raised);
 	}
 	.fandom.on {
-		border-color: var(--color-gold);
-		background: color-mix(in srgb, var(--color-gold) 12%, transparent);
+		border-color: var(--color-holo);
+		background: color-mix(in srgb, var(--color-holo) 12%, transparent);
 	}
 	.mark {
 		flex: none;

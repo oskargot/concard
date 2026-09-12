@@ -29,11 +29,11 @@
 
 <svelte:head><title>{snap.title} · concard</title></svelte:head>
 
-<a href="/binder" class="text-sm text-dim hover:text-cream">← Binder</a>
+<a href="/binder" class="text-sm text-dim hover:text-paper">← Binder</a>
 <h1 class="mt-2 display text-2xl">{snap.title}</h1>
 <p class="text-sm text-dim">
 	from
-	{#if data.owner}<a class="underline hover:text-cream" href="/{currentUsername}"
+	{#if data.owner}<a class="underline hover:text-paper" href="/{currentUsername}"
 			>{data.owner.display_name}</a
 		>
 	{:else}{snap.owner.display_name} (account gone){/if}

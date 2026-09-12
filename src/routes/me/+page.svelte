@@ -40,7 +40,7 @@
 <header class="flex items-start justify-between gap-4">
 	<div>
 		<h1 class="display text-2xl">{data.profile.display_name}</h1>
-		<a class="text-sm text-dim hover:text-cream" href="/{data.profile.username}">{prettyLink}</a>
+		<a class="text-sm text-dim hover:text-paper" href="/{data.profile.username}">{prettyLink}</a>
 	</div>
 	{#if active}<a href="/me/cards/{active.id}" class="btn-secondary">Edit card</a>{/if}
 </header>
@@ -120,7 +120,7 @@
 						/>
 					</a>
 					{#if isActive}
-						<span class="text-center text-xs font-semibold text-gold">On display</span>
+						<span class="text-center text-xs font-semibold text-holo">On display</span>
 					{:else}
 						<form method="POST" action="?/setActive" use:enhance>
 							<input type="hidden" name="card_id" value={card.id} />
@@ -135,5 +135,5 @@
 {/if}
 
 <form method="POST" action="/logout" class="mt-12 text-center">
-	<button class="text-sm text-faint hover:text-cream">Sign out</button>
+	<button class="text-sm text-faint hover:text-paper">Sign out</button>
 </form>

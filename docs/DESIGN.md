@@ -58,24 +58,34 @@ below 180px the card drops its bio and chips so binder thumbnails stay legible.
 The chrome exists to display the card, so it follows the card's logic rather
 than a separate one. Tokens live in `src/routes/layout.css`.
 
-- **Warm, not blue.** The ground is a deep espresso (`#16130f`), not a slate.
-  The card is a warm printed object; on a blue-black ground it read as a window
-  in a dashboard, and on this one it reads as a lit object on felt. Dark stays,
-  because it makes the cards the brightest thing on screen.
-- **The accent is the card's own gold** (`#d8ab4e`, lifted from `FRAMES.gold`),
-  not a generic amber.
+- **Neutral, not blue and not brown.** The darks are the card's own dark family
+  from `card-style.ts`: its ink (`#17161b`), its slate background and the
+  hatches tuned against it — a graphite with a faint violet lean. A blue slate
+  fights the warm card faces; a brown competes with them. Neutral chrome leaves
+  the cards as the only warm thing on screen, which is what makes them read as
+  the lit object. The ground (`#121116`) sits one step below the card's ink on
+  purpose: the card back is drawn in that ink, so a flipped card still has to
+  lift off the page rather than merge into it. Dark stays throughout, because it
+  makes the cards the brightest thing on screen.
+- **The accent is the card's holo frame** (`FRAMES.holo`), the most distinctive
+  material the card has. `--holo` is the gradient itself, used for the wordmark
+  and the primary action; `--color-holo` is the solid drawn out of it, for the
+  borders, rings, icons and small labels a gradient cannot carry legibly. The
+  text version sweeps nearly horizontally and shrink-wraps its box, or a line of
+  type samples one stop and reads as a flat tint.
 - **The type is the card's own type carried outward.** Fredoka for display
   (`display`), Space Mono for labels and small caps (`meta`), Archivo for body.
   Both halves of the app now speak the same language.
-- **Panels are stock, not glass**: a flat warm surface with a real hairline.
+- **Panels are stock, not glass**: a flat raised surface with a real hairline.
 - **Fonts are self-hosted** via `@fontsource`, not fetched from Google. A con
   hall is exactly where a third-party font request fails. They bundle under
   `client/`, which the service worker already precaches, so type survives
   offline.
 
-The home page shows a live, tiltable card built from `src/lib/demo-card.ts`
-rather than describing the product in prose — the same fixture the `/dev/cards`
-gallery uses.
+Signed in, the home page is a dashboard: your card on display, then the cards
+you most recently collected, linking through to the binder. Signed out it shows
+a live, tiltable card built from `src/lib/demo-card.ts` — the same fixture the
+`/dev/cards` gallery uses — rather than describing the product in prose.
 
 ## Data model
 

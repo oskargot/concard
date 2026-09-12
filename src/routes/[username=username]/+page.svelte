@@ -123,7 +123,7 @@
 	{/if}
 
 	{#if data.theyHaveMine && !data.isOwner}
-		<p class="mt-3 text-center text-xs text-gold">
+		<p class="mt-3 text-center text-xs text-holo">
 			{data.profile.display_name} already has your card.
 		</p>
 	{/if}
