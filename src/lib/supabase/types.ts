@@ -58,8 +58,6 @@ export interface Database {
 				Row: {
 					id: string;
 					owner_id: string;
-					title: string;
-					bio: string;
 					art_url: string | null;
 					style: Json;
 					affiliation: string | null;
@@ -69,15 +67,11 @@ export interface Database {
 				Insert: {
 					id?: string;
 					owner_id: string;
-					title: string;
-					bio?: string;
 					art_url?: string | null;
 					style?: Json;
 					affiliation?: string | null;
 				};
 				Update: {
-					title?: string;
-					bio?: string;
 					art_url?: string | null;
 					style?: Json;
 					affiliation?: string | null;

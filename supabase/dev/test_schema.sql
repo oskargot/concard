@@ -21,8 +21,8 @@ do $$ begin
   if public.is_username_available('has space') then raise exception 'bad chars should be unavailable'; end if;
 end $$;
 
-insert into public.profiles (id, username, display_name, links)
-values ('00000000-0000-0000-0000-00000000000a', 'Alice_01', 'Alice', '[{"label":"Bluesky","url":"https://bsky.app/alice"}]');
+insert into public.profiles (id, username, display_name, bio, links)
+values ('00000000-0000-0000-0000-00000000000a', 'Alice_01', 'Alice', 'Cosplayer, sewist, tea person.', '[{"label":"Bluesky","url":"https://bsky.app/alice"}]');
 
 do $$ declare v text; begin
   select username into v from public.profiles where id = '00000000-0000-0000-0000-00000000000a';
@@ -48,25 +48,25 @@ end $$;
 -- supabase-js's .insert().select() is INSERT ... RETURNING, which also runs the
 -- SELECT policy against the brand-new row, so test that path explicitly.
 do $$ declare v uuid; begin
-  insert into public.cards (id, owner_id, title, bio, style, affiliation)
-  values ('10000000-0000-0000-0000-000000000001', auth.uid(), 'Alice the Bold', 'Cosplayer, sewist, tea person.',
+  insert into public.cards (id, owner_id, style, affiliation)
+  values ('10000000-0000-0000-0000-000000000001', auth.uid(),
           '{"frame":"gold","bg":"mint","shape":"shaved","photo_shape":"arch"}', 'anime')
   returning id into v;
   if v is null then raise exception 'insert returning gave no id'; end if;
 end $$;
-insert into public.cards (id, owner_id, title)
-values ('10000000-0000-0000-0000-000000000002', auth.uid(), 'Alice, Holo Edition');
+insert into public.cards (id, owner_id)
+values ('10000000-0000-0000-0000-000000000002', auth.uid());
 
 -- style enums are validated
-insert into public.cards (owner_id, title, style) values (auth.uid(), 'spectrum', '{"bg":"teal"}');
+insert into public.cards (owner_id, style) values (auth.uid(), '{"bg":"teal"}');
 do $$ begin
   begin
-    insert into public.cards (owner_id, title, style) values (auth.uid(), 'bad', '{"frame":"plaid"}');
+    insert into public.cards (owner_id, style) values (auth.uid(), '{"frame":"plaid"}');
     raise exception 'invalid style accepted';
   exception when check_violation then null;
   end;
   begin
-    insert into public.cards (owner_id, title, affiliation) values (auth.uid(), 'bad', 'not_a_fandom');
+    insert into public.cards (owner_id, affiliation) values (auth.uid(), 'not_a_fandom');
     raise exception 'unknown fandom accepted';
   exception when foreign_key_violation then null;
   end;
@@ -149,7 +149,7 @@ end $$;
 
 -- RLS: B cannot edit A's card or profile
 do $$ declare n int; begin
-  update public.cards set title = 'hacked' where id = '10000000-0000-0000-0000-000000000001';
+  update public.cards set affiliation = 'scifi' where id = '10000000-0000-0000-0000-000000000001';
   get diagnostics n = row_count;
   if n <> 0 then raise exception 'B updated A''s card'; end if;
   update public.profiles set display_name = 'hacked' where id = '00000000-0000-0000-0000-00000000000a';
@@ -171,7 +171,8 @@ end $$;
 do $$ declare r jsonb; n int; begin
   r := public.collect_card('Alice_01');
   if r->>'bonus_sticker_id' <> 'star' then raise exception 'expected bonus star, got %', r->>'bonus_sticker_id'; end if;
-  if (r->'card_snapshot'->>'title') <> 'Alice the Bold' then raise exception 'snapshot title wrong'; end if;
+  if (r->'card_snapshot'->>'title') <> 'Alice' then raise exception 'snapshot should carry the profile name'; end if;
+  if (r->'card_snapshot'->>'bio') <> 'Cosplayer, sewist, tea person.' then raise exception 'snapshot should carry the profile bio'; end if;
   if (r->'card_snapshot'->>'version')::int <> 2 then raise exception 'snapshot should be version 2'; end if;
   if (r->'card_snapshot'->'style'->>'frame') <> 'gold' then raise exception 'snapshot style wrong'; end if;
   if (r->'card_snapshot'->'affiliation'->>'mark') <> 'ANI' then raise exception 'snapshot affiliation wrong'; end if;
@@ -216,7 +217,7 @@ set local role authenticated;
 set local request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000b';
 do $$ declare r jsonb; begin
   r := public.collect_card('alice_01');
-  if (r->'card_snapshot'->>'title') <> 'Alice, Holo Edition' then raise exception 'second collect should snapshot the new card'; end if;
+  if (r->'card_snapshot'->>'card_id') <> '10000000-0000-0000-0000-000000000002' then raise exception 'second collect should snapshot the new card'; end if;
   if jsonb_typeof(r->'card_snapshot'->'affiliation') <> 'null' then raise exception 'card without fandom should snapshot null affiliation'; end if;
   if r->>'bonus_sticker_id' is not null then raise exception 'card without stickers should give no bonus'; end if;
 end $$;

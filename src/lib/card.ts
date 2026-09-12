@@ -38,17 +38,25 @@ export function fandomToAffiliation(f: Fandom | undefined | null): Affiliation |
 	return { id: f.id, name: f.name, mark: f.mark, color_a: f.color_a, color_b: f.color_b };
 }
 
+/** What a card reads from its owner's profile. */
+export interface CardOwner {
+	username: string;
+	display_name: string;
+	bio: string;
+	links: unknown;
+}
+
 /** Build the renderable view of a live card from its database rows. */
 export function cardToView(
 	card: Card,
-	owner: { username: string; links: unknown },
+	owner: CardOwner,
 	placements: StickerPlacement[],
 	fandoms: Map<string, Fandom>
 ): CardView {
 	return {
-		title: card.title,
+		title: owner.display_name,
 		handle: owner.username,
-		bio: card.bio,
+		bio: owner.bio,
 		art_url: card.art_url,
 		style: normalizeStyle(card.style),
 		affiliation: fandomToAffiliation(card.affiliation ? fandoms.get(card.affiliation) : null),

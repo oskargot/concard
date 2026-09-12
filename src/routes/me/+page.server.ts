@@ -59,12 +59,7 @@ export const actions: Actions = {
 		const profile = locals.profile!;
 		const { data, error } = await locals.supabase
 			.from('cards')
-			.insert({
-				owner_id: profile.id,
-				title: profile.display_name,
-				bio: profile.bio,
-				style: randomStyle() as unknown as Json
-			})
+			.insert({ owner_id: profile.id, style: randomStyle() as unknown as Json })
 			.select('id')
 			.single();
 		if (error || !data)
