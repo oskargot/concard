@@ -33,20 +33,30 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	]);
 
 	// Copies placed on any of my cards count against what I can still place.
+	// A plain and a foil copy of the same sticker are different piles, so the
+	// count is keyed by sticker + foil tier, not sticker alone.
 	const myCardIds = (myCards.data ?? []).map((c) => c.id);
 	const placedEverywhere = myCardIds.length
-		? ((await supabase.from('sticker_placements').select('sticker_id').in('card_id', myCardIds))
-				.data ?? [])
+		? ((
+				await supabase
+					.from('sticker_placements')
+					.select('sticker_id, foil')
+					.in('card_id', myCardIds)
+			).data ?? [])
 		: [];
+	const pileKey = (sticker_id: string, foil: string) => `${sticker_id}:${foil}`;
 	const placedCount = new Map<string, number>();
-	for (const p of placedEverywhere)
-		placedCount.set(p.sticker_id, (placedCount.get(p.sticker_id) ?? 0) + 1);
+	for (const p of placedEverywhere) {
+		const key = pileKey(p.sticker_id, p.foil);
+		placedCount.set(key, (placedCount.get(key) ?? 0) + 1);
+	}
 
 	const available = (inventory.data ?? [])
 		.map((row) => ({
 			sticker_id: row.sticker_id,
+			foil: row.foil,
 			owned: row.quantity,
-			available: row.quantity - (placedCount.get(row.sticker_id) ?? 0)
+			available: row.quantity - (placedCount.get(pileKey(row.sticker_id, row.foil)) ?? 0)
 		}))
 		.filter((row) => row.owned > 0);
 

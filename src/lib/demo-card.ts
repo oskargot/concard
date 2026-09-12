@@ -78,8 +78,16 @@ export const DEMO_CARD: CardView = {
 		{ label: 'itch.io', url: 'https://oskar.itch.io' }
 	],
 	stickers: [
-		{ sticker_id: 'star', x: 0.87, y: 0.14, rotation: 0, scale: 0.9, z_index: 1 },
-		{ sticker_id: 'dragon', x: 0.13, y: 0.33, rotation: 0, scale: 0.95, z_index: 2 },
-		{ sticker_id: 'rainbow', x: 0.94, y: 0.82, rotation: 0, scale: 0.85, z_index: 3 }
+		{ sticker_id: 'star', x: 0.87, y: 0.14, rotation: 0, scale: 0.9, z_index: 1, foil: 'none' },
+		{
+			sticker_id: 'dragon',
+			x: 0.13,
+			y: 0.33,
+			rotation: 0,
+			scale: 0.95,
+			z_index: 2,
+			foil: 'glitter'
+		},
+		{ sticker_id: 'rainbow', x: 0.94, y: 0.82, rotation: 0, scale: 0.85, z_index: 3, foil: 'holo' }
 	]
 };

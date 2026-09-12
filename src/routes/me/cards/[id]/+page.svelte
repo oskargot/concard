@@ -2,11 +2,12 @@
 	import { enhance } from '$app/forms';
 	import { invalidateAll } from '$app/navigation';
 	import Card from '$lib/components/Card.svelte';
-	import StickerGlyph from '$lib/components/StickerGlyph.svelte';
+	import StickerTile from '$lib/components/StickerTile.svelte';
 	import {
 		catalogFrom,
 		fandomMap,
 		fandomToAffiliation,
+		FOIL_LABEL,
 		placementToPlaced,
 		RARITY_LABEL,
 		readLinks
@@ -250,12 +251,12 @@
 		}
 	}
 
-	async function addSticker(stickerId: string) {
+	async function addSticker(stickerId: string, foil: PlacedSticker['foil']) {
 		stickerError = '';
 		const z = placed.reduce((m, p) => Math.max(m, p.z_index), 0) + 1;
 		const { data: row, error } = await data.supabase
 			.from('sticker_placements')
-			.insert({ card_id: data.card.id, sticker_id: stickerId, x: 0.5, y: 0.5, z_index: z })
+			.insert({ card_id: data.card.id, sticker_id: stickerId, foil, x: 0.5, y: 0.5, z_index: z })
 			.select('*')
 			.single();
 		if (error || !row) {
@@ -397,19 +398,19 @@
 	</p>
 	{#if stickerError}<p class="mt-2 text-sm text-ember" role="alert">{stickerError}</p>{/if}
 	<ul class="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-6">
-		{#each data.available as row (row.sticker_id)}
+		{#each data.available as row (`${row.sticker_id}-${row.foil}`)}
 			{@const s = catalog.get(row.sticker_id)}
-			<li>
-				<button
-					type="button"
-					class="flex w-full flex-col items-center gap-1 rounded-lg border border-line bg-ground p-2 text-center transition hover:bg-raised disabled:opacity-40"
+			<li class="flex flex-col items-center gap-1">
+				<StickerTile
+					sticker={s}
+					foil={row.foil}
 					disabled={row.available < 1}
-					onclick={() => addSticker(row.sticker_id)}
-					title={s ? `${s.name} · ${RARITY_LABEL[s.rarity]}` : row.sticker_id}
-				>
-					<span class="text-2xl leading-none"><StickerGlyph sticker={s} label={false} /></span>
-					<span class="font-mono text-[10px] text-faint">{row.available}/{row.owned}</span>
-				</button>
+					onclick={() => addSticker(row.sticker_id, row.foil)}
+					title={s
+						? `${s.name} · ${RARITY_LABEL[s.rarity]}${row.foil !== 'none' ? ` · ${FOIL_LABEL[row.foil]}` : ''}`
+						: row.sticker_id}
+				/>
+				<span class="font-mono text-[10px] text-faint">{row.available}/{row.owned}</span>
 			</li>
 		{/each}
 	</ul>

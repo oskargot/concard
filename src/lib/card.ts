@@ -8,8 +8,25 @@ import type {
 	PlacedSticker,
 	ProfileLink,
 	Sticker,
+	StickerFoil,
 	StickerPlacement
 } from '$lib/types';
+
+const FOILS: StickerFoil[] = ['none', 'glitter', 'holo'];
+const isFoil = (v: unknown): v is StickerFoil => FOILS.includes(v as StickerFoil);
+
+/** none -> glitter -> holo; holo is the ceiling, nothing combines past it. */
+export const NEXT_FOIL: Record<StickerFoil, StickerFoil | null> = {
+	none: 'glitter',
+	glitter: 'holo',
+	holo: null
+};
+
+export const FOIL_LABEL: Record<StickerFoil, string> = {
+	none: 'Plain',
+	glitter: 'Glitter',
+	holo: 'Holo'
+};
 
 export function placementToPlaced(p: StickerPlacement): PlacedSticker {
 	return {
@@ -19,7 +36,8 @@ export function placementToPlaced(p: StickerPlacement): PlacedSticker {
 		y: Number(p.y),
 		rotation: Number(p.rotation),
 		scale: Number(p.scale),
-		z_index: p.z_index
+		z_index: p.z_index,
+		foil: isFoil(p.foil) ? p.foil : 'none'
 	};
 }
 
@@ -141,7 +159,8 @@ export function snapshotToView(snapshot: unknown): CardSnapshot {
 			y: Number(p.y),
 			rotation: Number(p.rotation ?? 0),
 			scale: Number(p.scale ?? 1),
-			z_index: Number(p.z_index ?? 0)
+			z_index: Number(p.z_index ?? 0),
+			foil: isFoil(p.foil) ? p.foil : 'none'
 		})),
 		owner: {
 			id: String(owner.id ?? ''),

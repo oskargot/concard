@@ -44,6 +44,49 @@ do $$ declare n int; begin
   if n <> 4 then raise exception 'expected 4 starter sticker types, got %', n; end if;
 end $$;
 
+-- combining stickers: two plain copies merge into one glitter copy
+do $$ declare r jsonb; n int; begin
+  r := public.combine_stickers('heart', 'none');
+  if (r->>'foil') <> 'glitter' then raise exception 'combine should produce glitter, got %', r->>'foil'; end if;
+  select quantity into n from public.sticker_inventory
+   where owner_id = auth.uid() and sticker_id = 'heart' and foil = 'none';
+  if n is not null then raise exception 'plain hearts should be fully spent, found %', n; end if;
+  select quantity into n from public.sticker_inventory
+   where owner_id = auth.uid() and sticker_id = 'heart' and foil = 'glitter';
+  if n <> 1 then raise exception 'expected 1 glitter heart, got %', n; end if;
+end $$;
+
+-- can't combine again with only one glitter copy
+do $$ begin
+  begin
+    perform public.combine_stickers('heart', 'glitter');
+    raise exception 'combined with only one glitter copy';
+  exception when others then
+    if sqlerrm <> 'not_enough_copies' then raise; end if;
+  end;
+end $$;
+
+-- a second glitter copy combines into holo; holo is the ceiling
+reset role;
+insert into public.sticker_inventory (owner_id, sticker_id, foil, quantity)
+values ('00000000-0000-0000-0000-00000000000a', 'heart', 'glitter', 1)
+on conflict (owner_id, sticker_id, foil) do update set quantity = public.sticker_inventory.quantity + 1;
+set local role authenticated;
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000a';
+do $$ declare r jsonb; n int; begin
+  r := public.combine_stickers('heart', 'glitter');
+  if (r->>'foil') <> 'holo' then raise exception 'combine should produce holo, got %', r->>'foil'; end if;
+  select quantity into n from public.sticker_inventory
+   where owner_id = auth.uid() and sticker_id = 'heart' and foil = 'glitter';
+  if n is not null then raise exception 'glitter hearts should be fully spent, found %', n; end if;
+  begin
+    perform public.combine_stickers('heart', 'holo');
+    raise exception 'combined past the holo ceiling';
+  exception when others then
+    if sqlerrm <> 'max_tier' then raise; end if;
+  end;
+end $$;
+
 -- first card auto-activates; second does not.
 -- supabase-js's .insert().select() is INSERT ... RETURNING, which also runs the
 -- SELECT policy against the brand-new row, so test that path explicitly.

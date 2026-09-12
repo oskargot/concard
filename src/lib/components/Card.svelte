@@ -12,6 +12,7 @@
 	import type { StickerCatalog } from '$lib/card';
 	import CardShell from './CardShell.svelte';
 	import StickerGlyph from './StickerGlyph.svelte';
+	import FoilFx from './FoilFx.svelte';
 	import { fly } from 'svelte/transition';
 
 	interface Props {
@@ -71,6 +72,16 @@
 	const chips = $derived(view.links.slice(0, MAX_CHIPS));
 	const more = $derived(Math.max(0, view.links.length - MAX_CHIPS));
 	const stickers = $derived([...view.stickers].sort((a, b) => a.z_index - b.z_index));
+
+	// Foil stickers get a glow behind them, lit by the same drag tilt as the
+	// card's own holo frame (mirrors CardShell's --lx/--ly). Holo also drifts
+	// its grain with the tilt — the parallax shelved for the card face itself
+	// (see docs/DESIGN.md) — while glitter's grain holds still.
+	const clampFx = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
+	const foilLx = $derived(clampFx(50 - ry * 2.1, -15, 115));
+	const foilLy = $derived(clampFx(30 - rx * 2.4, -15, 115));
+	const foilGx = $derived(clampFx(ry * 3, -30, 30));
+	const foilGy = $derived(clampFx(-rx * 3, -30, 30));
 	// While the badge is still sitting over the footer, the chips leave room for
 	// it, the way the old flex row did. Moved anywhere else, they take the width.
 	const badgeOverFooter = $derived(
@@ -301,6 +312,18 @@
 						}
 					: undefined}
 			>
+				{#if s.foil !== 'none'}
+					<div class="sticker-foil">
+						<FoilFx
+							foil={s.foil}
+							shape="halo"
+							lx={foilLx}
+							ly={foilLy}
+							gx={s.foil === 'holo' ? foilGx : undefined}
+							gy={s.foil === 'holo' ? foilGy : undefined}
+						/>
+					</div>
+				{/if}
 				<div class="cut">
 					<StickerGlyph sticker={catalog.get(s.sticker_id)} label={false} />
 				</div>
@@ -671,7 +694,15 @@
 		--rim-a: calc(var(--rim-w) * 0.866);
 		--rim-b: calc(var(--rim-w) * 0.5);
 	}
+	.sticker-foil {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		pointer-events: none;
+	}
 	.cut {
+		position: relative;
+		z-index: 1;
 		width: 100%;
 		height: 100%;
 		display: grid;

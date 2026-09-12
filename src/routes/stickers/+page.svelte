@@ -1,24 +1,77 @@
 <script lang="ts">
-	import StickerGlyph from '$lib/components/StickerGlyph.svelte';
-	import { catalogFrom, RARITY_LABEL } from '$lib/card';
+	import { invalidateAll } from '$app/navigation';
+	import StickerTile from '$lib/components/StickerTile.svelte';
+	import { catalogFrom, FOIL_LABEL, NEXT_FOIL, RARITY_LABEL } from '$lib/card';
+	import type { StickerFoil } from '$lib/types';
 
 	let { data } = $props();
 	const catalog = $derived(catalogFrom(data.stickers));
 
+	interface Tile {
+		key: string;
+		sticker_id: string;
+		foil: StickerFoil;
+	}
+
 	/**
 	 * One tile per copy owned, duplicates included — a real sticker sheet, not
-	 * a deduped list. Same shape the eventual "combine two into a holo" flow
-	 * will act on.
+	 * a deduped list. Tapping two tiles of the same sticker at the same tier
+	 * offers to combine them into the next one up.
 	 */
 	const tiles = $derived(
 		data.inventory
 			.filter((row) => row.quantity > 0)
 			.map((row) => ({ row, sticker: catalog.get(row.sticker_id) }))
 			.sort((a, b) => (a.sticker?.sort_order ?? 0) - (b.sticker?.sort_order ?? 0))
-			.flatMap(({ row, sticker }) =>
-				Array.from({ length: row.quantity }, (_, i) => ({ key: `${row.sticker_id}-${i}`, sticker }))
+			.flatMap(({ row }): Tile[] =>
+				Array.from({ length: row.quantity }, (_, i) => ({
+					key: `${row.sticker_id}-${row.foil}-${i}`,
+					sticker_id: row.sticker_id,
+					foil: row.foil
+				}))
 			)
 	);
+
+	let selected = $state<Tile[]>([]);
+	let combining = $state(false);
+	let error = $state('');
+
+	function toggle(tile: Tile) {
+		error = '';
+		if (selected.some((t) => t.key === tile.key)) {
+			selected = selected.filter((t) => t.key !== tile.key);
+			return;
+		}
+		if (
+			selected.length === 1 &&
+			selected[0].sticker_id === tile.sticker_id &&
+			selected[0].foil === tile.foil
+		) {
+			selected = [...selected, tile];
+			return;
+		}
+		selected = [tile];
+	}
+
+	const pair = $derived(selected.length === 2 ? selected[0] : null);
+	const nextFoil = $derived(pair ? NEXT_FOIL[pair.foil] : null);
+
+	async function combine() {
+		if (!pair || !nextFoil) return;
+		combining = true;
+		error = '';
+		const { error: err } = await data.supabase.rpc('combine_stickers', {
+			p_sticker_id: pair.sticker_id,
+			p_foil: pair.foil
+		});
+		combining = false;
+		if (err) {
+			error = err.hint ?? err.message;
+			return;
+		}
+		selected = [];
+		await invalidateAll();
+	}
 </script>
 
 <svelte:head><title>Stickers · concard</title></svelte:head>
@@ -37,17 +90,44 @@
 {:else}
 	<ul class="mt-5 grid grid-cols-5 gap-3 sm:grid-cols-6">
 		{#each tiles as t (t.key)}
-			<li
-				class="flex aspect-square items-center justify-center rounded-lg border border-line bg-surface p-2"
-				title={t.sticker ? `${t.sticker.name} · ${RARITY_LABEL[t.sticker.rarity]}` : undefined}
-			>
-				<span class="h-full max-h-8 w-full max-w-8">
-					<StickerGlyph sticker={t.sticker} label={false} />
-				</span>
+			{@const sticker = catalog.get(t.sticker_id)}
+			{@const isSelected = selected.some((s) => s.key === t.key)}
+			<li>
+				<StickerTile
+					{sticker}
+					foil={t.foil}
+					selected={isSelected}
+					disabled={combining}
+					title={sticker
+						? `${sticker.name} · ${RARITY_LABEL[sticker.rarity]}${t.foil !== 'none' ? ` · ${FOIL_LABEL[t.foil]}` : ''}`
+						: undefined}
+					onclick={() => toggle(t)}
+				/>
 			</li>
 		{/each}
 	</ul>
-	<p class="mt-4 text-center text-xs text-faint">
-		Two of the same kind will soon combine into a holographic finish.
-	</p>
+
+	{#if error}<p class="mt-4 text-sm text-ember" role="alert">{error}</p>{/if}
+
+	{#if pair}
+		{@const sticker = catalog.get(pair.sticker_id)}
+		<div class="mt-4 flex items-center justify-between gap-3 panel">
+			{#if nextFoil}
+				<p class="text-sm">
+					Combine 2 {sticker?.name ?? pair.sticker_id} into
+					<span class="font-semibold text-holo">{FOIL_LABEL[nextFoil]}</span>?
+				</p>
+				<button class="btn-primary shrink-0" disabled={combining} onclick={combine}>
+					{combining ? 'Combining…' : 'Combine'}
+				</button>
+			{:else}
+				<p class="text-sm text-dim">That sticker is already as shiny as it gets.</p>
+				<button class="btn-secondary shrink-0" onclick={() => (selected = [])}>Clear</button>
+			{/if}
+		</div>
+	{:else}
+		<p class="mt-4 text-center text-xs text-faint">
+			Tap two of the same sticker to combine them into glitter, then holo.
+		</p>
+	{/if}
 {/if}
