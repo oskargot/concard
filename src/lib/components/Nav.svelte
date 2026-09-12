@@ -20,6 +20,10 @@
 			'M4.4 13.2h6v6.2h-6z',
 			'M13.6 13.2h6v6.2h-6z'
 		],
+		stickers: [
+			'M6.3 4.6h8.6l4.5 4.5v9.3a1 1 0 0 1-1 1H6.3a1 1 0 0 1-1-1V5.6a1 1 0 0 1 1-1Z',
+			'M14.9 4.6v3.5a1 1 0 0 0 1 1h3.5'
+		],
 		me: [
 			'M5.6 3.4h12.8v17.2H5.6z',
 			'M12 11.4a2.4 2.4 0 1 0 0-4.8 2.4 2.4 0 0 0 0 4.8Z',
@@ -32,9 +36,10 @@
 		signedIn
 			? [
 					{ href: '/', label: 'Home', icon: 'home' as const },
+					{ href: '/me', label: 'Card', icon: 'me' as const },
 					{ href: '/scan', label: 'Scan', icon: 'scan' as const },
-					{ href: '/binder', label: 'Binder', icon: 'binder' as const },
-					{ href: '/me', label: 'Me', icon: 'me' as const }
+					{ href: '/stickers', label: 'Stickers', icon: 'stickers' as const },
+					{ href: '/binder', label: 'Binder', icon: 'binder' as const }
 				]
 			: [
 					{ href: '/', label: 'Home', icon: 'home' as const },
@@ -53,32 +58,61 @@
 	style="padding-bottom: env(safe-area-inset-bottom)"
 	aria-label="Main"
 >
-	<ul class="mx-auto flex max-w-lg justify-around">
+	<ul class="mx-auto flex max-w-lg items-start justify-around">
 		{#each tabs as t (t.href)}
 			{@const on = active(t.href)}
-			<li class="flex-1">
-				<a
-					href={t.href}
-					class="flex flex-col items-center gap-1 py-2.5 transition-colors {on
-						? 'text-holo'
-						: 'text-faint hover:text-paper'}"
-					aria-current={on ? 'page' : undefined}
-				>
-					<svg
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="1.6"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						class="h-5 w-5"
-						aria-hidden="true"
+			{#if t.icon === 'scan'}
+				<li class="flex flex-1 justify-center">
+					<a
+						href={t.href}
+						class="-mt-6 flex flex-col items-center gap-1"
+						aria-current={on ? 'page' : undefined}
 					>
-						{#each ICONS[t.icon] as d (d)}<path {d} />{/each}
-					</svg>
-					<span class="meta text-[10px]">{t.label}</span>
-				</a>
-			</li>
+						<span
+							class="flex h-14 w-14 items-center justify-center rounded-full shadow-lg ring-4 ring-ground"
+							style="background: var(--holo)"
+						>
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="var(--color-ground)"
+								stroke-width="1.6"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								class="h-7 w-7"
+								aria-hidden="true"
+							>
+								{#each ICONS.scan as d (d)}<path {d} />{/each}
+							</svg>
+						</span>
+						<span class="meta text-[10px] {on ? 'text-holo' : 'text-faint'}">{t.label}</span>
+					</a>
+				</li>
+			{:else}
+				<li class="flex-1">
+					<a
+						href={t.href}
+						class="flex flex-col items-center gap-1 py-2.5 transition-colors {on
+							? 'text-holo'
+							: 'text-faint hover:text-paper'}"
+						aria-current={on ? 'page' : undefined}
+					>
+						<svg
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="1.6"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							class="h-5 w-5"
+							aria-hidden="true"
+						>
+							{#each ICONS[t.icon] as d (d)}<path {d} />{/each}
+						</svg>
+						<span class="meta text-[10px]">{t.label}</span>
+					</a>
+				</li>
+			{/if}
 		{/each}
 	</ul>
 </nav>
