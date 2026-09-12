@@ -180,10 +180,6 @@ export interface Database {
 				Args: { p_owner_id: string; p_sticker_id: string };
 				Returns: number;
 			};
-			card_is_visible: {
-				Args: { p_card_id: string };
-				Returns: boolean;
-			};
 		};
 		Enums: {
 			sticker_rarity: StickerRarity;

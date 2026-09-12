@@ -79,6 +79,7 @@
 			<form method="POST" action="?/newCard" use:enhance class="mt-4">
 				<button class="btn-primary">Make my first card</button>
 			</form>
+			{#if form?.error}<p class="mt-3 text-sm text-rose-300" role="alert">{form.error}</p>{/if}
 		</div>
 	{/if}
 </section>

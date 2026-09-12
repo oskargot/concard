@@ -44,9 +44,15 @@ do $$ declare n int; begin
   if n <> 4 then raise exception 'expected 4 starter sticker types, got %', n; end if;
 end $$;
 
--- first card auto-activates; second does not
-insert into public.cards (id, owner_id, template_id, title, subtitle)
-values ('10000000-0000-0000-0000-000000000001', auth.uid(), 'classic', 'Alice the Bold', 'Cosplayer');
+-- first card auto-activates; second does not.
+-- supabase-js's .insert().select() is INSERT ... RETURNING, which also runs the
+-- SELECT policy against the brand-new row, so test that path explicitly.
+do $$ declare v uuid; begin
+  insert into public.cards (id, owner_id, template_id, title, subtitle)
+  values ('10000000-0000-0000-0000-000000000001', auth.uid(), 'classic', 'Alice the Bold', 'Cosplayer')
+  returning id into v;
+  if v is null then raise exception 'insert returning gave no id'; end if;
+end $$;
 insert into public.cards (id, owner_id, template_id, title)
 values ('10000000-0000-0000-0000-000000000002', auth.uid(), 'holo', 'Alice, Holo Edition');
 
@@ -64,9 +70,14 @@ do $$ begin
   end;
 end $$;
 
--- place two stickers (owns 2 stars) then fail on the third
+-- place two stickers (owns 2 stars) then fail on the third; RETURNING must work here too
+do $$ declare v uuid; begin
+  insert into public.sticker_placements (card_id, sticker_id, x, y)
+  values ('10000000-0000-0000-0000-000000000001', 'star', 0.2, 0.2)
+  returning id into v;
+  if v is null then raise exception 'placement returning gave no id'; end if;
+end $$;
 insert into public.sticker_placements (card_id, sticker_id, x, y) values
-  ('10000000-0000-0000-0000-000000000001', 'star', 0.2, 0.2),
   ('10000000-0000-0000-0000-000000000001', 'star', 0.8, 0.2);
 do $$ begin
   begin
@@ -205,6 +216,8 @@ do $$ declare n int; begin
   select count(*) into n from public.card_templates; if n < 1 then raise exception 'anon should see templates'; end if;
   select count(*) into n from public.cards; if n <> 1 then raise exception 'anon should see only displayed cards, saw %', n; end if;
   select count(*) into n from public.collections; if n <> 0 then raise exception 'anon should see no collections'; end if;
+  -- alice now displays her second card, which has no stickers; card 1's stickers must be hidden
+  select count(*) into n from public.sticker_placements; if n <> 0 then raise exception 'anon should see placements on displayed cards only, saw %', n; end if;
   begin
     perform public.collect_card('alice_01');
     raise exception 'anon collected a card';
