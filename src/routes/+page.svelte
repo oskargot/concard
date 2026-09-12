@@ -99,7 +99,7 @@
 		<div class="flex items-baseline justify-between gap-3">
 			<h2 class="display text-lg">Recently added</h2>
 			{#if data.recent.length > 0}
-				<a href="/binder" class="meta text-dim hover:text-cream">Binder →</a>
+				<a href="/binder" class="meta text-dim hover:text-paper">Binder →</a>
 			{/if}
 		</div>
 

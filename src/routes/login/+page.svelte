@@ -14,7 +14,7 @@
 <svelte:head><title>Sign in · concard</title></svelte:head>
 
 <div class="mx-auto mt-8 max-w-sm">
-	<a href="/" class="text-sm text-dim hover:text-cream">← concard</a>
+	<a href="/" class="text-sm text-dim hover:text-paper">← concard</a>
 	<h1 class="mt-4 display text-3xl">
 		{mode === 'signin' ? 'Welcome back' : 'Make your card'}
 	</h1>

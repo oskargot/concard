@@ -18,24 +18,28 @@
 /**
  * The app is the album; the card is the thing in it.
  *
- * The card is a warm printed object — cream stock, brushed metal, real ink.
- * So the chrome around it is warm too: a deep espresso ground rather than a
- * blue-black one, so cards read as lit objects on felt instead of windows in a
- * dashboard. The accent is the card's holo frame (FRAMES.holo in card-style.ts),
- * not a generic amber, and the type is the card's own type carried outward.
+ * Everything here comes out of the card. The darks are the card's own dark
+ * family from card-style.ts — its ink (#17161b), its slate background and the
+ * hatches tuned against it — a graphite with a faint violet lean. Not a blue
+ * slate, which fights the warm card faces, and not a brown, which competes with
+ * them: the chrome stays neutral so the cards are the only warm thing on screen
+ * and read as the lit object. The ground sits a step below the card's ink on
+ * purpose, so a card flipped to its back still lifts off the page instead of
+ * merging into it. The accent is the card's holo frame, and the type is the
+ * card's own type carried outward.
  */
 
 @theme {
-	/* surfaces, darkest to lightest */
-	--color-ground: #16130f;
-	--color-surface: #201b16;
-	--color-raised: #2a231c;
-	--color-line: #3a3129;
+	/* surfaces, darkest to lightest; below the card's own ink so it stays an object */
+	--color-ground: #121116;
+	--color-surface: #1c1b22;
+	--color-raised: #26242e;
+	--color-line: #34323d;
 
-	/* text, warm to match the card's paper rather than fighting it */
-	--color-cream: #f4efe6;
-	--color-dim: #b8ad9d;
-	--color-faint: #8a7f70;
+	/* neutral, so the only warmth on screen is the card itself */
+	--color-paper: #efedf2;
+	--color-dim: #a9a4b8;
+	--color-faint: #8a8898;
 
 	/*
 	 * The accent is the card's holo frame (FRAMES.holo in card-style.ts): the
@@ -70,7 +74,7 @@ html {
 body {
 	min-height: 100dvh;
 	background: var(--color-ground);
-	color: var(--color-cream);
+	color: var(--color-paper);
 	font-family: var(--font-body);
 	-webkit-font-smoothing: antialiased;
 }
@@ -102,17 +106,17 @@ body {
 	}
 }
 @utility btn-secondary {
-	@apply btn border border-line bg-surface text-cream hover:bg-raised;
+	@apply btn border border-line bg-surface text-paper hover:bg-raised;
 }
 @utility btn-danger {
 	@apply btn border border-ember/30 bg-transparent text-ember hover:bg-ember/10;
 }
 @utility btn-quiet {
-	@apply btn text-dim hover:text-cream;
+	@apply btn text-dim hover:text-paper;
 }
 
 @utility field {
-	@apply w-full rounded-lg border-line bg-surface text-cream placeholder:text-faint focus:border-holo focus:ring-holo;
+	@apply w-full rounded-lg border-line bg-surface text-paper placeholder:text-faint focus:border-holo focus:ring-holo;
 }
 @utility label {
 	@apply mb-1.5 block meta text-dim;
