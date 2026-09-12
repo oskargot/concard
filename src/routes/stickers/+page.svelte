@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { invalidateAll } from '$app/navigation';
 	import StickerTile from '$lib/components/StickerTile.svelte';
-	import { catalogFrom, FOIL_LABEL, NEXT_FOIL, RARITY_LABEL } from '$lib/card';
+	import { catalogFrom, FOIL_LABEL, NEXT_FOIL, normalizeFoil, RARITY_LABEL } from '$lib/card';
 	import type { StickerFoil } from '$lib/types';
 
 	let { data } = $props();
@@ -23,13 +23,14 @@
 			.filter((row) => row.quantity > 0)
 			.map((row) => ({ row, sticker: catalog.get(row.sticker_id) }))
 			.sort((a, b) => (a.sticker?.sort_order ?? 0) - (b.sticker?.sort_order ?? 0))
-			.flatMap(({ row }): Tile[] =>
-				Array.from({ length: row.quantity }, (_, i) => ({
-					key: `${row.sticker_id}-${row.foil}-${i}`,
+			.flatMap(({ row }): Tile[] => {
+				const foil = normalizeFoil(row.foil);
+				return Array.from({ length: row.quantity }, (_, i) => ({
+					key: `${row.sticker_id}-${foil}-${i}`,
 					sticker_id: row.sticker_id,
-					foil: row.foil
-				}))
-			)
+					foil
+				}));
+			})
 	);
 
 	let selected = $state<Tile[]>([]);
