@@ -244,6 +244,38 @@ do $$ begin
   end;
 end $$;
 
+-- sticker catalog: writable only by an is_admin profile, via RLS rather than
+-- the app trusting anything client-side
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000c';
+do $$ begin
+  begin
+    insert into public.stickers (id, name, glyph) values ('carols-sticker', 'Carol''s sticker', '🦋');
+    raise exception 'non-admin inserted a sticker';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+
+reset role;
+update public.profiles set is_admin = true where id = '00000000-0000-0000-0000-00000000000c';
+set local role authenticated;
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000c';
+insert into public.stickers (id, name, glyph) values ('carols-sticker', 'Carol''s sticker', '🦋');
+update public.stickers set is_active = false where id = 'carols-sticker';
+do $$ declare v boolean; begin
+  select is_active into v from public.stickers where id = 'carols-sticker';
+  if v then raise exception 'admin update should have taken effect'; end if;
+end $$;
+
+-- a non-admin still cannot touch the catalog, even to edit someone else's
+-- addition: RLS's using clause just excludes the row, so the update affects
+-- nothing rather than raising.
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000a';
+update public.stickers set name = 'hijacked' where id = 'carols-sticker';
+do $$ declare v text; begin
+  select name into v from public.stickers where id = 'carols-sticker';
+  if v = 'hijacked' then raise exception 'non-admin update should not have taken effect'; end if;
+end $$;
+
 -- anonymous: can read profiles, templates, stickers and displayed cards; cannot collect
 reset role;
 set local role anon;

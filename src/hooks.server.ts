@@ -5,7 +5,7 @@ import { missingSupabaseEnv, supabaseEnv } from '$lib/supabase/env';
 import { setupPage } from '$lib/server/setup-page';
 
 // Routes that require a signed-in user with a finished profile.
-const PROTECTED_PREFIXES = ['/me', '/binder', '/scan'];
+const PROTECTED_PREFIXES = ['/me', '/binder', '/scan', '/admin'];
 
 const supabase: Handle = async ({ event, resolve }) => {
 	// A deploy without its environment variables would 500 on every request.

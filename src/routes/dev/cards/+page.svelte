@@ -9,10 +9,11 @@
 		FRAME_KEYS,
 		PHOTO_SHAPES,
 		SHAPES,
+		stickerRotation,
 		type CardStyle
 	} from '$lib/card-style';
 	import { demoCatalog } from '$lib/demo-card';
-	import type { CardView } from '$lib/types';
+	import type { CardView, PlacedSticker } from '$lib/types';
 
 	const catalog = demoCatalog();
 
@@ -81,7 +82,70 @@
 		const i = values.indexOf(current);
 		return values[(i + dir + values.length) % values.length];
 	}
+
+	// ---- sticker rotate/resize handles: same drag math as the real edit
+	// screen, so this exercises it without a backend. ----
+	let editEl: HTMLDivElement | undefined = $state();
+	let editPlaced = $state<PlacedSticker[]>(base.stickers.map((s) => ({ ...s })));
+	let editSelectedId = $state<string | null>(null);
+	const editViewFull = $derived<CardView>({ ...editView, stickers: editPlaced });
+
+	type StickerDrag =
+		| { kind: 'move'; id: string; pointerId: number }
+		| { kind: 'rotate'; id: string; pointerId: number }
+		| { kind: 'resize'; id: string; pointerId: number };
+	let stickerDrag: StickerDrag | null = null;
+	const STICKER_BASE_RADIUS_FRAC = 0.1533 / 2;
+
+	function onEditStickerDown(s: PlacedSticker, e: PointerEvent) {
+		if (!s.id) return;
+		editSelectedId = s.id;
+		stickerDrag = { kind: 'move', id: s.id, pointerId: e.pointerId };
+		(e.currentTarget as HTMLElement | null)?.setPointerCapture?.(e.pointerId);
+	}
+	function onEditStickerHandleDown(s: PlacedSticker, handle: 'rotate' | 'resize', e: PointerEvent) {
+		if (!s.id) return;
+		editSelectedId = s.id;
+		stickerDrag = { kind: handle, id: s.id, pointerId: e.pointerId };
+		(e.currentTarget as HTMLElement | null)?.setPointerCapture?.(e.pointerId);
+	}
+	function onEditMove(e: PointerEvent) {
+		const d = stickerDrag;
+		if (!d || e.pointerId !== d.pointerId || !editEl) return;
+		const r = editEl.getBoundingClientRect();
+		if (d.kind === 'move') {
+			const x = Math.min(1.02, Math.max(-0.14, (e.clientX - r.left) / r.width));
+			const y = Math.min(0.96, Math.max(-0.1, (e.clientY - r.top) / r.height));
+			editPlaced = editPlaced.map((p) => (p.id === d.id ? { ...p, x, y } : p));
+			return;
+		}
+		const p = editPlaced.find((q) => q.id === d.id);
+		if (!p) return;
+		const cx = r.left + p.x * r.width;
+		const cy = r.top + p.y * r.height;
+		if (d.kind === 'rotate') {
+			const screenAngle = (Math.atan2(e.clientY - cy, e.clientX - cx) * 180) / Math.PI;
+			const raw = screenAngle + 90 - stickerRotation(d.id);
+			const rotation = ((((raw + 180) % 360) + 360) % 360) - 180;
+			editPlaced = editPlaced.map((q) => (q.id === d.id ? { ...q, rotation } : q));
+		} else {
+			const baseRadius = r.width * STICKER_BASE_RADIUS_FRAC;
+			const scale = Math.min(
+				3,
+				Math.max(0.25, Math.hypot(e.clientX - cx, e.clientY - cy) / baseRadius)
+			);
+			editPlaced = editPlaced.map((q) => (q.id === d.id ? { ...q, scale } : q));
+		}
+	}
+	function onEditUp() {
+		stickerDrag = null;
+	}
+	function onEditFaceDown() {
+		editSelectedId = null;
+	}
 </script>
+
+<svelte:window onpointermove={onEditMove} onpointerup={onEditUp} onpointercancel={onEditUp} />
 
 <svelte:head><title>Card gallery · dev</title></svelte:head>
 
@@ -116,11 +180,15 @@
 <p class="text-xs text-faint">
 	Look controls float right on the card; drag the photo to pan, use the +/− to zoom.
 </p>
-<section class="mx-auto mt-4 max-w-[228px]" data-shot="editable">
+<section class="mx-auto mt-4 max-w-[228px]" bind:this={editEl} data-shot="editable">
 	<Card
-		view={editView}
+		view={editViewFull}
 		{catalog}
 		editable
+		selectedId={editSelectedId}
+		onstickerdown={onEditStickerDown}
+		onstickerhandledown={onEditStickerHandleDown}
+		onfacedown={onEditFaceDown}
 		onframestep={(dir) => (editStyle.frame = stepIn(FRAME_KEYS, editStyle.frame, dir))}
 		onbgstep={(dir) => (editStyle.bg = stepIn(BG_KEYS, editStyle.bg, dir))}
 		oncornersstep={(dir) => (editStyle.shape = stepIn(SHAPES, editStyle.shape, dir))}

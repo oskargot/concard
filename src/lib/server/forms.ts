@@ -29,6 +29,11 @@ export function isHttpUrl(value: string): boolean {
 export const IMAGE_TYPES = new Set(['image/png', 'image/jpeg', 'image/webp', 'image/gif']);
 export const IMAGE_MAX_BYTES = 5 * 1024 * 1024;
 
+// Sticker art needs real alpha transparency for the on-card die-cut effect to
+// trace, which rules out jpeg/gif.
+export const STICKER_IMAGE_TYPES = new Set(['image/png', 'image/webp']);
+export const STICKER_IMAGE_MAX_BYTES = 2 * 1024 * 1024;
+
 export function imageExt(type: string): string {
 	return (
 		{ 'image/png': 'png', 'image/jpeg': 'jpg', 'image/webp': 'webp', 'image/gif': 'gif' }[type] ??
