@@ -664,6 +664,12 @@
 		transform-origin: center;
 		--rim: #fbf9f3;
 		--rim-w: 0.7cqw;
+		/* the 8 diagonal offsets below, at cos/sin 30°: with the 4 cardinal
+		   offsets that makes 12 evenly-spaced copies instead of 4, so the rim
+		   traces an actual round dilation instead of a diamond that notches
+		   sharp points (a star's, say) into a little blunt double-bump. */
+		--rim-a: calc(var(--rim-w) * 0.866);
+		--rim-b: calc(var(--rim-w) * 0.5);
 	}
 	.cut {
 		width: 100%;
@@ -672,11 +678,19 @@
 		place-items: center;
 		font-size: 11cqw;
 		line-height: 1;
-		/* four hard shadows trace the paper rim around the alpha; a soft dark edge
+		/* 12 hard shadows trace the paper rim around the alpha; a soft dark edge
 		   keeps pale stickers legible on pale cards; the last one lifts it off the card */
 		filter: drop-shadow(var(--rim-w) 0 0 var(--rim))
 			drop-shadow(calc(-1 * var(--rim-w)) 0 0 var(--rim)) drop-shadow(0 var(--rim-w) 0 var(--rim))
 			drop-shadow(0 calc(-1 * var(--rim-w)) 0 var(--rim))
+			drop-shadow(var(--rim-a) var(--rim-b) 0 var(--rim))
+			drop-shadow(calc(-1 * var(--rim-a)) var(--rim-b) 0 var(--rim))
+			drop-shadow(var(--rim-a) calc(-1 * var(--rim-b)) 0 var(--rim))
+			drop-shadow(calc(-1 * var(--rim-a)) calc(-1 * var(--rim-b)) 0 var(--rim))
+			drop-shadow(var(--rim-b) var(--rim-a) 0 var(--rim))
+			drop-shadow(calc(-1 * var(--rim-b)) var(--rim-a) 0 var(--rim))
+			drop-shadow(var(--rim-b) calc(-1 * var(--rim-a)) 0 var(--rim))
+			drop-shadow(calc(-1 * var(--rim-b)) calc(-1 * var(--rim-a)) 0 var(--rim))
 			drop-shadow(0 0 0.25cqw rgb(23 22 27 / 0.45)) drop-shadow(0 1cqw 1.6cqw rgb(23 22 27 / 0.3));
 	}
 	.cut :global(img) {
