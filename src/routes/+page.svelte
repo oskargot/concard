@@ -72,8 +72,16 @@
 				{#snippet front(t)}
 					<Card {view} {catalog} rx={t.rx} ry={t.ry} dragging={t.dragging} />
 				{/snippet}
-				{#snippet back()}
-					<CardBack variant="qr" {style} qrSvg={data.qr} url={data.link} />
+				{#snippet back(t)}
+					<CardBack
+						variant="qr"
+						{style}
+						qrSvg={data.qr}
+						url={data.link}
+						rx={t.rx}
+						ry={t.ry}
+						dragging={t.dragging}
+					/>
 				{/snippet}
 			</FlipCard>
 		</div>

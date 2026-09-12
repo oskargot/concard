@@ -72,8 +72,11 @@
 				ry={t.ry}
 				dragging={t.dragging}
 			/>{/snippet}
-		{#snippet back()}<CardBack
+		{#snippet back(t)}<CardBack
 				variant="qr"
+				rx={t.rx}
+				ry={t.ry}
+				dragging={t.dragging}
 				style={hero}
 				url="concard.me/oskar"
 				qrSvg="<svg viewBox='0 0 21 21' xmlns='http://www.w3.org/2000/svg'><rect width='21' height='21' fill='#fff'/><path fill='#111' d='M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM14 0h7v7h-7zM15 1v5h5V1zM16 2h3v3h-3zM0 14h7v7H0zM1 15v5h5v-5zM2 16h3v3H2zM9 0h1v1H9zM11 0h1v2h-1zM9 2h2v1H9zM12 3h1v1h-1zM9 4h1v2H9zM11 5h2v1h-2zM0 9h1v1H0zM2 9h2v1H2zM5 9h1v2H5zM7 8h1v1H7zM9 8h2v1H9zM12 8h1v2h-1zM14 9h1v1h-1zM16 8h2v1h-2zM19 9h2v1h-2zM1 11h1v2H1zM3 12h2v1H3zM7 11h1v1H7zM9 11h1v2H9zM11 11h2v1h-2zM14 11h1v2h-1zM16 12h1v1h-1zM18 11h1v1h-1zM20 12h1v1h-1zM9 14h2v1H9zM12 14h1v2h-1zM14 14h2v2h-2zM17 14h1v1h-1zM19 14h2v1h-2zM9 16h1v1H9zM11 17h1v1h-1zM13 17h2v1h-2zM16 16h1v2h-1zM18 16h1v1h-1zM20 17h1v2h-1zM9 19h1v2H9zM11 19h2v1h-2zM14 19h1v2h-1zM16 19h2v1h-2zM19 20h1v1h-1z'/></svg>"
