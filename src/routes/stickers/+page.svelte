@@ -11,12 +11,16 @@
 		key: string;
 		sticker_id: string;
 		foil: StickerFoil;
+		/** On one of the user's cards right now — combine_stickers() won't spend
+		 *  it until it's taken off, so it can't be selected here either. */
+		inUse: boolean;
 	}
 
 	/**
 	 * One tile per copy owned, duplicates included — a real sticker sheet, not
-	 * a deduped list. Tapping two tiles of the same sticker at the same tier
-	 * offers to combine them into the next one up.
+	 * a deduped list. Tapping two spare tiles of the same sticker at the same
+	 * tier offers to combine them into the next one up; copies currently
+	 * decorating a card are shown but not selectable.
 	 */
 	const tiles = $derived(
 		data.inventory
@@ -25,10 +29,13 @@
 			.sort((a, b) => (a.sticker?.sort_order ?? 0) - (b.sticker?.sort_order ?? 0))
 			.flatMap(({ row }): Tile[] => {
 				const foil = normalizeFoil(row.foil);
+				const placed = data.placedCount[`${row.sticker_id}:${foil}`] ?? 0;
+				const spare = Math.max(0, row.quantity - placed);
 				return Array.from({ length: row.quantity }, (_, i) => ({
 					key: `${row.sticker_id}-${foil}-${i}`,
 					sticker_id: row.sticker_id,
-					foil
+					foil,
+					inUse: i >= spare
 				}));
 			})
 	);
@@ -38,6 +45,7 @@
 	let error = $state('');
 
 	function toggle(tile: Tile) {
+		if (tile.inUse) return;
 		error = '';
 		if (selected.some((t) => t.key === tile.key)) {
 			selected = selected.filter((t) => t.key !== tile.key);
@@ -98,9 +106,9 @@
 					{sticker}
 					foil={t.foil}
 					selected={isSelected}
-					disabled={combining}
+					disabled={combining || t.inUse}
 					title={sticker
-						? `${sticker.name} · ${RARITY_LABEL[sticker.rarity]}${t.foil !== 'none' ? ` · ${FOIL_LABEL[t.foil]}` : ''}`
+						? `${sticker.name} · ${RARITY_LABEL[sticker.rarity]}${t.foil !== 'none' ? ` · ${FOIL_LABEL[t.foil]}` : ''}${t.inUse ? ' · On a card' : ''}`
 						: undefined}
 					onclick={() => toggle(t)}
 				/>
@@ -128,7 +136,8 @@
 		</div>
 	{:else}
 		<p class="mt-4 text-center text-xs text-faint">
-			Tap two of the same sticker to combine them into glitter, then holo.
+			Tap two spare copies of the same sticker to combine them into glitter, then holo. A dimmed
+			copy is on one of your cards — remove it there first.
 		</p>
 	{/if}
 {/if}

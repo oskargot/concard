@@ -21,8 +21,8 @@
 </script>
 
 <button type="button" class="tile foil-{foil}" class:selected {disabled} {onclick} {title}>
-	<FoilFx {foil} shape="panel" />
 	<span class="glyph"><StickerGlyph {sticker} label={false} /></span>
+	<FoilFx {foil} {sticker} />
 </button>
 
 <style>
@@ -45,6 +45,7 @@
 	}
 	.tile:disabled {
 		cursor: default;
+		opacity: 0.45;
 	}
 	.foil-glitter {
 		border-color: color-mix(in srgb, var(--color-holo) 55%, var(--color-line));
