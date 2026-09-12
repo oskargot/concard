@@ -35,17 +35,34 @@ browse binder → edit profile links.
 
 Out of v1: events, chat, friends, purchases, native apps.
 
+## The card
+
+`src/lib/components/CardShell.svelte` draws the frame band, inset face,
+silhouette clip and the three effect layers (holo wash, specular, edge) from a
+`CardStyle`. `Card.svelte` puts the face content and the sticker overlay in
+it; `CardBack.svelte` puts the QR or the collector's record in it.
+`FlipCard.svelte` owns pointer tilt and tap-to-flip and passes `rx`/`ry` down
+so the light can never desync from the card. Tokens live in
+`src/lib/card-style.ts`. Everything is sized in `cqw` off the container, and
+below 180px the card drops its bio and chips so binder thumbnails stay legible.
+
+`/dev/cards` is a dev-server-only gallery of every combination on fixture data.
+
 ## Data model
 
-See `supabase/migrations/20260911000000_init.sql`; it's commented. Summary:
+See the migrations in `supabase/migrations/`; they're commented. Summary:
 
 ```
 profiles ──< cards ──< sticker_placements >── stickers
-   │  └ active_card_id ─┘                        │
+   │  └ active_card_id ─┘   └ affiliation ──> fandoms
    ├──< sticker_inventory ───────────────────────┘
    └──< collections (collector_id, owner_id, card_snapshot jsonb, bonus_sticker_id)
-card_templates, reserved_usernames
+reserved_usernames
 ```
+
+Snapshots are versioned. `collect_card()` writes version 2 (style, fandom,
+owner links, stickers). `snapshotToView` maps version 1 rows forward to the
+default look so old binders keep working and never change appearance twice.
 
 Everything is behind row-level security:
 
@@ -76,5 +93,7 @@ Everything is behind row-level security:
   underneath.)
 - Sticker rarity weighting for the bonus pick: uniform over placed stickers
   for now. Weight by rarity later?
+- Fandom list: eight curated to start. User-suggestable brings moderation.
+- Should the holo frame be earned rather than picked? It is visibly the best.
 - Rate limiting account creation to stop sticker farming via alt accounts.
 - Card art moderation / reporting before launch.

@@ -3,15 +3,18 @@
 	import Card from '$lib/components/Card.svelte';
 	import CardBack from '$lib/components/CardBack.svelte';
 	import FlipCard from '$lib/components/FlipCard.svelte';
-	import { cardToView, catalogFrom } from '$lib/card';
-	import type { CardColors } from '$lib/types';
+	import { cardToView, catalogFrom, fandomMap } from '$lib/card';
+	import { normalizeStyle } from '$lib/card-style';
 
 	let { data, form } = $props();
 
 	const catalog = $derived(catalogFrom(data.stickers));
+	const fandoms = $derived(fandomMap(data.fandoms));
 	const active = $derived(data.cards.find((c) => c.id === data.profile.active_card_id));
-	const activeView = $derived(active ? cardToView(active, data.placements) : null);
-	const template = $derived(data.templates.find((t) => t.id === active?.template_id));
+	const activeView = $derived(
+		active ? cardToView(active, data.profile, data.placements, fandoms) : null
+	);
+	const prettyLink = $derived(data.link.replace(/^https?:\/\//, ''));
 
 	let flipped = $state(false);
 	let copied = $state(false);
@@ -38,7 +41,7 @@
 	<div>
 		<h1 class="text-2xl font-black tracking-tight">{data.profile.display_name}</h1>
 		<a class="text-sm text-white/60 hover:text-white" href="/{data.profile.username}"
-			>concard.me/{data.profile.username}</a
+			>{prettyLink}</a
 		>
 	</div>
 	<a href="/me/edit" class="btn-secondary">Edit profile</a>
@@ -48,20 +51,25 @@
 	{#if active && activeView}
 		<div class="mx-auto max-w-[320px]">
 			<FlipCard bind:flipped label={flipped ? 'Show card front' : 'Show QR code'}>
-				{#snippet front()}<Card view={activeView} {template} {catalog} />{/snippet}
+				{#snippet front(t)}<Card
+						view={activeView}
+						{catalog}
+						rx={t.rx}
+						ry={t.ry}
+						dragging={t.dragging}
+					/>{/snippet}
 				{#snippet back()}
 					<CardBack
 						variant="qr"
-						colors={(active.colors ?? {}) as CardColors}
-						{template}
+						style={normalizeStyle(active.style)}
 						qrSvg={data.qr}
-						username={data.profile.username}
+						url={prettyLink}
 					/>
 				{/snippet}
 			</FlipCard>
 		</div>
 		<p class="mt-3 text-center text-xs text-white/50">
-			Tap the card to {flipped ? 'see the front' : 'show your QR code'}
+			Drag to tilt. Tap to {flipped ? 'see the front' : 'show your QR code'}.
 		</p>
 		<div class="mt-4 flex justify-center gap-2">
 			<button class="btn-primary" type="button" onclick={() => (flipped = !flipped)}>
@@ -104,14 +112,13 @@
 			</form>
 		</div>
 		{#if form?.error}<p class="mt-2 text-sm text-rose-300" role="alert">{form.error}</p>{/if}
-		<ul class="mt-3 grid grid-cols-3 gap-3">
+		<ul class="mt-3 grid grid-cols-3 gap-4">
 			{#each data.cards as card (card.id)}
 				{@const isActive = card.id === data.profile.active_card_id}
 				<li class="flex flex-col gap-2">
 					<a href="/me/cards/{card.id}" class="block" aria-label="Edit {card.title}">
 						<Card
-							view={cardToView(card, isActive ? data.placements : [])}
-							template={data.templates.find((t) => t.id === card.template_id)}
+							view={cardToView(card, data.profile, isActive ? data.placements : [], fandoms)}
 							{catalog}
 						/>
 					</a>

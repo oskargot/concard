@@ -40,12 +40,13 @@ export interface Database {
 				};
 				Relationships: [];
 			};
-			card_templates: {
+			fandoms: {
 				Row: {
 					id: string;
 					name: string;
-					description: string;
-					config: Json;
+					mark: string;
+					color_a: string;
+					color_b: string;
 					sort_order: number;
 					is_active: boolean;
 				};
@@ -57,32 +58,29 @@ export interface Database {
 				Row: {
 					id: string;
 					owner_id: string;
-					template_id: string;
 					title: string;
-					subtitle: string;
-					flavor_text: string;
+					bio: string;
 					art_url: string | null;
-					colors: Json;
+					style: Json;
+					affiliation: string | null;
 					created_at: string;
 					updated_at: string;
 				};
 				Insert: {
 					id?: string;
 					owner_id: string;
-					template_id: string;
 					title: string;
-					subtitle?: string;
-					flavor_text?: string;
+					bio?: string;
 					art_url?: string | null;
-					colors?: Json;
+					style?: Json;
+					affiliation?: string | null;
 				};
 				Update: {
-					template_id?: string;
 					title?: string;
-					subtitle?: string;
-					flavor_text?: string;
+					bio?: string;
 					art_url?: string | null;
-					colors?: Json;
+					style?: Json;
+					affiliation?: string | null;
 				};
 				Relationships: [];
 			};

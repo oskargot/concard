@@ -1,42 +1,121 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { onMount } from 'svelte';
+
+	export interface Tilt {
+		rx: number;
+		ry: number;
+		dragging: boolean;
+	}
 
 	interface Props {
-		front: Snippet;
-		back: Snippet;
+		front: Snippet<[Tilt]>;
+		back?: Snippet<[Tilt]>;
 		flipped?: boolean;
+		/** Tap to flip. When false the card still tilts but never turns over. */
+		canFlip?: boolean;
 		label?: string;
 	}
 
-	let { front, back, flipped = $bindable(false), label = 'Flip card' }: Props = $props();
+	let { front, back, flipped = $bindable(false), canFlip = true, label = 'Card' }: Props = $props();
+
+	let rx = $state(0);
+	let ry = $state(0);
+	let dragging = $state(false);
+	let reduceMotion = $state(false);
+
+	const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
+	const TAP_THRESHOLD_PX = 9;
+
+	let start: { x: number; y: number; id: number } | null = null;
+	let moved = 0;
+
+	onMount(() => {
+		const mq = matchMedia('(prefers-reduced-motion: reduce)');
+		reduceMotion = mq.matches;
+		const onChange = () => (reduceMotion = mq.matches);
+		mq.addEventListener('change', onChange);
+		return () => mq.removeEventListener('change', onChange);
+	});
+
+	function down(e: PointerEvent) {
+		if (e.pointerType === 'mouse' && e.button !== 0) return;
+		start = { x: e.clientX, y: e.clientY, id: e.pointerId };
+		moved = 0;
+		dragging = true;
+		// capture so a drag that leaves the card still tracks
+		(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
+	}
+	function move(e: PointerEvent) {
+		if (!start || e.pointerId !== start.id) return;
+		const dx = e.clientX - start.x;
+		const dy = e.clientY - start.y;
+		moved = Math.max(moved, Math.hypot(dx, dy));
+		if (reduceMotion) return;
+		ry = clamp(dx / 5, -22, 22);
+		rx = clamp(-dy / 6, -18, 18);
+	}
+	function up(e: PointerEvent) {
+		if (!start || e.pointerId !== start.id) return;
+		const tap = moved < TAP_THRESHOLD_PX;
+		start = null;
+		dragging = false;
+		rx = 0;
+		ry = 0;
+		if (tap && canFlip) flipped = !flipped;
+	}
+	function key(e: KeyboardEvent) {
+		if (!canFlip) return;
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			flipped = !flipped;
+		}
+	}
+
+	const transform = $derived(`rotateY(${flipped ? 180 + ry : ry}deg) rotateX(${rx}deg)`);
 </script>
 
-<button
-	type="button"
+<!-- role is 'button' whenever tabindex is set; the checker can't see the pairing -->
+<!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+<div
 	class="flip"
-	class:flipped
-	aria-label={label}
-	aria-pressed={flipped}
-	onclick={() => (flipped = !flipped)}
+	class:dragging
+	class:reduce={reduceMotion}
+	role={canFlip ? 'button' : 'presentation'}
+	tabindex={canFlip ? 0 : undefined}
+	aria-pressed={canFlip ? flipped : undefined}
+	aria-label={canFlip ? label : undefined}
+	onpointerdown={down}
+	onpointermove={move}
+	onpointerup={up}
+	onpointercancel={up}
+	onkeydown={key}
 >
-	<div class="inner">
-		<div class="side front">{@render front()}</div>
-		<div class="side back">{@render back()}</div>
+	<div class="inner" style="transform: {transform}">
+		<div class="side front">{@render front({ rx, ry, dragging })}</div>
+		{#if back}
+			<div class="side back">{@render back({ rx, ry, dragging })}</div>
+		{/if}
 	</div>
-</button>
+</div>
 
 <style>
 	.flip {
-		all: unset;
 		display: block;
 		width: 100%;
 		perspective: 1600px;
 		cursor: pointer;
+		touch-action: none;
 		-webkit-tap-highlight-color: transparent;
+		user-select: none;
+		-webkit-user-select: none;
+	}
+	.flip[role='presentation'] {
+		cursor: grab;
 	}
 	.flip:focus-visible {
 		outline: 3px solid var(--color-accent, #f59e0b);
-		outline-offset: 6px;
+		outline-offset: 8px;
 		border-radius: 12px;
 	}
 	.inner {
@@ -44,10 +123,10 @@
 		width: 100%;
 		aspect-ratio: 5 / 7;
 		transform-style: preserve-3d;
-		transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+		transition: transform 0.6s cubic-bezier(0.4, 0.1, 0.2, 1);
 	}
-	.flipped .inner {
-		transform: rotateY(180deg);
+	.dragging .inner {
+		transition: transform 0.08s linear;
 	}
 	.side {
 		position: absolute;
@@ -57,6 +136,9 @@
 	}
 	.back {
 		transform: rotateY(180deg);
+	}
+	.reduce .inner {
+		transition: none;
 	}
 	@media (prefers-reduced-motion: reduce) {
 		.inner {

@@ -48,13 +48,28 @@ end $$;
 -- supabase-js's .insert().select() is INSERT ... RETURNING, which also runs the
 -- SELECT policy against the brand-new row, so test that path explicitly.
 do $$ declare v uuid; begin
-  insert into public.cards (id, owner_id, template_id, title, subtitle)
-  values ('10000000-0000-0000-0000-000000000001', auth.uid(), 'classic', 'Alice the Bold', 'Cosplayer')
+  insert into public.cards (id, owner_id, title, bio, style, affiliation)
+  values ('10000000-0000-0000-0000-000000000001', auth.uid(), 'Alice the Bold', 'Cosplayer, sewist, tea person.',
+          '{"frame":"gold","bg":"mint","shape":"shaved","photo_shape":"arch"}', 'anime')
   returning id into v;
   if v is null then raise exception 'insert returning gave no id'; end if;
 end $$;
-insert into public.cards (id, owner_id, template_id, title)
-values ('10000000-0000-0000-0000-000000000002', auth.uid(), 'holo', 'Alice, Holo Edition');
+insert into public.cards (id, owner_id, title)
+values ('10000000-0000-0000-0000-000000000002', auth.uid(), 'Alice, Holo Edition');
+
+-- style enums are validated
+do $$ begin
+  begin
+    insert into public.cards (owner_id, title, style) values (auth.uid(), 'bad', '{"frame":"plaid"}');
+    raise exception 'invalid style accepted';
+  exception when check_violation then null;
+  end;
+  begin
+    insert into public.cards (owner_id, title, affiliation) values (auth.uid(), 'bad', 'not_a_fandom');
+    raise exception 'unknown fandom accepted';
+  exception when foreign_key_violation then null;
+  end;
+end $$;
 
 do $$ declare v uuid; begin
   select active_card_id into v from public.profiles where id = auth.uid();
@@ -77,8 +92,17 @@ do $$ declare v uuid; begin
   returning id into v;
   if v is null then raise exception 'placement returning gave no id'; end if;
 end $$;
+-- stickers may hang over the edge a little, but not fly away
 insert into public.sticker_placements (card_id, sticker_id, x, y) values
-  ('10000000-0000-0000-0000-000000000001', 'star', 0.8, 0.2);
+  ('10000000-0000-0000-0000-000000000001', 'star', 1.01, -0.05);
+do $$ begin
+  begin
+    insert into public.sticker_placements (card_id, sticker_id, x, y)
+    values ('10000000-0000-0000-0000-000000000001', 'heart', 1.5, 0.5);
+    raise exception 'placement far outside the card accepted';
+  exception when check_violation then null;
+  end;
+end $$;
 do $$ begin
   begin
     insert into public.sticker_placements (card_id, sticker_id, x, y)
@@ -147,6 +171,10 @@ do $$ declare r jsonb; n int; begin
   r := public.collect_card('Alice_01');
   if r->>'bonus_sticker_id' <> 'star' then raise exception 'expected bonus star, got %', r->>'bonus_sticker_id'; end if;
   if (r->'card_snapshot'->>'title') <> 'Alice the Bold' then raise exception 'snapshot title wrong'; end if;
+  if (r->'card_snapshot'->>'version')::int <> 2 then raise exception 'snapshot should be version 2'; end if;
+  if (r->'card_snapshot'->'style'->>'frame') <> 'gold' then raise exception 'snapshot style wrong'; end if;
+  if (r->'card_snapshot'->'affiliation'->>'mark') <> 'ANI' then raise exception 'snapshot affiliation wrong'; end if;
+  if jsonb_array_length(r->'card_snapshot'->'links') <> 1 then raise exception 'snapshot should carry owner links'; end if;
   if jsonb_array_length(r->'card_snapshot'->'stickers') <> 2 then raise exception 'snapshot should carry 2 stickers'; end if;
   if (r->'card_snapshot'->'owner'->>'username') <> 'alice_01' then raise exception 'snapshot owner wrong'; end if;
   select quantity into n from public.sticker_inventory where owner_id = auth.uid() and sticker_id = 'star';
@@ -188,6 +216,7 @@ set local request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000b';
 do $$ declare r jsonb; begin
   r := public.collect_card('alice_01');
   if (r->'card_snapshot'->>'title') <> 'Alice, Holo Edition' then raise exception 'second collect should snapshot the new card'; end if;
+  if jsonb_typeof(r->'card_snapshot'->'affiliation') <> 'null' then raise exception 'card without fandom should snapshot null affiliation'; end if;
   if r->>'bonus_sticker_id' is not null then raise exception 'card without stickers should give no bonus'; end if;
 end $$;
 
@@ -213,7 +242,7 @@ set local role anon;
 set local request.jwt.claim.sub = '';
 do $$ declare n int; begin
   select count(*) into n from public.profiles; if n <> 3 then raise exception 'anon should see 3 profiles'; end if;
-  select count(*) into n from public.card_templates; if n < 1 then raise exception 'anon should see templates'; end if;
+  select count(*) into n from public.fandoms; if n < 1 then raise exception 'anon should see fandoms'; end if;
   select count(*) into n from public.cards; if n <> 1 then raise exception 'anon should see only displayed cards, saw %', n; end if;
   select count(*) into n from public.collections; if n <> 0 then raise exception 'anon should see no collections'; end if;
   -- alice now displays her second card, which has no stickers; card 1's stickers must be hidden

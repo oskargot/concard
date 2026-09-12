@@ -3,19 +3,18 @@
 	import { enhance } from '$app/forms';
 	import { page } from '$app/state';
 	import Card from '$lib/components/Card.svelte';
+	import FlipCard from '$lib/components/FlipCard.svelte';
 	import StickerGlyph from '$lib/components/StickerGlyph.svelte';
-	import { cardToView, catalogFrom } from '$lib/card';
+	import { cardToView, catalogFrom, fandomMap, readLinks } from '$lib/card';
 	import { formatRetryIn } from '$lib/collect';
-	import type { ProfileLink } from '$lib/types';
 
 	let { data, form } = $props();
 
 	const catalog = $derived(catalogFrom(data.stickers));
-	const view = $derived(data.card ? cardToView(data.card, data.placements) : null);
-	const template = $derived(data.templates.find((t) => t.id === data.card?.template_id));
-	const links = $derived(
-		((data.profile.links as ProfileLink[] | null) ?? []).filter((l) => l?.url)
+	const view = $derived(
+		data.card ? cardToView(data.card, data.profile, data.placements, fandomMap(data.fandoms)) : null
 	);
+	const links = $derived(readLinks(data.profile.links));
 	const bonus = $derived(form?.bonusStickerId ? catalog.get(form.bonusStickerId) : undefined);
 
 	const retryAt = $derived(form?.retryAt ?? data.cooldownUntil);
@@ -62,7 +61,15 @@
 
 <section class="mx-auto mt-5 max-w-[320px]">
 	{#if view}
-		<Card {view} {template} {catalog} />
+		<FlipCard canFlip={false}>
+			{#snippet front(t)}<Card
+					{view}
+					{catalog}
+					rx={t.rx}
+					ry={t.ry}
+					dragging={t.dragging}
+				/>{/snippet}
+		</FlipCard>
 	{:else}
 		<div class="panel text-center text-white/60">No card on display yet.</div>
 	{/if}

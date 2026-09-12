@@ -1,5 +1,7 @@
 import { error, fail, redirect } from '@sveltejs/kit';
-import { hexColor, IMAGE_MAX_BYTES, IMAGE_TYPES, imageExt, str } from '$lib/server/forms';
+import { normalizeStyle } from '$lib/card-style';
+import type { Json } from '$lib/supabase/types';
+import { IMAGE_MAX_BYTES, IMAGE_TYPES, imageExt, str } from '$lib/server/forms';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
@@ -14,8 +16,8 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		.maybeSingle();
 	if (!card) error(404, 'Card not found');
 
-	const [templates, stickers, inventory, placements, myCards] = await Promise.all([
-		supabase.from('card_templates').select('*').eq('is_active', true).order('sort_order'),
+	const [fandoms, stickers, inventory, placements, myCards] = await Promise.all([
+		supabase.from('fandoms').select('*').eq('is_active', true).order('sort_order'),
 		supabase.from('stickers').select('*').eq('is_active', true).order('sort_order'),
 		supabase.from('sticker_inventory').select('*').eq('owner_id', uid),
 		supabase.from('sticker_placements').select('*').eq('card_id', card.id).order('z_index'),
@@ -43,7 +45,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	return {
 		card,
 		isActive: locals.profile!.active_card_id === card.id,
-		templates: templates.data ?? [],
+		fandoms: fandoms.data ?? [],
 		stickers: stickers.data ?? [],
 		placements: placements.data ?? [],
 		available
@@ -67,21 +69,29 @@ export const actions: Actions = {
 		const title = str(form, 'title', 40);
 		if (!title) return fail(400, { error: 'Your card needs a name.' });
 
-		const colors: Record<string, string> = {};
-		for (const key of ['primary', 'secondary', 'accent'] as const) {
-			const v = hexColor(form, key);
-			if (v) colors[key] = v;
+		const style = normalizeStyle({
+			frame: str(form, 'frame', 20),
+			bg: str(form, 'bg', 20),
+			shape: str(form, 'shape', 20),
+			photo_shape: str(form, 'photo_shape', 20)
+		});
+
+		const affiliationRaw = str(form, 'affiliation', 40);
+		let affiliation: string | null = null;
+		if (affiliationRaw) {
+			const { data: f } = await locals.supabase
+				.from('fandoms')
+				.select('id')
+				.eq('id', affiliationRaw)
+				.eq('is_active', true)
+				.maybeSingle();
+			if (!f) return fail(400, { error: 'Pick a fandom from the list.' });
+			affiliation = f.id;
 		}
 
 		const { error: err } = await locals.supabase
 			.from('cards')
-			.update({
-				title,
-				subtitle: str(form, 'subtitle', 60),
-				flavor_text: str(form, 'flavor_text', 200),
-				template_id: str(form, 'template_id', 40) || 'classic',
-				colors
-			})
+			.update({ title, bio: str(form, 'bio', 200), style: style as unknown as Json, affiliation })
 			.eq('id', params.id);
 		if (err) return fail(400, { error: err.hint ?? err.message });
 		return { saved: true };

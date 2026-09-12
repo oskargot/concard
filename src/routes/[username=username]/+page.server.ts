@@ -13,11 +13,11 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		.maybeSingle();
 	if (!profile) error(404, 'No one has that username');
 
-	const [card, templates, stickers] = await Promise.all([
+	const [card, fandoms, stickers] = await Promise.all([
 		profile.active_card_id
 			? supabase.from('cards').select('*').eq('id', profile.active_card_id).maybeSingle()
 			: Promise.resolve({ data: null }),
-		supabase.from('card_templates').select('*'),
+		supabase.from('fandoms').select('*'),
 		supabase.from('stickers').select('*')
 	]);
 
@@ -58,7 +58,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		profile,
 		card: card.data,
 		placements,
-		templates: templates.data ?? [],
+		fandoms: fandoms.data ?? [],
 		stickers: stickers.data ?? [],
 		isOwner,
 		cooldownUntil,

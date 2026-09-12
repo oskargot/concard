@@ -3,37 +3,49 @@
 	import { invalidateAll } from '$app/navigation';
 	import Card from '$lib/components/Card.svelte';
 	import StickerGlyph from '$lib/components/StickerGlyph.svelte';
-	import { catalogFrom, placementToPlaced, RARITY_LABEL, templateConfig } from '$lib/card';
-	import type { CardColors, CardView, PlacedSticker } from '$lib/types';
+	import {
+		catalogFrom,
+		fandomMap,
+		fandomToAffiliation,
+		placementToPlaced,
+		RARITY_LABEL,
+		readLinks
+	} from '$lib/card';
+	import {
+		BG_KEYS,
+		BG_LABEL,
+		BGS,
+		FRAME_KEYS,
+		FRAME_LABEL,
+		FRAMES,
+		normalizeStyle,
+		PHOTO_SHAPE_LABEL,
+		PHOTO_SHAPES,
+		SHAPE_LABEL,
+		SHAPES,
+		STICKER_X_RANGE,
+		STICKER_Y_RANGE,
+		type CardStyle
+	} from '$lib/card-style';
+	import type { CardView, PlacedSticker } from '$lib/types';
 
 	type PlacementPatch = Partial<Pick<PlacedSticker, 'x' | 'y' | 'rotation' | 'scale' | 'z_index'>>;
 
 	let { data, form } = $props();
 
 	const catalog = $derived(catalogFrom(data.stickers));
+	const fandoms = $derived(fandomMap(data.fandoms));
 
-	// ---- text / template / colours (form-driven, previewed live) ----
+	// ---- text / look (form-driven, previewed live) ----
 	// Seeded once from the server; later invalidations must not clobber edits in progress.
 	// svelte-ignore state_referenced_locally
 	let title = $state(data.card.title);
 	// svelte-ignore state_referenced_locally
-	let subtitle = $state(data.card.subtitle);
+	let bio = $state(data.card.bio);
 	// svelte-ignore state_referenced_locally
-	let flavor = $state(data.card.flavor_text);
+	let style = $state<CardStyle>(normalizeStyle(data.card.style));
 	// svelte-ignore state_referenced_locally
-	let templateId = $state(data.card.template_id);
-	const template = $derived(data.templates.find((t) => t.id === templateId));
-	// svelte-ignore state_referenced_locally
-	const savedColors = (data.card.colors ?? {}) as CardColors;
-	// svelte-ignore state_referenced_locally
-	let colors = $state<Required<CardColors>>({
-		...templateConfig(data.templates.find((t) => t.id === data.card.template_id)).defaultColors!,
-		...savedColors
-	});
-
-	function applyTemplateDefaults() {
-		colors = { ...templateConfig(template).defaultColors! };
-	}
+	let affiliation = $state<string>(data.card.affiliation ?? '');
 
 	// ---- stickers (saved directly through the browser client) ----
 	// Server state, but locally reassignable so drags feel instant before the save lands.
@@ -43,23 +55,27 @@
 	const selected = $derived(placed.find((p) => p.id === selectedId) ?? null);
 
 	const view = $derived<CardView>({
-		template_id: templateId,
 		title: title || 'Untitled',
-		subtitle,
-		flavor_text: flavor,
+		handle: data.profile!.username,
+		bio,
 		art_url: data.card.art_url,
-		colors,
+		style,
+		affiliation: fandomToAffiliation(affiliation ? fandoms.get(affiliation) : null),
+		links: readLinks(data.profile!.links),
 		stickers: placed
 	});
 
 	let cardEl: HTMLDivElement | undefined = $state();
 	let drag: { id: string; pointerId: number } | null = null;
 
+	const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
+	const round = (n: number) => Math.round(n * 10000) / 10000;
+
 	function relPos(e: PointerEvent) {
 		const r = cardEl!.getBoundingClientRect();
 		return {
-			x: Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)),
-			y: Math.min(1, Math.max(0, (e.clientY - r.top) / r.height))
+			x: clamp((e.clientX - r.left) / r.width, STICKER_X_RANGE[0], STICKER_X_RANGE[1]),
+			y: clamp((e.clientY - r.top) / r.height, STICKER_Y_RANGE[0], STICKER_Y_RANGE[1])
 		};
 	}
 
@@ -84,7 +100,6 @@
 	function onFaceDown() {
 		selectedId = null;
 	}
-	const round = (n: number) => Math.round(n * 10000) / 10000;
 
 	async function persist(id: string, patch: PlacementPatch) {
 		stickerError = '';
@@ -127,8 +142,6 @@
 		placed = placed.map((p) => (p.id === selected!.id ? { ...p, ...next } : p));
 		await persist(selected.id, next);
 	}
-
-	const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
 </script>
 
 <svelte:head><title>Edit card · concard</title></svelte:head>
@@ -147,10 +160,9 @@
 	{/if}
 </div>
 
-<div class="mx-auto mt-4 max-w-[320px]" bind:this={cardEl}>
+<div class="mx-auto mt-6 max-w-[300px]" bind:this={cardEl}>
 	<Card
 		{view}
-		{template}
 		{catalog}
 		editable
 		{selectedId}
@@ -160,7 +172,7 @@
 </div>
 
 <!-- stickers -->
-<section class="mt-4 panel">
+<section class="mt-8 panel">
 	<div class="flex items-center justify-between">
 		<h2 class="font-bold">Stickers</h2>
 		{#if selected}
@@ -199,8 +211,8 @@
 		{/if}
 	</div>
 	<p class="mt-1 text-xs text-white/50">
-		Tap a sticker below to add it, then drag it around the card. Anyone who collects this card gets
-		a copy of one random sticker from it.
+		Tap a sticker below to add it, then drag it anywhere, even hanging off the edge. Anyone who
+		collects this card gets a copy of one random sticker from it.
 	</p>
 	{#if stickerError}<p class="mt-2 text-sm text-rose-300" role="alert">{stickerError}</p>{/if}
 	<ul class="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-6">
@@ -227,9 +239,9 @@
 	{/if}
 </section>
 
-<!-- art -->
+<!-- photo -->
 <section class="mt-4 panel">
-	<h2 class="font-bold">Art</h2>
+	<h2 class="font-bold">Photo</h2>
 	<form
 		method="POST"
 		action="?/art"
@@ -242,86 +254,111 @@
 	</form>
 	{#if data.card.art_url}
 		<form method="POST" action="?/removeArt" use:enhance class="mt-2">
-			<button class="text-xs text-white/50 hover:text-white">Remove current art</button>
+			<button class="text-xs text-white/50 hover:text-white">Remove current photo</button>
 		</form>
 	{/if}
 </section>
 
-<!-- text, template, colours -->
-<form method="POST" action="?/save" use:enhance class="mt-4 space-y-4 panel">
+<!-- text and look -->
+<form method="POST" action="?/save" use:enhance class="mt-4 space-y-5 panel">
 	<div>
-		<label class="label" for="title">Card name</label>
+		<label class="label" for="title">Name on the card</label>
 		<input id="title" class="field" name="title" maxlength="40" required bind:value={title} />
 	</div>
 	<div>
-		<label class="label" for="subtitle">Type line</label>
-		<input
-			id="subtitle"
-			class="field"
-			name="subtitle"
-			maxlength="60"
-			placeholder="Cosplayer · Artist · Trekkie"
-			bind:value={subtitle}
-		/>
-	</div>
-	<div>
-		<label class="label" for="flavor_text">Flavor text</label>
-		<textarea
-			id="flavor_text"
-			class="field"
-			name="flavor_text"
-			rows="2"
-			maxlength="200"
-			bind:value={flavor}></textarea>
+		<label class="label" for="bio">Bio</label>
+		<textarea id="bio" class="field" name="bio" rows="3" maxlength="200" bind:value={bio}
+		></textarea>
 	</div>
 
 	<fieldset>
-		<legend class="label">Template</legend>
+		<legend class="label">Frame</legend>
 		<div class="grid grid-cols-4 gap-2">
-			{#each data.templates as t (t.id)}
+			{#each FRAME_KEYS as key (key)}
 				<label class="cursor-pointer">
 					<input
 						type="radio"
-						name="template_id"
-						value={t.id}
+						name="frame"
+						value={key}
 						class="peer sr-only"
-						bind:group={templateId}
-						onchange={applyTemplateDefaults}
+						bind:group={style.frame}
 					/>
 					<span
-						class="block rounded-xl border border-white/10 bg-white/5 px-2 py-3 text-center text-xs font-semibold peer-checked:border-amber-400 peer-checked:bg-amber-400/10"
-					>
-						{t.name}
-					</span>
+						class="swatch peer-checked:ring-2 peer-checked:ring-amber-400"
+						style="background: {FRAMES[key]}"
+					></span>
+					<span class="swatch-label">{FRAME_LABEL[key]}</span>
 				</label>
 			{/each}
 		</div>
-		{#if template?.description}<p class="mt-1 text-xs text-white/50">{template.description}</p>{/if}
 	</fieldset>
 
 	<fieldset>
-		<legend class="label">Colours</legend>
-		<div class="grid grid-cols-3 gap-2">
-			{#each ['primary', 'secondary', 'accent'] as const as key (key)}
-				<label class="flex items-center gap-2 rounded-xl bg-white/5 p-2 text-xs capitalize">
-					<input
-						type="color"
-						name={key}
-						class="h-8 w-8 cursor-pointer rounded border-0 bg-transparent p-0"
-						bind:value={colors[key]}
-					/>
-					{key}
+		<legend class="label">Background</legend>
+		<div class="grid grid-cols-6 gap-2">
+			{#each BG_KEYS as key (key)}
+				<label class="cursor-pointer">
+					<input type="radio" name="bg" value={key} class="peer sr-only" bind:group={style.bg} />
+					<span
+						class="swatch peer-checked:ring-2 peer-checked:ring-amber-400"
+						style="background: {BGS[key]}"
+					></span>
+					<span class="swatch-label">{BG_LABEL[key]}</span>
 				</label>
 			{/each}
 		</div>
-		<button
-			type="button"
-			class="mt-2 text-xs text-white/50 hover:text-white"
-			onclick={applyTemplateDefaults}
-		>
-			Reset to template colours
-		</button>
 	</fieldset>
+
+	<div class="grid grid-cols-2 gap-3">
+		<fieldset>
+			<legend class="label">Corners</legend>
+			<div class="flex flex-col gap-1">
+				{#each SHAPES as key (key)}
+					<label class="option">
+						<input
+							type="radio"
+							name="shape"
+							value={key}
+							class="peer sr-only"
+							bind:group={style.shape}
+						/>
+						<span class="pill peer-checked:border-amber-400 peer-checked:bg-amber-400/10"
+							>{SHAPE_LABEL[key]}</span
+						>
+					</label>
+				{/each}
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend class="label">Photo shape</legend>
+			<div class="flex flex-col gap-1">
+				{#each PHOTO_SHAPES as key (key)}
+					<label class="option">
+						<input
+							type="radio"
+							name="photo_shape"
+							value={key}
+							class="peer sr-only"
+							bind:group={style.photo_shape}
+						/>
+						<span class="pill peer-checked:border-amber-400 peer-checked:bg-amber-400/10"
+							>{PHOTO_SHAPE_LABEL[key]}</span
+						>
+					</label>
+				{/each}
+			</div>
+		</fieldset>
+	</div>
+
+	<div>
+		<label class="label" for="affiliation">Fandom badge</label>
+		<select id="affiliation" class="field" name="affiliation" bind:value={affiliation}>
+			<option value="">None</option>
+			{#each data.fandoms as f (f.id)}
+				<option value={f.id}>{f.name}</option>
+			{/each}
+		</select>
+	</div>
 
 	{#if form?.error}<p class="text-sm text-rose-300" role="alert">{form.error}</p>{/if}
 	{#if form?.saved}<p class="text-sm text-emerald-300" role="status">Saved.</p>{/if}
@@ -339,3 +376,32 @@
 >
 	<button class="text-sm text-rose-300/80 hover:text-rose-200">Delete card</button>
 </form>
+
+<style>
+	.swatch {
+		display: block;
+		aspect-ratio: 1;
+		border-radius: 0.75rem;
+		border: 1px solid rgb(255 255 255 / 0.15);
+	}
+	.swatch-label {
+		display: block;
+		margin-top: 0.25rem;
+		text-align: center;
+		font-size: 0.65rem;
+		color: rgb(255 255 255 / 0.6);
+	}
+	.option {
+		display: block;
+		cursor: pointer;
+	}
+	.pill {
+		display: block;
+		border-radius: 0.75rem;
+		border: 1px solid rgb(255 255 255 / 0.1);
+		background: rgb(255 255 255 / 0.05);
+		padding: 0.5rem 0.75rem;
+		font-size: 0.75rem;
+		font-weight: 600;
+	}
+</style>
