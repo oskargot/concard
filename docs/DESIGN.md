@@ -39,9 +39,11 @@ Out of v1: events, chat, friends, purchases, native apps.
 
 `src/lib/components/CardShell.svelte` draws the frame band, inset face,
 silhouette clip and the effect layers from a `CardStyle`: a holo wash, a faint
-smooth specular for volume, a scattered glint layer (a holo tint revealed
-through a mask of foil grain and a sparse sparkle grid, intersected with the
-light spot, drifting with tilt so it twinkles), and an inner edge. `Card.svelte` puts the face content and the sticker overlay in
+smooth specular for volume, a glitter layer (a holo tint revealed
+through a fixed grain texture, only inside the light spot, so the light moves
+over the glitter rather than the glitter moving), and an inner edge. A
+parallax version, where the flecks drift with tilt, was tried and shelved: it
+read as depth rather than surface. It may return for holographic stickers. `Card.svelte` puts the face content and the sticker overlay in
 it; `CardBack.svelte` puts the QR or the collector's record in it.
 `FlipCard.svelte` owns pointer tilt and tap-to-flip and passes `rx`/`ry` down
 so the light can never desync from the card. Tokens live in
@@ -97,5 +99,8 @@ Everything is behind row-level security:
   for now. Weight by rarity later?
 - Fandom list: eight curated to start. User-suggestable brings moderation.
 - Should the holo frame be earned rather than picked? It is visibly the best.
+- Sticker upgrades: collecting duplicates of a sticker could upgrade it to a
+  holographic, parallax-glitter version, making duplicates worth something and
+  giving rarity a visible tier. Later.
 - Rate limiting account creation to stop sticker farming via alt accounts.
 - Card art moderation / reporting before launch.
