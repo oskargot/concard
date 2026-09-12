@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { CardView, PlacedSticker } from '$lib/types';
-	import { STICKER_PAIRS, stickerRotation } from '$lib/card-style';
+	import { stickerRotation } from '$lib/card-style';
 	import type { StickerCatalog } from '$lib/card';
 	import CardShell from './CardShell.svelte';
 	import StickerGlyph from './StickerGlyph.svelte';
@@ -35,11 +35,6 @@
 	const chips = $derived(view.links.slice(0, MAX_CHIPS));
 	const more = $derived(Math.max(0, view.links.length - MAX_CHIPS));
 	const stickers = $derived([...view.stickers].sort((a, b) => a.z_index - b.z_index));
-
-	function discColors(stickerId: string): readonly [string, string] {
-		const rarity = catalog.get(stickerId)?.rarity ?? 'common';
-		return STICKER_PAIRS[rarity];
-	}
 </script>
 
 <CardShell style={view.style} fx {rx} {ry} {dragging} {editable} {onfacedown}>
@@ -82,13 +77,11 @@
 
 	{#snippet overlay()}
 		{#each stickers as s (s.id ?? `${s.sticker_id}-${s.x}-${s.y}`)}
-			{@const [a, b] = discColors(s.sticker_id)}
 			<div
 				class="sticker"
 				class:selected={editable && s.id != null && s.id === selectedId}
 				role={editable ? 'presentation' : undefined}
 				style="left: {s.x * 100}%; top: {s.y * 100}%; z-index: {s.z_index + 1};
-					--a: {a}; --b: {b};
 					transform: translate(-50%, -50%) rotate({s.rotation +
 					stickerRotation(s.id ?? s.sticker_id)}deg) scale({s.scale});"
 				onpointerdown={editable && onstickerdown
@@ -98,7 +91,9 @@
 						}
 					: undefined}
 			>
-				<StickerGlyph sticker={catalog.get(s.sticker_id)} label={false} />
+				<div class="cut">
+					<StickerGlyph sticker={catalog.get(s.sticker_id)} label={false} />
+				</div>
 			</div>
 		{/each}
 	{/snippet}
@@ -285,29 +280,43 @@
 		}
 	}
 
-	/* sticker discs, outside the face clip */
+	/* die-cut stickers, outside the face clip: the image (or emoji glyph) with a
+	   paper-white outline traced around its alpha, like a real vinyl sticker */
 	.sticker {
 		position: absolute;
 		width: 15.33cqw;
 		height: 15.33cqw;
-		border-radius: 50%;
 		display: grid;
 		place-items: center;
-		font-size: 8cqw;
-		background: radial-gradient(circle at 32% 28%, var(--a), var(--b));
-		border: 0.67cqw solid #fbf9f3;
-		box-shadow: 0 1cqw 2.5cqw rgb(23 22 27 / 0.28);
 		transform-origin: center;
+		--rim: #fbf9f3;
+		--rim-w: 0.7cqw;
 	}
-	.sticker :global(img) {
-		width: 70%;
-		height: 70%;
+	.cut {
+		width: 100%;
+		height: 100%;
+		display: grid;
+		place-items: center;
+		font-size: 11cqw;
+		line-height: 1;
+		/* four hard shadows trace the paper rim around the alpha; a soft dark edge
+		   keeps pale stickers legible on pale cards; the last one lifts it off the card */
+		filter: drop-shadow(var(--rim-w) 0 0 var(--rim))
+			drop-shadow(calc(-1 * var(--rim-w)) 0 0 var(--rim)) drop-shadow(0 var(--rim-w) 0 var(--rim))
+			drop-shadow(0 calc(-1 * var(--rim-w)) 0 var(--rim))
+			drop-shadow(0 0 0.25cqw rgb(23 22 27 / 0.45)) drop-shadow(0 1cqw 1.6cqw rgb(23 22 27 / 0.3));
+	}
+	.cut :global(img) {
+		width: 86%;
+		height: 86%;
+		object-fit: contain;
 	}
 	:global(.editable) .sticker {
 		pointer-events: auto;
 		cursor: grab;
 	}
 	.sticker.selected {
-		border: 0.83cqw solid var(--ink, #17161b);
+		--rim: var(--ink, #17161b);
+		--rim-w: 0.85cqw;
 	}
 </style>

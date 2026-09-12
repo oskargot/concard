@@ -14,11 +14,26 @@ export const FRAMES = {
 } as const;
 
 export const BGS = {
+	// pastels
 	paper: '#fbf9f3',
 	mint: '#e7f8f1',
 	sky: '#eaeeff',
 	blush: '#fdeaf3',
 	butter: '#fff5d9',
+	// the spectrum, hue by hue
+	red: '#e8555a',
+	orange: '#f0722a',
+	amber: '#f5b301',
+	lime: '#8fc93a',
+	green: '#2fa36b',
+	teal: '#1f9e8f',
+	cyan: '#2aa6d8',
+	blue: '#3566da',
+	indigo: '#5a4fcf',
+	violet: '#8a4fd6',
+	magenta: '#cd58bd',
+	rose: '#e0527d',
+	// dark
 	slate: '#22202c'
 } as const;
 
@@ -89,18 +104,81 @@ export interface FaceInk {
 	hatchB: string;
 }
 
-/** The four text values and hatch pair, derived from the background token. */
+function hexToRgb(hex: string): [number, number, number] {
+	const h = hex.replace('#', '');
+	return [parseInt(h.slice(0, 2), 16), parseInt(h.slice(2, 4), 16), parseInt(h.slice(4, 6), 16)];
+}
+
+function rgbToHex([r, g, b]: [number, number, number]): string {
+	return (
+		'#' +
+		[r, g, b]
+			.map((v) =>
+				Math.round(Math.min(255, Math.max(0, v)))
+					.toString(16)
+					.padStart(2, '0')
+			)
+			.join('')
+	);
+}
+
+/** WCAG relative luminance, 0 (black) to 1 (white). */
+export function luminance(hex: string): number {
+	const [r, g, b] = hexToRgb(hex).map((v) => {
+		const c = v / 255;
+		return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+	});
+	return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+/** Mix a hex colour toward white (amount > 0) or black (amount < 0). */
+function shade(hex: string, amount: number): string {
+	const target = amount > 0 ? 255 : 0;
+	const t = Math.abs(amount);
+	return rgbToHex(hexToRgb(hex).map((v) => v + (target - v) * t) as [number, number, number]);
+}
+
+/**
+ * The four text values and hatch pair, derived from the background. Light
+ * backgrounds get ink text; anything darker than mid-grey inverts to paper
+ * text, so saturated hues stay readable under either metal.
+ */
 export function inkFor(bg: BgKey): FaceInk {
-	const dark = bg === 'slate';
-	return {
-		dark,
-		ink: dark ? '#f2efe6' : '#17161b',
-		mute: dark ? '#a9a4b8' : '#5f5a50',
-		body: dark ? '#ded9e6' : '#3b382f',
-		wash: dark ? 'rgb(255 255 255 / 0.07)' : 'rgb(255 255 255 / 0.55)',
-		hatchA: dark ? '#2b2937' : '#e9e5d8',
-		hatchB: dark ? '#332f40' : '#f3f0e6'
-	};
+	const hex = BGS[bg];
+	// below this the background is too dark for ink text to reach 4.5:1; above it,
+	// paper text would fail instead. Every token in BGS sits clear of the line.
+	const dark = luminance(hex) < 0.22;
+	if (bg === 'slate') {
+		// the one background the design spec tuned by hand
+		return {
+			dark: true,
+			ink: '#f2efe6',
+			mute: '#a9a4b8',
+			body: '#ded9e6',
+			wash: 'rgb(255 255 255 / 0.07)',
+			hatchA: '#2b2937',
+			hatchB: '#332f40'
+		};
+	}
+	return dark
+		? {
+				dark,
+				ink: '#f7f5ee',
+				mute: 'rgb(255 255 255 / 0.72)',
+				body: 'rgb(255 255 255 / 0.9)',
+				wash: 'rgb(255 255 255 / 0.12)',
+				hatchA: shade(hex, 0.06),
+				hatchB: shade(hex, 0.12)
+			}
+		: {
+				dark,
+				ink: '#17161b',
+				mute: 'rgb(23 22 27 / 0.62)',
+				body: '#3b382f',
+				wash: 'rgb(255 255 255 / 0.55)',
+				hatchA: shade(hex, -0.07),
+				hatchB: shade(hex, -0.03)
+			};
 }
 
 export const FRAME_LABEL: Record<FrameKey, string> = {
@@ -115,6 +193,18 @@ export const BG_LABEL: Record<BgKey, string> = {
 	sky: 'Sky',
 	blush: 'Blush',
 	butter: 'Butter',
+	red: 'Red',
+	orange: 'Orange',
+	amber: 'Amber',
+	lime: 'Lime',
+	green: 'Green',
+	teal: 'Teal',
+	cyan: 'Cyan',
+	blue: 'Blue',
+	indigo: 'Indigo',
+	violet: 'Violet',
+	magenta: 'Magenta',
+	rose: 'Rose',
 	slate: 'Slate'
 };
 export const SHAPE_LABEL: Record<Shape, string> = {
@@ -128,14 +218,6 @@ export const PHOTO_SHAPE_LABEL: Record<PhotoShape, string> = {
 	arch: 'Arch',
 	circle: 'Circle'
 };
-
-/** Sticker disc colour pairs, by rarity. */
-export const STICKER_PAIRS = {
-	common: ['#ffe29a', '#f6a623'],
-	uncommon: ['#a7f3d0', '#10b981'],
-	rare: ['#c4b5fd', '#7c3aed'],
-	legendary: ['#fda4af', '#f43f5e']
-} as const;
 
 /** Small deterministic rotation (−8°…8°) so a row of discs never looks mechanical. */
 export function stickerRotation(id: string): number {

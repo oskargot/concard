@@ -133,6 +133,23 @@
 	{/each}
 </ul>
 
+<h2 class="mt-10 text-sm font-bold text-white/70">Every background</h2>
+<ul class="mt-3 grid grid-cols-3 gap-4" data-shot="bgs">
+	{#each BG_KEYS as bg (bg)}
+		<li>
+			<Card
+				view={{
+					...base,
+					links: base.links.slice(0, 2),
+					style: { frame: 'silver', bg, shape: 'rounded', photo_shape: 'round' }
+				}}
+				{catalog}
+			/>
+			<p class="mt-1 text-center text-[10px] text-white/50">{bg}</p>
+		</li>
+	{/each}
+</ul>
+
 <h2 class="mt-10 text-sm font-bold text-white/70">Backs</h2>
 <ul class="mt-3 grid grid-cols-2 gap-5" data-shot="backs">
 	<li>

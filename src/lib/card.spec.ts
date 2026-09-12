@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { snapshotToView } from './card';
-import { normalizeStyle, randomStyle, stickerRotation } from './card-style';
+import {
+	BG_KEYS,
+	BGS,
+	inkFor,
+	luminance,
+	normalizeStyle,
+	randomStyle,
+	stickerRotation
+} from './card-style';
 
 describe('snapshotToView', () => {
 	it('maps a version 1 snapshot forward to the default look', () => {
@@ -92,6 +100,26 @@ describe('stickerRotation', () => {
 		expect(stickerRotation('abc')).toBe(stickerRotation('abc'));
 		for (const id of ['a', 'star', 'dragon', 'zzzzzz']) {
 			expect(Math.abs(stickerRotation(id))).toBeLessThanOrEqual(16);
+		}
+	});
+});
+
+describe('inkFor', () => {
+	it('uses dark ink on light backgrounds and paper ink on dark ones', () => {
+		expect(inkFor('paper').dark).toBe(false);
+		expect(inkFor('amber').dark).toBe(false);
+		expect(inkFor('red').dark).toBe(false);
+		expect(inkFor('slate').dark).toBe(true);
+		expect(inkFor('blue').dark).toBe(true);
+		expect(inkFor('indigo').dark).toBe(true);
+	});
+	it('keeps enough contrast for every background', () => {
+		for (const key of BG_KEYS) {
+			const l = luminance(BGS[key]);
+			const inkL = luminance(inkFor(key).ink);
+			// WCAG AA for body text: the name and rules must clear 4.5:1 against the face
+			const ratio = (Math.max(l, inkL) + 0.05) / (Math.min(l, inkL) + 0.05);
+			expect(ratio, `${key} contrast`).toBeGreaterThan(4.5);
 		}
 	});
 });

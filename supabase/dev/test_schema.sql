@@ -58,6 +58,7 @@ insert into public.cards (id, owner_id, title)
 values ('10000000-0000-0000-0000-000000000002', auth.uid(), 'Alice, Holo Edition');
 
 -- style enums are validated
+insert into public.cards (owner_id, title, style) values (auth.uid(), 'spectrum', '{"bg":"teal"}');
 do $$ begin
   begin
     insert into public.cards (owner_id, title, style) values (auth.uid(), 'bad', '{"frame":"plaid"}');
