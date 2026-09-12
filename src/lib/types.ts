@@ -20,6 +20,9 @@ export interface Affiliation {
 	mark: string;
 	color_a: string;
 	color_b: string;
+	/** Placed on the face like a sticker: 0..1 of the card, centre of the badge. */
+	x: number;
+	y: number;
 }
 
 /** A sticker as positioned on a card face. Positions are 0..1 of the card size. */

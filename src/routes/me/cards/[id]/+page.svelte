@@ -12,6 +12,7 @@
 		readLinks
 	} from '$lib/card';
 	import {
+		BADGE_HOME,
 		BG_KEYS,
 		BG_LABEL,
 		BGS,
@@ -53,6 +54,10 @@
 	let style = $state<CardStyle>(normalizeStyle(data.card.style));
 	// svelte-ignore state_referenced_locally
 	let affiliation = $state<string>(data.card.affiliation ?? '');
+	// svelte-ignore state_referenced_locally
+	let badgeX = $state(Number(data.card.affiliation_x));
+	// svelte-ignore state_referenced_locally
+	let badgeY = $state(Number(data.card.affiliation_y));
 
 	// Style and profile fields only persist on Save, while stickers and the photo
 	// write straight through. Track what is still unsaved so the save bar can say
@@ -68,6 +73,8 @@
 			style.bg !== savedStyle.bg ||
 			style.shape !== savedStyle.shape ||
 			style.photo_shape !== savedStyle.photo_shape ||
+			badgeX !== Number(data.card.affiliation_x) ||
+			badgeY !== Number(data.card.affiliation_y) ||
 			filledLinks.length !== savedLinks.length ||
 			filledLinks.some((l, i) => l.url !== savedLinks[i]?.url || l.label !== savedLinks[i]?.label)
 	);
@@ -76,6 +83,7 @@
 	// Server state, but locally reassignable so drags feel instant before the save lands.
 	let placed = $derived<PlacedSticker[]>(data.placements.map(placementToPlaced));
 	let selectedId = $state<string | null>(null);
+	let badgeSelected = $state(false);
 	let stickerError = $state('');
 	const selected = $derived(placed.find((p) => p.id === selectedId) ?? null);
 
@@ -85,13 +93,15 @@
 		bio,
 		art_url: data.card.art_url,
 		style,
-		affiliation: fandomToAffiliation(affiliation ? fandoms.get(affiliation) : null),
+		affiliation: fandomToAffiliation(affiliation ? fandoms.get(affiliation) : null, badgeX, badgeY),
 		links: links.filter((l) => l.url.trim()),
 		stickers: placed
 	});
 
 	let cardEl: HTMLDivElement | undefined = $state();
-	let drag: { id: string; pointerId: number } | null = null;
+	type Drag =
+		{ kind: 'sticker'; id: string; pointerId: number } | { kind: 'badge'; pointerId: number };
+	let drag: Drag | null = null;
 
 	const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
 	const round = (n: number) => Math.round(n * 10000) / 10000;
@@ -106,24 +116,63 @@
 
 	function onStickerDown(s: PlacedSticker, e: PointerEvent) {
 		if (!s.id) return;
+		badgeSelected = false;
 		selectedId = s.id;
-		drag = { id: s.id, pointerId: e.pointerId };
+		drag = { kind: 'sticker', id: s.id, pointerId: e.pointerId };
+		(e.currentTarget as HTMLElement | null)?.setPointerCapture?.(e.pointerId);
+	}
+	function onBadgeDown(e: PointerEvent) {
+		selectedId = null;
+		badgeSelected = true;
+		drag = { kind: 'badge', pointerId: e.pointerId };
 		(e.currentTarget as HTMLElement | null)?.setPointerCapture?.(e.pointerId);
 	}
 	function onMove(e: PointerEvent) {
-		if (!drag || e.pointerId !== drag.pointerId) return;
+		const d = drag;
+		if (!d || e.pointerId !== d.pointerId) return;
 		const { x, y } = relPos(e);
-		placed = placed.map((p) => (p.id === drag!.id ? { ...p, x, y } : p));
+		if (d.kind === 'badge') {
+			badgeX = x;
+			badgeY = y;
+			return;
+		}
+		placed = placed.map((p) => (p.id === d.id ? { ...p, x, y } : p));
 	}
 	async function onUp(e: PointerEvent) {
-		if (!drag || e.pointerId !== drag.pointerId) return;
-		const id = drag.id;
+		const d = drag;
+		if (!d || e.pointerId !== d.pointerId) return;
 		drag = null;
-		const p = placed.find((q) => q.id === id);
-		if (p) await persist(id, { x: round(p.x), y: round(p.y) });
+		// The badge belongs to the card's look, so it rides along with Save
+		// rather than writing through the way a sticker placement does.
+		if (d.kind === 'badge') {
+			badgeX = round(badgeX);
+			badgeY = round(badgeY);
+			return;
+		}
+		const p = placed.find((q) => q.id === d.id);
+		if (p) await persist(d.id, { x: round(p.x), y: round(p.y) });
 	}
 	function onFaceDown() {
 		selectedId = null;
+		badgeSelected = false;
+	}
+
+	/** Cycle a style option; the steppers wrap around at both ends. */
+	function step<T>(values: readonly T[], current: T, dir: 1 | -1): T {
+		const i = values.indexOf(current);
+		return values[(i + dir + values.length) % values.length];
+	}
+
+	function pickFandom(id: string) {
+		// Swapping which badge keeps where you put it; adding the first one drops
+		// it in the spot the footer badge used to hold.
+		if (!affiliation) {
+			badgeX = BADGE_HOME.x;
+			badgeY = BADGE_HOME.y;
+		}
+		affiliation = id;
+		selectedId = null;
+		badgeSelected = true;
 	}
 
 	async function persist(id: string, patch: PlacementPatch) {
@@ -196,7 +245,9 @@
 			{catalog}
 			editable
 			{selectedId}
+			{badgeSelected}
 			onstickerdown={onStickerDown}
+			onbadgedown={onBadgeDown}
 			onfacedown={onFaceDown}
 		/>
 	</div>
@@ -234,151 +285,150 @@
 				onclick={removeSelected}>✕</button
 			>
 		</div>
+	{:else if badgeSelected}
+		<p class="mt-3 text-center meta text-faint">Drag the badge to move it</p>
 	{:else}
-		<p class="mt-3 text-center meta text-faint">Tap a sticker to pick it up</p>
+		<p class="mt-3 text-center meta text-faint">Tap a sticker or badge to pick it up</p>
 	{/if}
 </div>
 
 <!--
   Look first: these are the controls that change the card most, so they sit
-  closest to it. Their inputs belong to the save bar's form via form=, which
-  lets the sticker and photo forms sit between them without nesting.
+  closest to it. Their values reach the save bar's form through hidden inputs,
+  which lets the sticker and photo forms sit between them without nesting.
 -->
-<section class="mt-5 space-y-5 panel">
+<section class="mt-5 space-y-3 panel">
 	<div>
 		<h2 class="display text-lg">Look</h2>
 		<p class="text-xs text-faint">Just this card.</p>
 	</div>
 
-	<fieldset>
-		<legend class="mb-2 flex w-full items-baseline justify-between meta text-dim">
-			<span>Frame</span>
-			<span class="text-faint normal-case">{FRAME_LABEL[style.frame]}</span>
-		</legend>
-		<div class="grid grid-cols-4 gap-2">
-			{#each FRAME_KEYS as key (key)}
-				<label class="cursor-pointer">
-					<input
-						type="radio"
-						form="card-save"
-						name="frame"
-						value={key}
-						class="peer sr-only"
-						bind:group={style.frame}
-					/>
-					<span
-						class="swatch peer-checked:ring-2 peer-checked:ring-gold"
-						style="background: {FRAMES[key]}"
-						title={FRAME_LABEL[key]}
-					></span>
-				</label>
-			{/each}
-		</div>
-	</fieldset>
+	<input type="hidden" form="card-save" name="frame" value={style.frame} />
+	<input type="hidden" form="card-save" name="bg" value={style.bg} />
+	<input type="hidden" form="card-save" name="shape" value={style.shape} />
+	<input type="hidden" form="card-save" name="photo_shape" value={style.photo_shape} />
 
-	<fieldset>
-		<legend class="mb-2 flex w-full items-baseline justify-between meta text-dim">
-			<span>Background</span>
-			<span class="text-faint normal-case">{BG_LABEL[style.bg]}</span>
-		</legend>
-		<div class="grid grid-cols-6 gap-2">
-			{#each BG_KEYS as key (key)}
-				<label class="cursor-pointer">
-					<input
-						type="radio"
-						form="card-save"
-						name="bg"
-						value={key}
-						class="peer sr-only"
-						bind:group={style.bg}
-					/>
-					<span
-						class="swatch peer-checked:ring-2 peer-checked:ring-gold"
-						style="background: {BGS[key]}"
-						title={BG_LABEL[key]}
-					></span>
-				</label>
-			{/each}
+	<div class="row">
+		<span class="meta text-dim">Frame</span>
+		<div class="stepper">
+			<button
+				type="button"
+				class="arrow"
+				aria-label="Previous frame"
+				onclick={() => (style.frame = step(FRAME_KEYS, style.frame, -1))}>‹</button
+			>
+			<span class="val" aria-live="polite">
+				<span class="dot" style="background: {FRAMES[style.frame]}"></span>
+				{FRAME_LABEL[style.frame]}
+			</span>
+			<button
+				type="button"
+				class="arrow"
+				aria-label="Next frame"
+				onclick={() => (style.frame = step(FRAME_KEYS, style.frame, 1))}>›</button
+			>
 		</div>
-	</fieldset>
-
-	<div class="grid grid-cols-2 gap-4">
-		<fieldset>
-			<legend class="mb-2 meta text-dim">Corners</legend>
-			<div class="flex flex-wrap gap-1.5">
-				{#each SHAPES as key (key)}
-					<label class="cursor-pointer">
-						<input
-							type="radio"
-							form="card-save"
-							name="shape"
-							value={key}
-							class="peer sr-only"
-							bind:group={style.shape}
-						/>
-						<span class="pill peer-checked:border-gold peer-checked:bg-gold/10"
-							>{SHAPE_LABEL[key]}</span
-						>
-					</label>
-				{/each}
-			</div>
-		</fieldset>
-		<fieldset>
-			<legend class="mb-2 meta text-dim">Photo shape</legend>
-			<div class="flex flex-wrap gap-1.5">
-				{#each PHOTO_SHAPES as key (key)}
-					<label class="cursor-pointer">
-						<input
-							type="radio"
-							form="card-save"
-							name="photo_shape"
-							value={key}
-							class="peer sr-only"
-							bind:group={style.photo_shape}
-						/>
-						<span class="pill peer-checked:border-gold peer-checked:bg-gold/10"
-							>{PHOTO_SHAPE_LABEL[key]}</span
-						>
-					</label>
-				{/each}
-			</div>
-		</fieldset>
 	</div>
 
-	<fieldset>
-		<legend class="mb-2 meta text-dim">Fandom badge</legend>
-		<div class="grid grid-cols-3 gap-2">
-			<label class="cursor-pointer">
-				<input
-					type="radio"
-					form="card-save"
-					name="affiliation"
-					value=""
-					class="peer sr-only"
-					bind:group={affiliation}
-				/>
-				<span class="fandom peer-checked:border-gold peer-checked:bg-gold/10">None</span>
-			</label>
-			{#each data.fandoms as f (f.id)}
-				<label class="cursor-pointer">
-					<input
-						type="radio"
-						form="card-save"
-						name="affiliation"
-						value={f.id}
-						class="peer sr-only"
-						bind:group={affiliation}
-					/>
-					<span class="fandom peer-checked:border-gold peer-checked:bg-gold/10">
-						<span class="mark" style="background: linear-gradient(150deg, {f.color_a}, {f.color_b})"
-							>{f.mark}</span
-						>
-						<span class="truncate">{f.name}</span>
-					</span>
-				</label>
-			{/each}
+	<div class="row">
+		<span class="meta text-dim">Background</span>
+		<div class="stepper">
+			<button
+				type="button"
+				class="arrow"
+				aria-label="Previous background"
+				onclick={() => (style.bg = step(BG_KEYS, style.bg, -1))}>‹</button
+			>
+			<span class="val" aria-live="polite">
+				<span class="dot" style="background: {BGS[style.bg]}"></span>
+				{BG_LABEL[style.bg]}
+			</span>
+			<button
+				type="button"
+				class="arrow"
+				aria-label="Next background"
+				onclick={() => (style.bg = step(BG_KEYS, style.bg, 1))}>›</button
+			>
 		</div>
-	</fieldset>
+	</div>
+
+	<div class="row">
+		<span class="meta text-dim">Corners</span>
+		<div class="stepper">
+			<button
+				type="button"
+				class="arrow"
+				aria-label="Previous corner style"
+				onclick={() => (style.shape = step(SHAPES, style.shape, -1))}>‹</button
+			>
+			<span class="val" aria-live="polite">{SHAPE_LABEL[style.shape]}</span>
+			<button
+				type="button"
+				class="arrow"
+				aria-label="Next corner style"
+				onclick={() => (style.shape = step(SHAPES, style.shape, 1))}>›</button
+			>
+		</div>
+	</div>
+
+	<div class="row">
+		<span class="meta text-dim">Photo shape</span>
+		<div class="stepper">
+			<button
+				type="button"
+				class="arrow"
+				aria-label="Previous photo shape"
+				onclick={() => (style.photo_shape = step(PHOTO_SHAPES, style.photo_shape, -1))}>‹</button
+			>
+			<span class="val" aria-live="polite">{PHOTO_SHAPE_LABEL[style.photo_shape]}</span>
+			<button
+				type="button"
+				class="arrow"
+				aria-label="Next photo shape"
+				onclick={() => (style.photo_shape = step(PHOTO_SHAPES, style.photo_shape, 1))}>›</button
+			>
+		</div>
+	</div>
+</section>
+
+<!-- the badge is placed and dragged like a sticker, so it is picked the same way -->
+<section class="mt-4 panel">
+	<h2 class="display text-lg">Fandom</h2>
+	<p class="mt-1 text-xs text-faint">
+		Tap a badge to put it on the card, then drag it anywhere. It starts in the corner the badge has
+		always sat in.
+	</p>
+	<input type="hidden" form="card-save" name="affiliation" value={affiliation} />
+	<input type="hidden" form="card-save" name="affiliation_x" value={badgeX} />
+	<input type="hidden" form="card-save" name="affiliation_y" value={badgeY} />
+	<ul class="mt-3 grid grid-cols-3 gap-2">
+		{#each data.fandoms as f (f.id)}
+			<li>
+				<button
+					type="button"
+					class="fandom"
+					class:on={affiliation === f.id}
+					aria-pressed={affiliation === f.id}
+					onclick={() => pickFandom(f.id)}
+				>
+					<span class="mark" style="background: linear-gradient(150deg, {f.color_a}, {f.color_b})"
+						>{f.mark}</span
+					>
+					<span class="truncate">{f.name}</span>
+				</button>
+			</li>
+		{/each}
+	</ul>
+	{#if affiliation}
+		<button
+			type="button"
+			class="mt-3 text-xs text-faint hover:text-cream"
+			onclick={() => {
+				affiliation = '';
+				badgeSelected = false;
+			}}>Take the badge off</button
+		>
+	{/if}
 </section>
 
 <!-- stickers: these write straight through, no save needed -->
@@ -568,23 +618,57 @@
 		padding: 0.75rem;
 		box-shadow: 0 12px 32px rgb(0 0 0 / 0.6);
 	}
-	.swatch {
-		display: block;
-		aspect-ratio: 1;
-		border-radius: 0.5rem;
-		border: 1px solid var(--color-line);
+	.row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
 	}
-	.pill {
-		display: block;
+	.stepper {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
 		border-radius: 0.5rem;
 		border: 1px solid var(--color-line);
 		background: var(--color-ground);
-		padding: 0.4rem 0.6rem;
-		font-size: 0.75rem;
+		padding: 0.2rem;
+	}
+	.arrow {
+		flex: none;
+		width: 1.9rem;
+		height: 1.9rem;
+		border-radius: 0.375rem;
+		font-size: 1.15rem;
+		line-height: 1;
+		color: var(--color-dim);
+		transition: background 0.12s ease;
+	}
+	.arrow:hover {
+		background: var(--color-raised);
+		color: var(--color-cream);
+	}
+	.arrow:active {
+		transform: scale(0.94);
+	}
+	.val {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.4rem;
+		min-width: 8.5rem;
+		font-size: 0.8125rem;
 		font-weight: 600;
+	}
+	.dot {
+		flex: none;
+		width: 1rem;
+		height: 1rem;
+		border-radius: 0.25rem;
+		border: 1px solid var(--color-line);
 	}
 	.fandom {
 		display: flex;
+		width: 100%;
 		align-items: center;
 		gap: 0.4rem;
 		min-width: 0;
@@ -594,6 +678,14 @@
 		padding: 0.4rem 0.5rem;
 		font-size: 0.75rem;
 		font-weight: 600;
+		transition: background 0.12s ease;
+	}
+	.fandom:hover {
+		background: var(--color-raised);
+	}
+	.fandom.on {
+		border-color: var(--color-gold);
+		background: color-mix(in srgb, var(--color-gold) 12%, transparent);
 	}
 	.mark {
 		flex: none;

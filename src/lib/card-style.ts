@@ -226,6 +226,15 @@ export function stickerRotation(id: string): number {
 	return ((Math.abs(h) % 1600) / 100) * (h % 2 === 0 ? 1 : -1);
 }
 
+/**
+ * Where the fandom badge sits when you have not moved it: the spot it occupied
+ * back when it was fixed into the card footer, so a card that never touches it
+ * looks the same as it always did. Derived from the card's geometry — a 20cqw
+ * badge inset by the 4.67cqw body padding, on a 5:7 card. Mirrors the column
+ * defaults in the database.
+ */
+export const BADGE_HOME = { x: 0.853, y: 0.895 } as const;
+
 /** Sticker position range on the card face (0..1); stickers may overhang the edge. */
 export const STICKER_X_RANGE = [-0.14, 1.02] as const;
 export const STICKER_Y_RANGE = [-0.1, 0.96] as const;

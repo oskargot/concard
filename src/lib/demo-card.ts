@@ -3,6 +3,7 @@
  * card looks like before the viewer has one: the signed-out home page and the
  * /dev/cards gallery.
  */
+import { BADGE_HOME } from '$lib/card-style';
 import type { CardView, Sticker } from '$lib/types';
 
 export const DEMO_STICKERS: Sticker[] = [
@@ -66,7 +67,8 @@ export const DEMO_CARD: CardView = {
 		name: 'Anime',
 		mark: 'ANI',
 		color_a: '#ff7eb6',
-		color_b: '#7c4dff'
+		color_b: '#7c4dff',
+		...BADGE_HOME
 	},
 	links: [
 		{ label: 'bsky', url: 'https://bsky.app/profile/oskar' },

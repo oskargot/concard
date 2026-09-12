@@ -15,7 +15,10 @@
 		/** When set, stickers become pointer targets and the selected one is outlined. */
 		editable?: boolean;
 		selectedId?: string | null;
+		/** The fandom badge is placed like a sticker, so it can be picked up too. */
+		badgeSelected?: boolean;
 		onstickerdown?: (sticker: PlacedSticker, event: PointerEvent) => void;
+		onbadgedown?: (event: PointerEvent) => void;
 		onfacedown?: (event: PointerEvent) => void;
 	}
 
@@ -27,7 +30,9 @@
 		dragging = false,
 		editable = false,
 		selectedId = null,
+		badgeSelected = false,
 		onstickerdown,
+		onbadgedown,
 		onfacedown
 	}: Props = $props();
 
@@ -35,6 +40,11 @@
 	const chips = $derived(view.links.slice(0, MAX_CHIPS));
 	const more = $derived(Math.max(0, view.links.length - MAX_CHIPS));
 	const stickers = $derived([...view.stickers].sort((a, b) => a.z_index - b.z_index));
+	// While the badge is still sitting over the footer, the chips leave room for
+	// it, the way the old flex row did. Moved anywhere else, they take the width.
+	const badgeOverFooter = $derived(
+		!!view.affiliation && view.affiliation.x > 0.62 && view.affiliation.y > 0.76
+	);
 </script>
 
 <CardShell style={view.style} fx {rx} {ry} {dragging} {editable} {onfacedown}>
@@ -55,27 +65,40 @@
 		<div class="bio">{view.bio}</div>
 
 		<footer class="foot">
-			<div class="links">
+			<div class="links" class:reserve={badgeOverFooter}>
 				{#each chips as l, i (l.url + i)}
 					<span class="chip">{l.label || l.url.replace(/^https?:\/\/(www\.)?/, '')}</span>
 				{/each}
 				{#if more > 0}<span class="lab more">+{more} more</span>{/if}
 			</div>
-			{#if view.affiliation}
-				<div
-					class="badge"
-					style="background: linear-gradient(150deg, {view.affiliation.color_a}, {view.affiliation
-						.color_b})"
-					title={view.affiliation.name}
-				>
-					<span class="mark">{view.affiliation.mark}</span>
-					<span class="badge-name">{view.affiliation.name}</span>
-				</div>
-			{/if}
 		</footer>
 	</div>
 
 	{#snippet overlay()}
+		{#if view.affiliation}
+			{@const a = view.affiliation}
+			<div
+				class="badge-holder"
+				class:selected={editable && badgeSelected}
+				role={editable ? 'presentation' : undefined}
+				style="left: {a.x * 100}%; top: {a.y * 100}%;"
+				onpointerdown={editable && onbadgedown
+					? (e) => {
+							e.stopPropagation();
+							onbadgedown(e);
+						}
+					: undefined}
+			>
+				<div
+					class="badge"
+					style="background: linear-gradient(150deg, {a.color_a}, {a.color_b})"
+					title={a.name}
+				>
+					<span class="mark">{a.mark}</span>
+					<span class="badge-name">{a.name}</span>
+				</div>
+			</div>
+		{/if}
 		{#each stickers as s (s.id ?? `${s.sticker_id}-${s.x}-${s.y}`)}
 			<div
 				class="sticker"
@@ -200,6 +223,9 @@
 		align-items: center;
 		gap: 1.33cqw;
 	}
+	.links.reserve {
+		padding-right: 22cqw;
+	}
 	.chip {
 		max-width: 100%;
 		border-radius: 3cqw;
@@ -223,6 +249,19 @@
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 		color: var(--mute);
+	}
+	.badge-holder {
+		position: absolute;
+		transform: translate(-50%, -50%);
+		z-index: 0;
+	}
+	:global(.editable) .badge-holder {
+		pointer-events: auto;
+		cursor: grab;
+	}
+	.badge-holder.selected .badge {
+		outline: 0.85cqw solid var(--ink, #17161b);
+		outline-offset: 0.6cqw;
 	}
 	.badge {
 		flex: none;

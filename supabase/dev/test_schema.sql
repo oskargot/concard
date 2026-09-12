@@ -48,9 +48,10 @@ end $$;
 -- supabase-js's .insert().select() is INSERT ... RETURNING, which also runs the
 -- SELECT policy against the brand-new row, so test that path explicitly.
 do $$ declare v uuid; begin
-  insert into public.cards (id, owner_id, style, affiliation)
+  insert into public.cards (id, owner_id, style, affiliation, affiliation_x, affiliation_y)
   values ('10000000-0000-0000-0000-000000000001', auth.uid(),
-          '{"frame":"gold","bg":"mint","shape":"shaved","photo_shape":"arch"}', 'anime')
+          '{"frame":"gold","bg":"mint","shape":"shaved","photo_shape":"arch"}', 'anime',
+          0.2, 0.15)
   returning id into v;
   if v is null then raise exception 'insert returning gave no id'; end if;
 end $$;
@@ -176,6 +177,11 @@ do $$ declare r jsonb; n int; begin
   if (r->'card_snapshot'->>'version')::int <> 2 then raise exception 'snapshot should be version 2'; end if;
   if (r->'card_snapshot'->'style'->>'frame') <> 'gold' then raise exception 'snapshot style wrong'; end if;
   if (r->'card_snapshot'->'affiliation'->>'mark') <> 'ANI' then raise exception 'snapshot affiliation wrong'; end if;
+  if (r->'card_snapshot'->'affiliation'->>'x')::numeric <> 0.2
+     or (r->'card_snapshot'->'affiliation'->>'y')::numeric <> 0.15 then
+    raise exception 'snapshot should carry where the badge was placed, got %/%',
+      r->'card_snapshot'->'affiliation'->>'x', r->'card_snapshot'->'affiliation'->>'y';
+  end if;
   if jsonb_array_length(r->'card_snapshot'->'links') <> 1 then raise exception 'snapshot should carry owner links'; end if;
   if jsonb_array_length(r->'card_snapshot'->'stickers') <> 2 then raise exception 'snapshot should carry 2 stickers'; end if;
   if (r->'card_snapshot'->'owner'->>'username') <> 'alice_01' then raise exception 'snapshot owner wrong'; end if;
