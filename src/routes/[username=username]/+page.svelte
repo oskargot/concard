@@ -59,13 +59,13 @@
 				/>{/snippet}
 		</FlipCard>
 	{:else}
-		<div class="panel text-center text-white/60">No card on display yet.</div>
+		<div class="panel text-center text-dim">No card on display yet.</div>
 	{/if}
 </section>
 
 <section class="mt-5">
 	{#if form?.collected}
-		<div class="panel border-emerald-400/30 bg-emerald-400/10 text-center">
+		<div class="panel border-sage/30 bg-sage/10 text-center">
 			<p class="text-lg font-bold">Collected!</p>
 			{#if bonus}
 				<p class="mt-2 flex items-center justify-center gap-2 text-sm">
@@ -73,7 +73,7 @@
 					<span>Bonus sticker: <b>{bonus.name}</b></span>
 				</p>
 			{:else}
-				<p class="mt-1 text-sm text-white/70">No stickers on this card, so no bonus this time.</p>
+				<p class="mt-1 text-sm text-dim">No stickers on this card, so no bonus this time.</p>
 			{/if}
 			<div class="mt-3 flex justify-center gap-2">
 				<a class="btn-primary" href="/binder/{form.collectionId}">See it in your binder</a>
@@ -82,20 +82,20 @@
 		</div>
 	{:else if data.isOwner}
 		<div class="panel text-center">
-			<p class="text-sm text-white/70">
+			<p class="text-sm text-dim">
 				This is your public card. Anyone who scans your code lands here.
 			</p>
 			<a class="mt-3 btn-secondary" href="/me">Back to your card</a>
 		</div>
 	{:else if !data.session}
 		<a class="btn-primary w-full" href={loginHref}>Sign in to collect this card</a>
-		<p class="mt-2 text-center text-xs text-white/50">
+		<p class="mt-2 text-center text-xs text-faint">
 			New here? You'll make your own card in about a minute.
 		</p>
 	{:else if retryAt}
 		<div class="panel text-center">
 			<p class="font-semibold">You already have this card</p>
-			<p class="mt-1 text-sm text-white/60">
+			<p class="mt-1 text-sm text-dim">
 				You can collect {data.profile.display_name} again in {formatRetryIn(retryAt)}.
 			</p>
 			<a class="mt-3 btn-secondary" href="/binder">Open binder</a>
@@ -117,13 +117,13 @@
 				{busy ? 'Collecting…' : `Collect ${data.profile.display_name}'s card`}
 			</button>
 		</form>
-		{#if form?.hint}<p class="mt-2 text-center text-sm text-rose-300" role="alert">
+		{#if form?.hint}<p class="mt-2 text-center text-sm text-ember" role="alert">
 				{form.hint}
 			</p>{/if}
 	{/if}
 
 	{#if data.theyHaveMine && !data.isOwner}
-		<p class="mt-3 text-center text-xs text-amber-300">
+		<p class="mt-3 text-center text-xs text-gold">
 			{data.profile.display_name} already has your card.
 		</p>
 	{/if}
@@ -139,10 +139,10 @@
 						href={l.url}
 						target="_blank"
 						rel="noopener noreferrer me"
-						class="flex items-center justify-between rounded-xl bg-white/5 px-4 py-3 text-sm font-semibold hover:bg-white/10"
+						class="flex items-center justify-between rounded-xl bg-surface px-4 py-3 text-sm font-semibold hover:bg-surface"
 					>
 						<span>{l.label}</span>
-						<span class="text-white/40">↗</span>
+						<span class="text-faint">↗</span>
 					</a>
 				</li>
 			{/each}
@@ -151,7 +151,7 @@
 {/if}
 
 {#if !data.session}
-	<p class="mt-10 text-center text-xs text-white/40">
+	<p class="mt-10 text-center text-xs text-faint">
 		<a href="/" class="underline">concard</a> · trading cards for cons and events
 	</p>
 {/if}

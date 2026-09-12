@@ -29,11 +29,11 @@
 
 <svelte:head><title>{snap.title} · concard</title></svelte:head>
 
-<a href="/binder" class="text-sm text-white/60 hover:text-white">← Binder</a>
-<h1 class="mt-2 text-2xl font-black tracking-tight">{snap.title}</h1>
-<p class="text-sm text-white/60">
+<a href="/binder" class="text-sm text-dim hover:text-cream">← Binder</a>
+<h1 class="mt-2 display text-2xl">{snap.title}</h1>
+<p class="text-sm text-dim">
 	from
-	{#if data.owner}<a class="underline hover:text-white" href="/{currentUsername}"
+	{#if data.owner}<a class="underline hover:text-cream" href="/{currentUsername}"
 			>{data.owner.display_name}</a
 		>
 	{:else}{snap.owner.display_name} (account gone){/if}
@@ -51,12 +51,12 @@
 		{#snippet back()}<CardBack variant="record" style={snap.style} {record} />{/snippet}
 	</FlipCard>
 </div>
-<p class="mt-3 text-center text-xs text-white/50">
+<p class="mt-3 text-center text-xs text-faint">
 	Drag to tilt, tap to flip. This is the card as it looked when you met.
 </p>
 
 {#if bonus}
-	<p class="mt-4 flex items-center justify-center gap-2 text-sm text-white/70">
+	<p class="mt-4 flex items-center justify-center gap-2 text-sm text-dim">
 		<span class="text-2xl leading-none"><StickerGlyph sticker={bonus} /></span>
 		<span>This card gave you a <b>{bonus.name}</b> sticker.</span>
 	</p>
@@ -70,5 +70,5 @@
 		if (!confirm('Remove this card from your binder? You keep any sticker it gave you.')) cancel();
 	}}
 >
-	<button class="text-sm text-rose-300/80 hover:text-rose-200">Remove from binder</button>
+	<button class="text-sm text-ember/80 hover:text-ember">Remove from binder</button>
 </form>

@@ -85,19 +85,19 @@
 
 <svelte:head><title>Scan · concard</title></svelte:head>
 
-<h1 class="text-2xl font-black tracking-tight">Scan a card</h1>
-<p class="text-sm text-white/60">Point your camera at someone's concard QR code.</p>
+<h1 class="display text-2xl">Scan a card</h1>
+<p class="text-sm text-dim">Point your camera at someone's concard QR code.</p>
 
 <div class="relative mt-4 overflow-hidden rounded-2xl bg-black" style="aspect-ratio: 3 / 4">
 	<!-- live camera preview has no audio track -->
 	<video bind:this={video} class="h-full w-full object-cover" playsinline muted></video>
 	<div class="pointer-events-none absolute inset-0 grid place-items-center">
 		<div
-			class="h-56 w-56 rounded-2xl border-4 border-amber-300/80 shadow-[0_0_0_9999px_rgba(0,0,0,0.45)]"
+			class="h-56 w-56 rounded-2xl border-4 border-gold/80 shadow-[0_0_0_9999px_rgba(0,0,0,0.45)]"
 		></div>
 	</div>
 	{#if status !== 'scanning'}
-		<div class="absolute inset-0 grid place-items-center bg-slate-950/80 p-6 text-center text-sm">
+		<div class="absolute inset-0 grid place-items-center bg-ground/85 p-6 text-center text-sm">
 			{#if status === 'starting'}Starting camera…
 			{:else if status === 'found'}Found one!
 			{:else if status === 'denied'}
@@ -111,7 +111,7 @@
 	{/if}
 </div>
 
-{#if bad}<p class="mt-2 text-sm text-rose-300" role="alert">{bad}</p>{/if}
+{#if bad}<p class="mt-2 text-sm text-ember" role="alert">{bad}</p>{/if}
 
 <form
 	class="mt-6 flex gap-2"
@@ -124,6 +124,6 @@
 	<button class="btn-secondary">Go</button>
 </form>
 
-<p class="mt-6 text-xs text-white/40">
+<p class="mt-6 text-xs text-faint">
 	No app? Any camera app works too: the code is just a link to their card.
 </p>

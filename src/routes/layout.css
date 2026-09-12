@@ -1,53 +1,108 @@
 @import 'tailwindcss';
+
+/**
+ * Fonts are self-hosted rather than fetched from Google. A con hall is exactly
+ * where a third-party font request fails, and these are bundled under client/,
+ * which the service worker already precaches — so the app keeps its type
+ * offline instead of falling back to system sans mid-weekend.
+ */
+@import '@fontsource/fredoka/latin-400.css';
+@import '@fontsource/archivo/latin-400.css';
+@import '@fontsource/archivo/latin-500.css';
+@import '@fontsource/archivo/latin-600.css';
+@import '@fontsource/archivo/latin-700.css';
+@import '@fontsource/space-mono/latin-400.css';
+@import '@fontsource/space-mono/latin-700.css';
 @plugin '@tailwindcss/forms';
 
+/**
+ * The app is the album; the card is the thing in it.
+ *
+ * The card is a warm printed object — cream stock, brushed metal, real ink.
+ * So the chrome around it is warm too: a deep espresso ground rather than a
+ * blue-black one, so cards read as lit objects on felt instead of windows in a
+ * dashboard. The accent is the card's own gold (FRAMES.gold in card-style.ts),
+ * not a generic amber, and the type is the card's own type carried outward.
+ */
+
 @theme {
-	--color-ink: #0f172a;
-	--color-paper: #f8fafc;
-	--color-accent: #f59e0b;
-	--color-accent-strong: #d97706;
+	/* surfaces, darkest to lightest */
+	--color-ground: #16130f;
+	--color-surface: #201b16;
+	--color-raised: #2a231c;
+	--color-line: #3a3129;
+
+	/* text, warm to match the card's paper rather than fighting it */
+	--color-cream: #f4efe6;
+	--color-dim: #b8ad9d;
+	--color-faint: #8a7f70;
+
+	/* the accent is lifted straight out of the gold frame */
+	--color-gold: #d8ab4e;
+	--color-gold-soft: #f0d9a0;
+	--color-ember: #e8736c;
+	--color-sage: #86b898;
+
+	--font-display: Fredoka, ui-rounded, system-ui, sans-serif;
+	--font-body: Archivo, system-ui, -apple-system, sans-serif;
+	--font-mono: 'Space Mono', ui-monospace, monospace;
 }
 
 html {
-	background: var(--color-ink);
+	background: var(--color-ground);
 	color-scheme: dark;
 }
 
 body {
 	min-height: 100dvh;
-	background:
-		radial-gradient(1200px 600px at 50% -200px, rgb(245 158 11 / 0.18), transparent),
-		var(--color-ink);
-	color: var(--color-paper);
-	font-family:
-		system-ui,
-		-apple-system,
-		'Segoe UI',
-		Roboto,
-		sans-serif;
+	background: var(--color-ground);
+	color: var(--color-cream);
+	font-family: var(--font-body);
 	-webkit-font-smoothing: antialiased;
 }
 
+/* Display type is the card's name type, so both halves speak the same language. */
+@utility display {
+	font-family: var(--font-display);
+	font-weight: 400;
+	letter-spacing: -0.01em;
+}
+
+/* Small caps in the card's handle type: labels, stat captions, nav. */
+@utility meta {
+	font-family: var(--font-mono);
+	font-weight: 700;
+	font-size: 0.6875rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+}
+
 @utility btn {
-	@apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
+	@apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
 }
 @utility btn-primary {
-	@apply btn bg-amber-400 text-slate-900 hover:bg-amber-300;
+	@apply btn bg-gold text-ground hover:bg-gold-soft;
 }
 @utility btn-secondary {
-	@apply btn bg-white/10 text-white hover:bg-white/15;
+	@apply btn border border-line bg-surface text-cream hover:bg-raised;
 }
 @utility btn-danger {
-	@apply btn bg-rose-500/20 text-rose-200 hover:bg-rose-500/30;
+	@apply btn border border-ember/30 bg-transparent text-ember hover:bg-ember/10;
 }
+@utility btn-quiet {
+	@apply btn text-dim hover:text-cream;
+}
+
 @utility field {
-	@apply w-full rounded-xl border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:border-amber-400 focus:ring-amber-400;
+	@apply w-full rounded-lg border-line bg-surface text-cream placeholder:text-faint focus:border-gold focus:ring-gold;
 }
 @utility label {
-	@apply mb-1 block text-xs font-semibold tracking-wide text-white/60 uppercase;
+	@apply mb-1.5 block meta text-dim;
 }
+
+/* Panels are stock, not glass: a flat warm surface with a real hairline. */
 @utility panel {
-	@apply rounded-2xl border border-white/10 bg-white/5 p-4;
+	@apply rounded-xl border border-line bg-surface p-4;
 }
 
 /* Card light position: registered so the highlight can transition on release. */

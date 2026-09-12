@@ -37,8 +37,8 @@
 <svelte:head><title>Pick a username · concard</title></svelte:head>
 
 <div class="mx-auto mt-8 max-w-sm">
-	<h1 class="text-3xl font-black tracking-tight">Pick your username</h1>
-	<p class="mt-1 text-white/60">
+	<h1 class="display text-3xl">Pick your username</h1>
+	<p class="mt-1 text-dim">
 		It becomes your link and your QR code. You can't change it later, so choose one you like.
 	</p>
 
@@ -57,7 +57,7 @@
 		<div>
 			<label class="label" for="username">Username</label>
 			<div class="flex items-center gap-2">
-				<span class="text-white/50">concard.me/</span>
+				<span class="text-faint">concard.me/</span>
 				<input
 					id="username"
 					class="field"
@@ -70,11 +70,10 @@
 				/>
 			</div>
 			<p class="mt-1 h-5 text-xs" aria-live="polite">
-				{#if availability === 'checking'}<span class="text-white/50">Checking…</span>
-				{:else if availability === 'free'}<span class="text-emerald-300">@{normalized} is free</span
-					>
-				{:else if availability === 'taken'}<span class="text-rose-300">@{normalized} is taken</span>
-				{:else if availability === 'invalid'}<span class="text-white/50"
+				{#if availability === 'checking'}<span class="text-faint">Checking…</span>
+				{:else if availability === 'free'}<span class="text-sage">@{normalized} is free</span>
+				{:else if availability === 'taken'}<span class="text-ember">@{normalized} is taken</span>
+				{:else if availability === 'invalid'}<span class="text-faint"
 						>3 to 20 characters: a-z, 0-9, underscore</span
 					>
 				{/if}
@@ -93,7 +92,7 @@
 		</div>
 
 		{#if form?.error}
-			<p class="text-sm text-rose-300" role="alert">{form.error}</p>
+			<p class="text-sm text-ember" role="alert">{form.error}</p>
 		{/if}
 
 		<button

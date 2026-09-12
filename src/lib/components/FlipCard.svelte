@@ -79,6 +79,7 @@
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
 	class="flip"
+	class:flipped
 	class:dragging
 	class:reduce={reduceMotion}
 	role={canFlip ? 'button' : 'presentation'}
@@ -103,6 +104,14 @@
 	.flip {
 		display: block;
 		width: 100%;
+		--turn: 0.6s;
+		/*
+		  The turn's easing is front-loaded, so the card passes edge-on at 36% of
+		  the duration rather than halfway (measured off the computed matrix, not
+		  guessed). The side swap below is timed to that crossing; at the halfway
+		  point it would land ~80ms late and WebKit would flash the mirrored front.
+		*/
+		--turn-edge-on: calc(var(--turn) * 0.36);
 		perspective: 1600px;
 		cursor: pointer;
 		touch-action: none;
@@ -114,7 +123,7 @@
 		cursor: grab;
 	}
 	.flip:focus-visible {
-		outline: 3px solid var(--color-accent, #f59e0b);
+		outline: 3px solid var(--color-gold, #d8ab4e);
 		outline-offset: 8px;
 		border-radius: 12px;
 	}
@@ -123,25 +132,61 @@
 		width: 100%;
 		aspect-ratio: 5 / 7;
 		transform-style: preserve-3d;
-		transition: transform 0.6s cubic-bezier(0.4, 0.1, 0.2, 1);
+		transition: transform var(--turn) cubic-bezier(0.4, 0.1, 0.2, 1);
 	}
 	.dragging .inner {
 		transition: transform 0.08s linear;
 	}
+	/*
+	  Keeping the two faces apart takes three things, because each covers a case
+	  the others miss.
+
+	  Every card face contains separately-composited subtrees — the shell's
+	  container-type, the fx layers' mix-blend-mode, the drop-shadow filters on
+	  stickers. WebKit does not apply an ancestor's backface culling across
+	  those, and it does not restyle them mid-animation either, so the front's
+	  photo and bio painted over the back, mirrored, for the length of the turn.
+
+	  So the load-bearing fix is geometric, not a style change: give the card a
+	  real thickness. Each face sits 1px out from the middle along its own local
+	  Z, which after the container's rotation puts whichever face you are looking
+	  at nearer the viewer than the other. The compositor's depth sorting then
+	  occludes the far face continuously, through the turn as well as at rest,
+	  with nothing to recompute at any point. The faces are opaque and their
+	  rounded corners line up, so the near one covers the far one exactly.
+
+	  backface-visibility and the visibility swap stay as the belt to that
+	  braces: they settle the resting state and keep the away side out of hit
+	  testing and the accessibility tree. The swap is timed to the edge-on
+	  crossing, where the card is a zero-width sliver, so nothing pops.
+	*/
 	.side {
 		position: absolute;
 		inset: 0;
 		backface-visibility: hidden;
 		-webkit-backface-visibility: hidden;
+		transition: visibility 0s linear var(--turn-edge-on);
+	}
+	.front {
+		transform: translateZ(1px);
 	}
 	.back {
-		transform: rotateY(180deg);
+		transform: rotateY(180deg) translateZ(1px);
+		visibility: hidden;
 	}
-	.reduce .inner {
+	.flipped .front {
+		visibility: hidden;
+	}
+	.flipped .back {
+		visibility: visible;
+	}
+	.reduce .inner,
+	.reduce .side {
 		transition: none;
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.inner {
+		.inner,
+		.side {
 			transition: none;
 		}
 	}

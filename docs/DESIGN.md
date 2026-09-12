@@ -52,6 +52,30 @@ below 180px the card drops its bio and chips so binder thumbnails stay legible.
 
 `/dev/cards` is a dev-server-only gallery of every combination on fixture data.
 
+## The app around the card
+
+The chrome exists to display the card, so it follows the card's logic rather
+than a separate one. Tokens live in `src/routes/layout.css`.
+
+- **Warm, not blue.** The ground is a deep espresso (`#16130f`), not a slate.
+  The card is a warm printed object; on a blue-black ground it read as a window
+  in a dashboard, and on this one it reads as a lit object on felt. Dark stays,
+  because it makes the cards the brightest thing on screen.
+- **The accent is the card's own gold** (`#d8ab4e`, lifted from `FRAMES.gold`),
+  not a generic amber.
+- **The type is the card's own type carried outward.** Fredoka for display
+  (`display`), Space Mono for labels and small caps (`meta`), Archivo for body.
+  Both halves of the app now speak the same language.
+- **Panels are stock, not glass**: a flat warm surface with a real hairline.
+- **Fonts are self-hosted** via `@fontsource`, not fetched from Google. A con
+  hall is exactly where a third-party font request fails. They bundle under
+  `client/`, which the service worker already precaches, so type survives
+  offline.
+
+The home page shows a live, tiltable card built from `src/lib/demo-card.ts`
+rather than describing the product in prose — the same fixture the `/dev/cards`
+gallery uses.
+
 ## Data model
 
 See the migrations in `supabase/migrations/`; they're commented. Summary:
