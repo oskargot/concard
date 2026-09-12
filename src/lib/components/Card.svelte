@@ -312,11 +312,15 @@
 						}
 					: undefined}
 			>
+				<div class="cut">
+					<StickerGlyph sticker={catalog.get(s.sticker_id)} label={false} />
+				</div>
 				{#if s.foil !== 'none'}
 					<div class="sticker-foil">
 						<FoilFx
 							foil={s.foil}
-							shape="halo"
+							sticker={catalog.get(s.sticker_id)}
+							iconSize={0.86}
 							lx={foilLx}
 							ly={foilLy}
 							gx={s.foil === 'holo' ? foilGx : undefined}
@@ -324,9 +328,6 @@
 						/>
 					</div>
 				{/if}
-				<div class="cut">
-					<StickerGlyph sticker={catalog.get(s.sticker_id)} label={false} />
-				</div>
 				{#if isSelected && onstickerhandledown}
 					{@const handleScale = Math.min(2, Math.max(0.6, 1 / s.scale))}
 					<button
@@ -697,7 +698,7 @@
 	.sticker-foil {
 		position: absolute;
 		inset: 0;
-		z-index: 0;
+		z-index: 2;
 		pointer-events: none;
 	}
 	.cut {

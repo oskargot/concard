@@ -166,6 +166,27 @@ do $$ begin
   end;
 end $$;
 
+-- combining only spends spare copies: a placed sticker can't be combined
+-- away out from under the card it's decorating, and removing it frees it up
+do $$ declare v uuid; begin
+  insert into public.sticker_placements (card_id, sticker_id, x, y)
+  values ('10000000-0000-0000-0000-000000000001', 'sparkles', 0.3, 0.3)
+  returning id into v;
+  begin
+    perform public.combine_stickers('sparkles', 'none');
+    raise exception 'combined a sticker that is on display';
+  exception when others then
+    if sqlerrm <> 'not_enough_copies' then raise; end if;
+  end;
+  delete from public.sticker_placements where id = v;
+end $$;
+do $$ declare r jsonb; begin
+  r := public.combine_stickers('sparkles', 'none');
+  if (r->>'foil') <> 'glitter' then
+    raise exception 'removing the placement should have freed the sticker to combine, got %', r->>'foil';
+  end if;
+end $$;
+
 -- self-collect is refused
 do $$ begin
   begin

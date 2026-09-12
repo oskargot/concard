@@ -1,4 +1,5 @@
 import { error, fail, redirect } from '@sveltejs/kit';
+import { normalizeFoil } from '$lib/card';
 import {
 	ART_DEFAULT,
 	ART_SCALE_RANGE,
@@ -47,17 +48,20 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 	const pileKey = (sticker_id: string, foil: string) => `${sticker_id}:${foil}`;
 	const placedCount = new Map<string, number>();
 	for (const p of placedEverywhere) {
-		const key = pileKey(p.sticker_id, p.foil);
+		const key = pileKey(p.sticker_id, normalizeFoil(p.foil));
 		placedCount.set(key, (placedCount.get(key) ?? 0) + 1);
 	}
 
 	const available = (inventory.data ?? [])
-		.map((row) => ({
-			sticker_id: row.sticker_id,
-			foil: row.foil,
-			owned: row.quantity,
-			available: row.quantity - (placedCount.get(pileKey(row.sticker_id, row.foil)) ?? 0)
-		}))
+		.map((row) => {
+			const foil = normalizeFoil(row.foil);
+			return {
+				sticker_id: row.sticker_id,
+				foil,
+				owned: row.quantity,
+				available: row.quantity - (placedCount.get(pileKey(row.sticker_id, foil)) ?? 0)
+			};
+		})
 		.filter((row) => row.owned > 0);
 
 	return {

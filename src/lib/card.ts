@@ -15,6 +15,11 @@ import type {
 const FOILS: StickerFoil[] = ['none', 'glitter', 'holo'];
 const isFoil = (v: unknown): v is StickerFoil => FOILS.includes(v as StickerFoil);
 
+/** A foil tier off a row or a snapshot, falling back to plain when missing or unrecognized. */
+export function normalizeFoil(v: unknown): StickerFoil {
+	return isFoil(v) ? v : 'none';
+}
+
 /** none -> glitter -> holo; holo is the ceiling, nothing combines past it. */
 export const NEXT_FOIL: Record<StickerFoil, StickerFoil | null> = {
 	none: 'glitter',
@@ -37,7 +42,7 @@ export function placementToPlaced(p: StickerPlacement): PlacedSticker {
 		rotation: Number(p.rotation),
 		scale: Number(p.scale),
 		z_index: p.z_index,
-		foil: isFoil(p.foil) ? p.foil : 'none'
+		foil: normalizeFoil(p.foil)
 	};
 }
 
@@ -160,7 +165,7 @@ export function snapshotToView(snapshot: unknown): CardSnapshot {
 			rotation: Number(p.rotation ?? 0),
 			scale: Number(p.scale ?? 1),
 			z_index: Number(p.z_index ?? 0),
-			foil: isFoil(p.foil) ? p.foil : 'none'
+			foil: normalizeFoil(p.foil)
 		})),
 		owner: {
 			id: String(owner.id ?? ''),
