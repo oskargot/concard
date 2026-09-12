@@ -1,6 +1,6 @@
 import { error, fail, redirect } from '@sveltejs/kit';
-import { normalizeStyle } from '$lib/card-style';
-import { IMAGE_MAX_BYTES, IMAGE_TYPES, imageExt, isHttpUrl, str } from '$lib/server/forms';
+import { BADGE_HOME, normalizeStyle, STICKER_X_RANGE, STICKER_Y_RANGE } from '$lib/card-style';
+import { IMAGE_MAX_BYTES, IMAGE_TYPES, imageExt, isHttpUrl, num, str } from '$lib/server/forms';
 import type { Json } from '$lib/supabase/types';
 import type { ProfileLink } from '$lib/types';
 import type { Actions, PageServerLoad } from './$types';
@@ -111,9 +111,16 @@ export const actions: Actions = {
 		if (profileUpdate.error)
 			return fail(400, { error: profileUpdate.error.hint ?? profileUpdate.error.message });
 
+		// The badge is dragged on the card, so its position arrives with the form.
+		// Clamp to the same range stickers use; the column check enforces it too.
 		const cardUpdate = await locals.supabase
 			.from('cards')
-			.update({ style: style as unknown as Json, affiliation })
+			.update({
+				style: style as unknown as Json,
+				affiliation,
+				affiliation_x: num(form, 'affiliation_x', BADGE_HOME.x, ...STICKER_X_RANGE),
+				affiliation_y: num(form, 'affiliation_y', BADGE_HOME.y, ...STICKER_Y_RANGE)
+			})
 			.eq('id', params.id);
 		if (cardUpdate.error)
 			return fail(400, { error: cardUpdate.error.hint ?? cardUpdate.error.message });

@@ -61,6 +61,8 @@ export interface Database {
 					art_url: string | null;
 					style: Json;
 					affiliation: string | null;
+					affiliation_x: number;
+					affiliation_y: number;
 					created_at: string;
 					updated_at: string;
 				};
@@ -70,11 +72,15 @@ export interface Database {
 					art_url?: string | null;
 					style?: Json;
 					affiliation?: string | null;
+					affiliation_x?: number;
+					affiliation_y?: number;
 				};
 				Update: {
 					art_url?: string | null;
 					style?: Json;
 					affiliation?: string | null;
+					affiliation_x?: number;
+					affiliation_y?: number;
 				};
 				Relationships: [];
 			};

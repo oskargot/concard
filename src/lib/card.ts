@@ -1,4 +1,4 @@
-import { normalizeStyle } from '$lib/card-style';
+import { BADGE_HOME, normalizeStyle } from '$lib/card-style';
 import type {
 	Affiliation,
 	Card,
@@ -33,9 +33,21 @@ export function readLinks(input: unknown): ProfileLink[] {
 		.map((l) => ({ label: String(l.label ?? ''), url: l.url }));
 }
 
-export function fandomToAffiliation(f: Fandom | undefined | null): Affiliation | null {
+export function fandomToAffiliation(
+	f: Fandom | undefined | null,
+	x: number = BADGE_HOME.x,
+	y: number = BADGE_HOME.y
+): Affiliation | null {
 	if (!f) return null;
-	return { id: f.id, name: f.name, mark: f.mark, color_a: f.color_a, color_b: f.color_b };
+	return {
+		id: f.id,
+		name: f.name,
+		mark: f.mark,
+		color_a: f.color_a,
+		color_b: f.color_b,
+		x: Number.isFinite(x) ? x : BADGE_HOME.x,
+		y: Number.isFinite(y) ? y : BADGE_HOME.y
+	};
 }
 
 /** What a card reads from its owner's profile. */
@@ -59,7 +71,11 @@ export function cardToView(
 		bio: owner.bio,
 		art_url: card.art_url,
 		style: normalizeStyle(card.style),
-		affiliation: fandomToAffiliation(card.affiliation ? fandoms.get(card.affiliation) : null),
+		affiliation: fandomToAffiliation(
+			card.affiliation ? fandoms.get(card.affiliation) : null,
+			Number(card.affiliation_x),
+			Number(card.affiliation_y)
+		),
 		links: readLinks(owner.links),
 		stickers: placements.map(placementToPlaced)
 	};
@@ -69,12 +85,18 @@ function readAffiliation(input: unknown): Affiliation | null {
 	if (!input || typeof input !== 'object') return null;
 	const a = input as Partial<Affiliation>;
 	if (!a.id || !a.mark) return null;
+	// Snapshots taken before the badge could be moved carry no position; they
+	// were drawn in the footer, which is exactly where BADGE_HOME puts it.
+	const x = Number(a.x);
+	const y = Number(a.y);
 	return {
 		id: String(a.id),
 		name: String(a.name ?? a.id),
 		mark: String(a.mark),
 		color_a: String(a.color_a ?? '#b4b8c4'),
-		color_b: String(a.color_b ?? '#8f96a5')
+		color_b: String(a.color_b ?? '#8f96a5'),
+		x: Number.isFinite(x) ? x : BADGE_HOME.x,
+		y: Number.isFinite(y) ? y : BADGE_HOME.y
 	};
 }
 

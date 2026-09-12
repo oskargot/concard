@@ -2,7 +2,14 @@
 	import Card from '$lib/components/Card.svelte';
 	import CardBack from '$lib/components/CardBack.svelte';
 	import FlipCard from '$lib/components/FlipCard.svelte';
-	import { BG_KEYS, FRAME_KEYS, PHOTO_SHAPES, SHAPES, type CardStyle } from '$lib/card-style';
+	import {
+		BADGE_HOME,
+		BG_KEYS,
+		FRAME_KEYS,
+		PHOTO_SHAPES,
+		SHAPES,
+		type CardStyle
+	} from '$lib/card-style';
 	import { demoCatalog } from '$lib/demo-card';
 	import type { CardView } from '$lib/types';
 
@@ -18,7 +25,8 @@
 			name: 'Anime',
 			mark: 'ANI',
 			color_a: '#ff7eb6',
-			color_b: '#7c4dff'
+			color_b: '#7c4dff',
+			...BADGE_HOME
 		},
 		links: [
 			{ label: 'Bluesky', url: 'https://bsky.app/oskar' },

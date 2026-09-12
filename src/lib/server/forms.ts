@@ -35,3 +35,10 @@ export function imageExt(type: string): string {
 		'bin'
 	);
 }
+
+/** Read a bounded number from a form, falling back when absent, unparseable or out of range. */
+export function num(form: FormData, key: string, fallback: number, lo: number, hi: number): number {
+	const v = Number(form.get(key));
+	if (!Number.isFinite(v)) return fallback;
+	return Math.min(hi, Math.max(lo, v));
+}
