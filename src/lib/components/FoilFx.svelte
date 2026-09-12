@@ -39,12 +39,15 @@
 
 	// A same-glyph SVG <text>, used purely as a mask: the browser rasterizes
 	// its ink coverage regardless of the emoji's own colours, giving an alpha
-	// shape that roughly matches what StickerGlyph actually draws. `iconSize`
-	// is generally sized a bit bigger than the glyph itself rather than
-	// tight to it, so a small mismatch in exactly where a font centers a
-	// given glyph doesn't read as visibly off.
+	// shape that roughly matches what StickerGlyph actually draws. The
+	// explicit emoji font stack matters here specifically: this SVG is
+	// rasterized as a standalone image resource rather than through the
+	// page's normal text layout, and at least one engine has been seen to
+	// skip its usual automatic emoji-font fallback in that isolated context,
+	// substituting a generic missing-glyph shape for the character instead.
+	// Naming the system emoji fonts directly sidesteps that fallback step.
 	function glyphMask(glyph: string): string {
-		const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><text x='50' y='50' font-size='70' text-anchor='middle' dominant-baseline='central'>${glyph}</text></svg>`;
+		const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><text x='50' y='50' font-family="'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla',sans-serif" font-size='70' text-anchor='middle' dominant-baseline='central'>${glyph}</text></svg>`;
 		return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 	}
 
