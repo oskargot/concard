@@ -21,7 +21,7 @@
  * The card is a warm printed object — cream stock, brushed metal, real ink.
  * So the chrome around it is warm too: a deep espresso ground rather than a
  * blue-black one, so cards read as lit objects on felt instead of windows in a
- * dashboard. The accent is the card's own gold (FRAMES.gold in card-style.ts),
+ * dashboard. The accent is the card's holo frame (FRAMES.holo in card-style.ts),
  * not a generic amber, and the type is the card's own type carried outward.
  */
 
@@ -37,15 +37,29 @@
 	--color-dim: #b8ad9d;
 	--color-faint: #8a7f70;
 
-	/* the accent is lifted straight out of the gold frame */
-	--color-gold: #d8ab4e;
-	--color-gold-soft: #f0d9a0;
+	/*
+	 * The accent is the card's holo frame (FRAMES.holo in card-style.ts): the
+	 * most distinctive material the card has. --holo below is the gradient
+	 * itself, for the wordmark and the primary action; --color-holo is the
+	 * solid drawn out of it, for the borders, rings, icons and small labels a
+	 * gradient cannot carry legibly.
+	 */
+	--color-holo: #b9c9ff;
+	--color-holo-soft: #dbe3ff;
 	--color-ember: #e8736c;
 	--color-sage: #86b898;
 
 	--font-display: Fredoka, ui-rounded, system-ui, sans-serif;
 	--font-body: Archivo, system-ui, -apple-system, sans-serif;
 	--font-mono: 'Space Mono', ui-monospace, monospace;
+}
+
+:root {
+	/* Mirrors FRAMES.holo; a gradient is not a colour token, so it lives here.
+	   The stops are shared so the angle can differ by use without the colours
+	   drifting apart. */
+	--holo-stops: #ffb3e0, #b9c9ff, #9ff0dc, #ffe7a8, #ffb3e0;
+	--holo: linear-gradient(118deg, var(--holo-stops));
 }
 
 html {
@@ -81,7 +95,11 @@ body {
 	@apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50;
 }
 @utility btn-primary {
-	@apply btn bg-gold text-ground hover:bg-gold-soft;
+	@apply btn text-ground;
+	background: var(--holo);
+	&:hover {
+		filter: brightness(1.06) saturate(1.08);
+	}
 }
 @utility btn-secondary {
 	@apply btn border border-line bg-surface text-cream hover:bg-raised;
@@ -94,10 +112,24 @@ body {
 }
 
 @utility field {
-	@apply w-full rounded-lg border-line bg-surface text-cream placeholder:text-faint focus:border-gold focus:ring-gold;
+	@apply w-full rounded-lg border-line bg-surface text-cream placeholder:text-faint focus:border-holo focus:ring-holo;
 }
 @utility label {
 	@apply mb-1.5 block meta text-dim;
+}
+
+/* The gradient clipped to type. Nearly horizontal rather than 118deg: a line of
+   text is wide and short, so the card's steeper angle sweeps only one stop
+   across it and reads as a flat tint. Still only worth it at wordmark size;
+   smaller labels take the solid --color-holo. */
+@utility holo-text {
+	/* Shrink-wrapped, or the background box is the full line and the glyphs only
+	   ever sample the middle of the sweep. */
+	display: inline-block;
+	background: linear-gradient(92deg, var(--holo-stops));
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
 }
 
 /* Panels are stock, not glass: a flat warm surface with a real hairline. */

@@ -120,7 +120,7 @@
 						/>
 					</a>
 					{#if isActive}
-						<span class="text-center text-xs font-semibold text-gold">On display</span>
+						<span class="text-center text-xs font-semibold text-holo">On display</span>
 					{:else}
 						<form method="POST" action="?/setActive" use:enhance>
 							<input type="hidden" name="card_id" value={card.id} />

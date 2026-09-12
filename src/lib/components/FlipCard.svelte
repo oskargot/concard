@@ -123,7 +123,7 @@
 		cursor: grab;
 	}
 	.flip:focus-visible {
-		outline: 3px solid var(--color-gold, #d8ab4e);
+		outline: 3px solid var(--color-holo, #b9c9ff);
 		outline-offset: 8px;
 		border-radius: 12px;
 	}

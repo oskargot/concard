@@ -62,8 +62,12 @@ than a separate one. Tokens live in `src/routes/layout.css`.
   The card is a warm printed object; on a blue-black ground it read as a window
   in a dashboard, and on this one it reads as a lit object on felt. Dark stays,
   because it makes the cards the brightest thing on screen.
-- **The accent is the card's own gold** (`#d8ab4e`, lifted from `FRAMES.gold`),
-  not a generic amber.
+- **The accent is the card's holo frame** (`FRAMES.holo`), the most distinctive
+  material the card has. `--holo` is the gradient itself, used for the wordmark
+  and the primary action; `--color-holo` is the solid drawn out of it, for the
+  borders, rings, icons and small labels a gradient cannot carry legibly. The
+  text version sweeps nearly horizontally and shrink-wraps its box, or a line of
+  type samples one stop and reads as a flat tint.
 - **The type is the card's own type carried outward.** Fredoka for display
   (`display`), Space Mono for labels and small caps (`meta`), Archivo for body.
   Both halves of the app now speak the same language.
@@ -73,9 +77,10 @@ than a separate one. Tokens live in `src/routes/layout.css`.
   `client/`, which the service worker already precaches, so type survives
   offline.
 
-The home page shows a live, tiltable card built from `src/lib/demo-card.ts`
-rather than describing the product in prose — the same fixture the `/dev/cards`
-gallery uses.
+Signed in, the home page is a dashboard: your card on display, then the cards
+you most recently collected, linking through to the binder. Signed out it shows
+a live, tiltable card built from `src/lib/demo-card.ts` — the same fixture the
+`/dev/cards` gallery uses — rather than describing the product in prose.
 
 ## Data model
 

@@ -226,7 +226,7 @@
 <div class="mt-2 flex items-center justify-between gap-3">
 	<h1 class="display text-2xl">Edit card</h1>
 	{#if data.isActive}
-		<span class="meta text-gold">On display</span>
+		<span class="meta text-holo">On display</span>
 	{:else}
 		<form method="POST" action="?/setActive" use:enhance>
 			<button class="btn-secondary !py-1.5 text-xs">Put on display</button>
@@ -577,7 +577,7 @@
 			<button class="btn-primary">Save</button>
 		</div>
 	{:else if dirty}
-		<div class="bar border-gold/40">
+		<div class="bar border-holo/40">
 			<p class="text-sm text-dim">Unsaved changes</p>
 			<button class="btn-primary">Save</button>
 		</div>
@@ -684,8 +684,8 @@
 		background: var(--color-raised);
 	}
 	.fandom.on {
-		border-color: var(--color-gold);
-		background: color-mix(in srgb, var(--color-gold) 12%, transparent);
+		border-color: var(--color-holo);
+		background: color-mix(in srgb, var(--color-holo) 12%, transparent);
 	}
 	.mark {
 		flex: none;
