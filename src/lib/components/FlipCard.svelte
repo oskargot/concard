@@ -138,13 +138,27 @@
 		transition: transform 0.08s linear;
 	}
 	/*
-	  backface-visibility alone is not enough here. Every card face contains
-	  separately-composited subtrees — the shell's container-type, the fx layers'
-	  mix-blend-mode, the drop-shadow filters on stickers — and WebKit stops
-	  applying an ancestor's backface culling across those, so the front showed
-	  through the back, mirrored, on top of the QR. Cull the away-facing side
-	  explicitly as well. The swap is timed to the edge-on crossing, where the
-	  card is a zero-width sliver and neither side is visible, so nothing pops.
+	  Keeping the two faces apart takes three things, because each covers a case
+	  the others miss.
+
+	  Every card face contains separately-composited subtrees — the shell's
+	  container-type, the fx layers' mix-blend-mode, the drop-shadow filters on
+	  stickers. WebKit does not apply an ancestor's backface culling across
+	  those, and it does not restyle them mid-animation either, so the front's
+	  photo and bio painted over the back, mirrored, for the length of the turn.
+
+	  So the load-bearing fix is geometric, not a style change: give the card a
+	  real thickness. Each face sits 1px out from the middle along its own local
+	  Z, which after the container's rotation puts whichever face you are looking
+	  at nearer the viewer than the other. The compositor's depth sorting then
+	  occludes the far face continuously, through the turn as well as at rest,
+	  with nothing to recompute at any point. The faces are opaque and their
+	  rounded corners line up, so the near one covers the far one exactly.
+
+	  backface-visibility and the visibility swap stay as the belt to that
+	  braces: they settle the resting state and keep the away side out of hit
+	  testing and the accessibility tree. The swap is timed to the edge-on
+	  crossing, where the card is a zero-width sliver, so nothing pops.
 	*/
 	.side {
 		position: absolute;
@@ -153,8 +167,11 @@
 		-webkit-backface-visibility: hidden;
 		transition: visibility 0s linear var(--turn-edge-on);
 	}
+	.front {
+		transform: translateZ(1px);
+	}
 	.back {
-		transform: rotateY(180deg);
+		transform: rotateY(180deg) translateZ(1px);
 		visibility: hidden;
 	}
 	.flipped .front {
