@@ -5,6 +5,7 @@ export type Json = string | number | boolean | null | { [key: string]: Json | un
 
 export type StickerRarity = 'common' | 'uncommon' | 'rare' | 'legendary';
 export type StickerSource = 'starter' | 'drop' | 'shop' | 'event';
+export type StickerFoil = 'none' | 'glitter' | 'holo';
 
 export interface Database {
 	public: {
@@ -133,6 +134,7 @@ export interface Database {
 				Row: {
 					owner_id: string;
 					sticker_id: string;
+					foil: StickerFoil;
 					quantity: number;
 					updated_at: string;
 				};
@@ -150,6 +152,7 @@ export interface Database {
 					rotation: number;
 					scale: number;
 					z_index: number;
+					foil: StickerFoil;
 					created_at: string;
 				};
 				Insert: {
@@ -161,6 +164,7 @@ export interface Database {
 					rotation?: number;
 					scale?: number;
 					z_index?: number;
+					foil?: StickerFoil;
 				};
 				Update: {
 					x?: number;
@@ -179,6 +183,7 @@ export interface Database {
 					card_id: string | null;
 					card_snapshot: Json;
 					bonus_sticker_id: string | null;
+					bonus_foil: StickerFoil;
 					event_id: string | null;
 					collected_at: string;
 				};
@@ -204,13 +209,18 @@ export interface Database {
 				Returns: boolean;
 			};
 			sticker_available_count: {
-				Args: { p_owner_id: string; p_sticker_id: string };
+				Args: { p_owner_id: string; p_sticker_id: string; p_foil?: StickerFoil };
 				Returns: number;
+			};
+			combine_stickers: {
+				Args: { p_sticker_id: string; p_foil?: StickerFoil };
+				Returns: Json;
 			};
 		};
 		Enums: {
 			sticker_rarity: StickerRarity;
 			sticker_source: StickerSource;
+			sticker_foil: StickerFoil;
 		};
 		CompositeTypes: Record<string, never>;
 	};

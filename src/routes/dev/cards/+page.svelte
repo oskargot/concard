@@ -41,10 +41,46 @@
 			{ label: 'Tumblr', url: 'https://oskar.tumblr.com' }
 		],
 		stickers: [
-			{ id: 'a', sticker_id: 'star', x: 0.96, y: 0.06, rotation: 0, scale: 1, z_index: 1 },
-			{ id: 'b', sticker_id: 'cat', x: 0.08, y: 0.62, rotation: -10, scale: 1.1, z_index: 2 },
-			{ id: 'c', sticker_id: 'dragon', x: 0.9, y: 0.9, rotation: 15, scale: 0.9, z_index: 3 },
-			{ id: 'd', sticker_id: 'rainbow', x: -0.04, y: 0.3, rotation: 0, scale: 1, z_index: 4 }
+			{
+				id: 'a',
+				sticker_id: 'star',
+				x: 0.96,
+				y: 0.06,
+				rotation: 0,
+				scale: 1,
+				z_index: 1,
+				foil: 'none'
+			},
+			{
+				id: 'b',
+				sticker_id: 'cat',
+				x: 0.08,
+				y: 0.62,
+				rotation: -10,
+				scale: 1.1,
+				z_index: 2,
+				foil: 'glitter'
+			},
+			{
+				id: 'c',
+				sticker_id: 'dragon',
+				x: 0.9,
+				y: 0.9,
+				rotation: 15,
+				scale: 0.9,
+				z_index: 3,
+				foil: 'holo'
+			},
+			{
+				id: 'd',
+				sticker_id: 'rainbow',
+				x: -0.04,
+				y: 0.3,
+				rotation: 0,
+				scale: 1,
+				z_index: 4,
+				foil: 'none'
+			}
 		]
 	};
 

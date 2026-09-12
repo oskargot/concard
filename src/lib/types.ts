@@ -1,5 +1,7 @@
-import type { Tables } from '$lib/supabase/types';
+import type { Tables, StickerFoil } from '$lib/supabase/types';
 import type { CardStyle } from '$lib/card-style';
+
+export type { StickerFoil };
 
 export type Profile = Tables<'profiles'>;
 export type Card = Tables<'cards'>;
@@ -34,6 +36,7 @@ export interface PlacedSticker {
 	rotation: number;
 	scale: number;
 	z_index: number;
+	foil: StickerFoil;
 }
 
 /**

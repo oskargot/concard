@@ -36,7 +36,16 @@ describe('snapshotToView', () => {
 		expect(v.affiliation).toBeNull();
 		expect(v.links).toEqual([]);
 		expect(v.stickers).toEqual([
-			{ id: undefined, sticker_id: 'star', x: 0.2, y: 0.3, rotation: 0, scale: 1, z_index: 0 }
+			{
+				id: undefined,
+				sticker_id: 'star',
+				x: 0.2,
+				y: 0.3,
+				rotation: 0,
+				scale: 1,
+				z_index: 0,
+				foil: 'none'
+			}
 		]);
 	});
 
@@ -50,7 +59,7 @@ describe('snapshotToView', () => {
 			style: { frame: 'gold', bg: 'slate', shape: 'shaved', photo_shape: 'arch' },
 			affiliation: { id: 'anime', name: 'Anime', mark: 'ANI', color_a: '#f0f', color_b: '#00f' },
 			links: [{ label: 'Bluesky', url: 'https://bsky.app/alice' }, { url: 'https://x.y' }],
-			stickers: [],
+			stickers: [{ sticker_id: 'star', x: 0.2, y: 0.3, foil: 'holo' }],
 			owner: { id: 'u1', username: 'alice', display_name: 'Alice', avatar_url: null }
 		});
 		expect(v.style.frame).toBe('gold');
@@ -58,6 +67,19 @@ describe('snapshotToView', () => {
 		expect(v.affiliation?.mark).toBe('ANI');
 		expect(v.links).toHaveLength(2);
 		expect(v.links[1].label).toBe('');
+		expect(v.stickers[0].foil).toBe('holo');
+	});
+
+	it('falls back an unknown or missing foil tier to plain', () => {
+		const v = snapshotToView({
+			version: 2,
+			stickers: [
+				{ sticker_id: 'star', x: 0, y: 0 },
+				{ sticker_id: 'heart', x: 0, y: 0, foil: 'chrome' }
+			],
+			owner: {}
+		});
+		expect(v.stickers.map((s) => s.foil)).toEqual(['none', 'none']);
 	});
 
 	it('survives garbage', () => {

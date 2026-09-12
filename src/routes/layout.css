@@ -152,3 +152,21 @@ body {
 	inherits: true;
 	initial-value: 30%;
 }
+
+/*
+ * A holo sticker's grain drift (see FoilFx.svelte): registered the same way
+ * as --lx/--ly above so it can be keyframe-animated. Glitter holds its grain
+ * still and only sweeps --lx/--ly across it; holo also drifts --gx/--gy —
+ * the parallax version of the card's own effect that was tried and shelved
+ * for the card face itself (docs/DESIGN.md).
+ */
+@property --gx {
+	syntax: '<percentage>';
+	inherits: true;
+	initial-value: 0%;
+}
+@property --gy {
+	syntax: '<percentage>';
+	inherits: true;
+	initial-value: 0%;
+}
