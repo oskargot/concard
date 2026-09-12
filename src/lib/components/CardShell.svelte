@@ -54,7 +54,7 @@
 		--bg: {faceColor ?? BGS[style.bg]};
 		--ink: {ink.ink}; --mute: {ink.mute}; --body: {ink.body}; --wash: {ink.wash};
 		--hatch-a: {ink.hatchA}; --hatch-b: {ink.hatchB};
-		--lx: {lx}%; --ly: {ly}%; --holo-pos: {holoPos}%;
+		--lx: {lx}%; --ly: {ly}%; --holo-pos: {holoPos}%; --rx: {rx}; --ry: {ry};
 	"
 >
 	<div class="stage">
@@ -68,6 +68,7 @@
 				{#if fx}
 					<div class="fx holo"></div>
 					<div class="fx spec"></div>
+					<div class="fx glint"></div>
 					<div class="fx edge"></div>
 				{/if}
 			</div>
@@ -176,18 +177,59 @@
 		mix-blend-mode: hard-light;
 		transition: background-position var(--fx-t);
 	}
+	/* a faint smooth highlight keeps the sense of volume... */
 	.spec {
 		z-index: 4;
 		background: radial-gradient(
 			58% 42% at var(--lx) var(--ly),
-			rgb(255 255 255 / 0.62),
-			rgb(255 255 255 / 0.16) 46%,
+			rgb(255 255 255 / 0.3),
+			rgb(255 255 255 / 0.08) 46%,
 			transparent 72%
 		);
 		mix-blend-mode: screen;
 		transition:
 			--lx var(--fx-t),
 			--ly var(--fx-t);
+	}
+	/* ...and the shine itself is scattered: a soft holo tint revealed through
+	   foil grain and a sparse sparkle grid, only inside the light spot. The
+	   grain drifts a little with tilt so the glints twinkle as the card moves. */
+	.glint {
+		z-index: 4;
+		background: linear-gradient(118deg, #ffb6dd, #b8c8ff, #a6f2dd, #ffe39a, #ffb6dd);
+		background-size: 260% 100%;
+		background-position: var(--holo-pos) 50%;
+		/* mask = spot ∩ (grain ∪ sparkles): the spot is listed first and intersects
+		   the union of the two textures beneath it */
+		mask-image:
+			radial-gradient(
+				62% 46% at var(--lx) var(--ly),
+				#000 0%,
+				rgb(0 0 0 / 0.6) 36%,
+				transparent 72%
+			),
+			url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='g' x='0' y='0' width='100%' height='100%'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='11' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  16 0 0 0 -10.6'/></filter><rect width='160' height='160' filter='url(%23g)'/></svg>"),
+			radial-gradient(circle, #000 0 0.36cqw, transparent 0.62cqw),
+			radial-gradient(circle, rgb(0 0 0 / 0.85) 0 0.24cqw, transparent 0.5cqw);
+		mask-size:
+			100% 100%,
+			34cqw 34cqw,
+			7.3cqw 7.3cqw,
+			4.1cqw 4.1cqw;
+		mask-position:
+			0 0,
+			calc(var(--ry) * 0.9cqw) calc(var(--rx) * -0.7cqw),
+			calc(1.9cqw + var(--ry) * 0.5cqw) calc(1.1cqw + var(--rx) * -0.4cqw),
+			calc(var(--ry) * -0.3cqw) calc(2.3cqw + var(--rx) * 0.25cqw);
+		mask-repeat: no-repeat, repeat, repeat, repeat;
+		mask-composite: intersect, add, add;
+		opacity: 0.95;
+		transition:
+			--lx var(--fx-t),
+			--ly var(--fx-t),
+			--rx var(--fx-t),
+			--ry var(--fx-t),
+			background-position var(--fx-t);
 	}
 	.edge {
 		z-index: 5;

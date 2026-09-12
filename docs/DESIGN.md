@@ -38,8 +38,10 @@ Out of v1: events, chat, friends, purchases, native apps.
 ## The card
 
 `src/lib/components/CardShell.svelte` draws the frame band, inset face,
-silhouette clip and the three effect layers (holo wash, specular, edge) from a
-`CardStyle`. `Card.svelte` puts the face content and the sticker overlay in
+silhouette clip and the effect layers from a `CardStyle`: a holo wash, a faint
+smooth specular for volume, a scattered glint layer (a holo tint revealed
+through a mask of foil grain and a sparse sparkle grid, intersected with the
+light spot, drifting with tilt so it twinkles), and an inner edge. `Card.svelte` puts the face content and the sticker overlay in
 it; `CardBack.svelte` puts the QR or the collector's record in it.
 `FlipCard.svelte` owns pointer tilt and tap-to-flip and passes `rx`/`ry` down
 so the light can never desync from the card. Tokens live in
