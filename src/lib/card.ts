@@ -1,4 +1,4 @@
-import { BADGE_HOME, normalizeStyle } from '$lib/card-style';
+import { ART_DEFAULT, BADGE_HOME, normalizeStyle } from '$lib/card-style';
 import type {
 	Affiliation,
 	Card,
@@ -58,6 +58,12 @@ export interface CardOwner {
 	links: unknown;
 }
 
+/** A number off a row or a snapshot, falling back when missing or unparseable. */
+function readNum(v: unknown, fallback: number): number {
+	const n = Number(v);
+	return Number.isFinite(n) ? n : fallback;
+}
+
 /** Build the renderable view of a live card from its database rows. */
 export function cardToView(
 	card: Card,
@@ -70,6 +76,9 @@ export function cardToView(
 		handle: owner.username,
 		bio: owner.bio,
 		art_url: card.art_url,
+		art_x: readNum(card.art_x, ART_DEFAULT.x),
+		art_y: readNum(card.art_y, ART_DEFAULT.y),
+		art_scale: readNum(card.art_scale, ART_DEFAULT.scale),
 		style: normalizeStyle(card.style),
 		affiliation: fandomToAffiliation(
 			card.affiliation ? fandoms.get(card.affiliation) : null,
@@ -119,6 +128,9 @@ export function snapshotToView(snapshot: unknown): CardSnapshot {
 		handle: String(owner.username ?? ''),
 		bio: String((v1 ? s.flavor_text : s.bio) ?? ''),
 		art_url: typeof s.art_url === 'string' ? s.art_url : null,
+		art_x: readNum(s.art_x, ART_DEFAULT.x),
+		art_y: readNum(s.art_y, ART_DEFAULT.y),
+		art_scale: readNum(s.art_scale, ART_DEFAULT.scale),
 		style: v1 ? normalizeStyle({}) : normalizeStyle(s.style),
 		affiliation: v1 ? null : readAffiliation(s.affiliation),
 		links: v1 ? [] : readLinks(s.links),

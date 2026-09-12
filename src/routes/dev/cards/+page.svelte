@@ -3,6 +3,7 @@
 	import CardBack from '$lib/components/CardBack.svelte';
 	import FlipCard from '$lib/components/FlipCard.svelte';
 	import {
+		ART_DEFAULT,
 		BADGE_HOME,
 		BG_KEYS,
 		FRAME_KEYS,
@@ -20,6 +21,9 @@
 		handle: 'oskar',
 		bio: 'Anime and sci-fi con regular. Making concard. Will trade stickers for good tea recommendations.',
 		art_url: null,
+		art_x: ART_DEFAULT.x,
+		art_y: ART_DEFAULT.y,
+		art_scale: ART_DEFAULT.scale,
 		affiliation: {
 			id: 'anime',
 			name: 'Anime',
@@ -56,6 +60,27 @@
 	];
 
 	let flipped = $state(false);
+
+	// ---- editable preview: the on-card Look controls and photo pan/zoom,
+	// wired the same way the real edit screen wires them, so this page can
+	// exercise the interaction without any backend behind it. ----
+	let editStyle = $state<CardStyle>({ ...hero });
+	let editArtUrl = $state<string | null>('https://picsum.photos/seed/concard-edit/500/900');
+	let editArtX = $state(ART_DEFAULT.x);
+	let editArtY = $state(ART_DEFAULT.y);
+	let editArtScale = $state(ART_DEFAULT.scale);
+	const editView = $derived<CardView>({
+		...base,
+		art_url: editArtUrl,
+		style: editStyle,
+		art_x: editArtX,
+		art_y: editArtY,
+		art_scale: editArtScale
+	});
+	function stepIn<T>(values: readonly T[], current: T, dir: 1 | -1): T {
+		const i = values.indexOf(current);
+		return values[(i + dir + values.length) % values.length];
+	}
 </script>
 
 <svelte:head><title>Card gallery · dev</title></svelte:head>
@@ -85,6 +110,28 @@
 	<button class="mt-3 btn-secondary w-full" type="button" onclick={() => (flipped = !flipped)}
 		>Flip</button
 	>
+</section>
+
+<h2 class="mt-10 text-sm font-bold text-dim">Editable (mobile edit preview)</h2>
+<p class="text-xs text-faint">
+	Look controls float right on the card; drag the photo to pan, use the +/− to zoom.
+</p>
+<section class="mx-auto mt-4 max-w-[228px]" data-shot="editable">
+	<Card
+		view={editView}
+		{catalog}
+		editable
+		onframestep={(dir) => (editStyle.frame = stepIn(FRAME_KEYS, editStyle.frame, dir))}
+		onbgstep={(dir) => (editStyle.bg = stepIn(BG_KEYS, editStyle.bg, dir))}
+		oncornersstep={(dir) => (editStyle.shape = stepIn(SHAPES, editStyle.shape, dir))}
+		onphotoshapestep={(dir) =>
+			(editStyle.photo_shape = stepIn(PHOTO_SHAPES, editStyle.photo_shape, dir))}
+		onzoomstep={(dir) => (editArtScale = Math.min(3, Math.max(1, editArtScale + dir * 0.15)))}
+		onartpan={(x, y) => {
+			editArtX = x;
+			editArtY = y;
+		}}
+	/>
 </section>
 
 <h2 class="mt-10 text-sm font-bold text-dim">Variants</h2>
