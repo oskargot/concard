@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { bakedArt } from '$lib/card';
 	import type { Sticker, StickerFoil } from '$lib/types';
 
 	/**
@@ -34,17 +35,26 @@
 	// A same-glyph SVG <text>, used purely as a mask: the browser rasterizes
 	// its ink coverage regardless of the emoji's own colours, giving an alpha
 	// shape that matches what StickerGlyph actually draws.
+	//
+	// Only ever a fallback now, and an approximate one: `y`/`font-size` are a
+	// guess at a baseline, and where a colour emoji actually sits inside its em
+	// box is font metrics this can't know — which is why the foil never quite
+	// centred. Baked stickers mask with artwork cut from the same canvas as the
+	// image beside them instead, so they line up exactly.
 	function glyphMask(glyph: string): string {
 		const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><text x='50' y='68' font-size='76' text-anchor='middle'>${glyph}</text></svg>`;
 		return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 	}
 
+	const baked = $derived(bakedArt(sticker));
 	const iconMask = $derived(
-		sticker?.image_url
-			? `url("${sticker.image_url}")`
-			: sticker?.glyph
-				? glyphMask(sticker.glyph)
-				: null
+		baked
+			? `url("${baked.mask}")`
+			: sticker?.image_url
+				? `url("${sticker.image_url}")`
+				: sticker?.glyph
+					? glyphMask(sticker.glyph)
+					: null
 	);
 
 	const pct = $derived(`${iconSize * 100}%`);
