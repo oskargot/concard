@@ -1,4 +1,5 @@
 import { ART_DEFAULT, BADGE_HOME, normalizeStyle } from '$lib/card-style';
+import { BAKED_STICKERS } from '$lib/sticker-art';
 import type {
 	Affiliation,
 	Card,
@@ -174,6 +175,27 @@ export function snapshotToView(snapshot: unknown): CardSnapshot {
 			avatar_url: owner.avatar_url ?? null
 		}
 	};
+}
+
+/** A sticker's baked die-cut artwork, or null when it has none. */
+export interface BakedArt {
+	/** Artwork with the rim and shadows already drawn in. */
+	src: string;
+	/** The artwork's alpha alone, for masking the foil to its silhouette. */
+	mask: string;
+}
+
+/**
+ * Where to find a sticker's baked artwork.
+ *
+ * An admin upload wins over the bake: `image_url` is custom art somebody chose
+ * for this sticker, while the bake is only ever derived from its emoji, so a
+ * sticker that has both should show the upload. Stickers with neither fall back
+ * to drawing the glyph live with the CSS rim.
+ */
+export function bakedArt(sticker: Sticker | undefined): BakedArt | null {
+	if (!sticker || sticker.image_url || !BAKED_STICKERS.has(sticker.id)) return null;
+	return { src: `/stickers/${sticker.id}.webp`, mask: `/stickers/${sticker.id}.mask.webp` };
 }
 
 export type StickerCatalog = Map<string, Sticker>;

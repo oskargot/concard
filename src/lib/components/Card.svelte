@@ -9,7 +9,8 @@
 		SHAPE_LABEL,
 		stickerRotation
 	} from '$lib/card-style';
-	import type { StickerCatalog } from '$lib/card';
+	import { bakedArt, type StickerCatalog } from '$lib/card';
+	import { BAKED_ART_SCALE } from '$lib/sticker-art';
 	import CardShell from './CardShell.svelte';
 	import StickerGlyph from './StickerGlyph.svelte';
 	import FoilFx from './FoilFx.svelte';
@@ -298,6 +299,8 @@
 		{/if}
 		{#each stickers as s (s.id ?? `${s.sticker_id}-${s.x}-${s.y}`)}
 			{@const isSelected = editable && s.id != null && s.id === selectedId}
+			{@const sticker = catalog.get(s.sticker_id)}
+			{@const baked = bakedArt(sticker)}
 			<div
 				class="sticker"
 				class:selected={isSelected}
@@ -312,15 +315,19 @@
 						}
 					: undefined}
 			>
-				<div class="cut">
-					<StickerGlyph sticker={catalog.get(s.sticker_id)} label={false} />
+				<div
+					class="cut"
+					class:baked={!!baked}
+					style={baked ? `--art-scale: ${BAKED_ART_SCALE * 100}%` : undefined}
+				>
+					<StickerGlyph {sticker} label={false} />
 				</div>
 				{#if s.foil !== 'none'}
 					<div class="sticker-foil">
 						<FoilFx
 							foil={s.foil}
-							sticker={catalog.get(s.sticker_id)}
-							iconSize={0.86}
+							{sticker}
+							iconSize={baked ? BAKED_ART_SCALE : 0.86}
 							lx={foilLx}
 							ly={foilLy}
 							gx={s.foil === 'holo' ? foilGx : undefined}
@@ -677,8 +684,11 @@
 		}
 	}
 
-	/* die-cut stickers, outside the face clip: the image (or emoji glyph) with a
-	   paper-white outline traced around its alpha, like a real vinyl sticker */
+	/* die-cut stickers, outside the face clip: a paper-white outline traced
+	   around the artwork's alpha, like a real vinyl sticker. Baked stickers
+	   arrive with that cut already drawn in (scripts/bake-stickers.mjs); the
+	   rim variables and the filter below are the fallback for stickers with no
+	   baked artwork — admin uploads, and any emoji not in the bake. */
 	.sticker {
 		position: absolute;
 		width: 15.33cqw;
@@ -710,6 +720,19 @@
 		place-items: center;
 		font-size: 11cqw;
 		line-height: 1;
+	}
+	/* The baked canvas carries the rim and shadows around the artwork, so the
+	   image overflows its box by --art-scale to put the artwork itself back at
+	   the 86% the filtered path draws it at. No filter: that is the whole point. */
+	.cut.baked {
+		width: var(--art-scale);
+		height: var(--art-scale);
+	}
+	.cut.baked :global(img) {
+		width: 100%;
+		height: 100%;
+	}
+	.cut:not(.baked) {
 		/* 12 hard shadows trace the paper rim around the alpha; a soft dark edge
 		   keeps pale stickers legible on pale cards; the last one lifts it off the card */
 		filter: drop-shadow(var(--rim-w) 0 0 var(--rim))
@@ -734,9 +757,19 @@
 		pointer-events: auto;
 		cursor: grab;
 	}
-	.sticker.selected {
-		--rim: var(--ink, #17161b);
-		--rim-w: 0.85cqw;
+	/* Selection is a ring around the sticker's own box, not a recoloured rim: a
+	   baked rim is part of the artwork and cannot be recoloured, and a border is
+	   a great deal cheaper than another pass over a filter chain. --ink is the
+	   card's own contrasting ink (see CardShell), so it reads on any card. The
+	   grips sit on the ring's corners. */
+	.sticker.selected::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 3;
+		border: 0.5cqw solid var(--ink, #17161b);
+		border-radius: 1.4cqw;
+		pointer-events: none;
 	}
 
 	/* rotate/resize handles: nested inside the sticker's own rotate+scale

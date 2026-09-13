@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { bakedArt } from '$lib/card';
 	import type { Sticker, StickerFoil } from '$lib/types';
 	import StickerGlyph from './StickerGlyph.svelte';
 	import FoilFx from './FoilFx.svelte';
@@ -24,13 +25,18 @@
 		holoFx?: boolean;
 		holoVariant?: HoloVariant;
 	} = $props();
+
+	// A baked sticker fills the glyph box, rim and shadows included, so its mask
+	// covers the whole box too. A live glyph only inks part of its box, which is
+	// what the 0.82 default allows for.
+	const iconSize = $derived(bakedArt(sticker) ? 1 : 0.82);
 </script>
 
 <button type="button" class="tile foil-{foil}" class:selected {disabled} {onclick} {title}>
 	<span class="glyph"><StickerGlyph {sticker} label={false} /></span>
-	<FoilFx {foil} {sticker} />
+	<FoilFx {foil} {sticker} {iconSize} />
 	{#if holoFx}
-		<HoloFoilFx {sticker} variant={holoVariant} />
+		<HoloFoilFx {sticker} variant={holoVariant} {iconSize} />
 	{/if}
 </button>
 

@@ -42,6 +42,7 @@
 </script>
 
 <script lang="ts">
+	import { bakedArt } from '$lib/card';
 	import type { Sticker } from '$lib/types';
 
 	interface Props {
@@ -86,20 +87,23 @@
 		return () => window.removeEventListener('deviceorientation', onOrientation);
 	});
 
-	// Same trick as FoilFx: a same-glyph SVG <text> (or the sticker's own
-	// artwork) used purely as a mask, so the effect clips to the sticker's
-	// silhouette instead of painting a plain rectangle over it.
+	// Same trick as FoilFx: the sticker's baked alpha, its own artwork, or a
+	// same-glyph SVG <text>, used purely as a mask, so the effect clips to the
+	// sticker's silhouette instead of painting a plain rectangle over it.
 	function glyphMask(glyph: string): string {
 		const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><text x='50' y='68' font-size='76' text-anchor='middle'>${glyph}</text></svg>`;
 		return `url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
 	}
 
+	const baked = $derived(bakedArt(sticker));
 	const iconMask = $derived(
-		sticker?.image_url
-			? `url("${sticker.image_url}")`
-			: sticker?.glyph
-				? glyphMask(sticker.glyph)
-				: null
+		baked
+			? `url("${baked.mask}")`
+			: sticker?.image_url
+				? `url("${sticker.image_url}")`
+				: sticker?.glyph
+					? glyphMask(sticker.glyph)
+					: null
 	);
 
 	const pct = $derived(`${iconSize * 100}%`);
