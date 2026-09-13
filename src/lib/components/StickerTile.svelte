@@ -2,6 +2,7 @@
 	import type { Sticker, StickerFoil } from '$lib/types';
 	import StickerGlyph from './StickerGlyph.svelte';
 	import FoilFx from './FoilFx.svelte';
+	import HoloFoilFx, { type HoloVariant } from './HoloFoilFx.svelte';
 
 	let {
 		sticker,
@@ -9,7 +10,10 @@
 		selected = false,
 		disabled = false,
 		title,
-		onclick
+		onclick,
+		/** Experimental pointer/tilt-driven prismatic foil, off by default — see /dev/holo-fx. */
+		holoFx = false,
+		holoVariant = 'linear'
 	}: {
 		sticker: Sticker | undefined;
 		foil?: StickerFoil;
@@ -17,12 +21,17 @@
 		disabled?: boolean;
 		title?: string;
 		onclick?: () => void;
+		holoFx?: boolean;
+		holoVariant?: HoloVariant;
 	} = $props();
 </script>
 
 <button type="button" class="tile foil-{foil}" class:selected {disabled} {onclick} {title}>
 	<span class="glyph"><StickerGlyph {sticker} label={false} /></span>
 	<FoilFx {foil} {sticker} />
+	{#if holoFx}
+		<HoloFoilFx {sticker} variant={holoVariant} />
+	{/if}
 </button>
 
 <style>
