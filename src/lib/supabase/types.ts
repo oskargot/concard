@@ -16,10 +16,12 @@ export interface Database {
 					username: string;
 					display_name: string;
 					bio: string;
+					pronouns: string | null;
 					avatar_url: string | null;
 					links: Json;
 					active_card_id: string | null;
 					is_admin: boolean;
+					notifications_on_collect: boolean;
 					created_at: string;
 					updated_at: string;
 				};
@@ -28,17 +30,21 @@ export interface Database {
 					username: string;
 					display_name: string;
 					bio?: string;
+					pronouns?: string | null;
 					avatar_url?: string | null;
 					links?: Json;
 					active_card_id?: string | null;
+					notifications_on_collect?: boolean;
 				};
 				Update: {
 					username?: string;
 					display_name?: string;
 					bio?: string;
+					pronouns?: string | null;
 					avatar_url?: string | null;
 					links?: Json;
 					active_card_id?: string | null;
+					notifications_on_collect?: boolean;
 				};
 				Relationships: [];
 			};
@@ -60,6 +66,12 @@ export interface Database {
 				Row: {
 					id: string;
 					owner_id: string;
+					/** Null means "use the profile's value". See 20260914000000. */
+					display_name: string | null;
+					pronouns: string | null;
+					bio: string | null;
+					/** The user's own name for this card in the switcher. */
+					label: string | null;
 					art_url: string | null;
 					art_x: number;
 					art_y: number;
@@ -74,6 +86,10 @@ export interface Database {
 				Insert: {
 					id?: string;
 					owner_id: string;
+					display_name?: string | null;
+					pronouns?: string | null;
+					bio?: string | null;
+					label?: string | null;
 					art_url?: string | null;
 					art_x?: number;
 					art_y?: number;
@@ -84,6 +100,10 @@ export interface Database {
 					affiliation_y?: number;
 				};
 				Update: {
+					display_name?: string | null;
+					pronouns?: string | null;
+					bio?: string | null;
+					label?: string | null;
 					art_url?: string | null;
 					art_x?: number;
 					art_y?: number;
@@ -207,6 +227,10 @@ export interface Database {
 			is_username_available: {
 				Args: { candidate: string };
 				Returns: boolean;
+			};
+			cards_per_user_cap: {
+				Args: Record<string, never>;
+				Returns: number;
 			};
 			sticker_available_count: {
 				Args: { p_owner_id: string; p_sticker_id: string; p_foil?: StickerFoil };

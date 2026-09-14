@@ -340,12 +340,104 @@ do $$ declare v text; begin
   if v = 'hijacked' then raise exception 'non-admin update should not have taken effect'; end if;
 end $$;
 
+-- per-card identity overrides (20260914000000) ---------------------------
+
+-- the two new style axes are validated like the other four
+reset role;
+set local role authenticated;
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000a';
+insert into public.cards (owner_id, style)
+values (auth.uid(), '{"bio_align":"center","link_layout":"grid"}');
+do $$ begin
+  begin
+    insert into public.cards (owner_id, style) values (auth.uid(), '{"bio_align":"justify"}');
+    raise exception 'invalid bio_align accepted';
+  exception when check_violation then null;
+  end;
+  begin
+    insert into public.cards (owner_id, style) values (auth.uid(), '{"link_layout":"carousel"}');
+    raise exception 'invalid link_layout accepted';
+  exception when check_violation then null;
+  end;
+end $$;
+
+-- an override that is present must be usable: no empty display name
+do $$ begin
+  begin
+    insert into public.cards (owner_id, display_name) values (auth.uid(), '');
+    raise exception 'empty display_name override accepted';
+  exception when check_violation then null;
+  end;
+end $$;
+
+-- notifications default on (bible §5)
+do $$ declare v boolean; begin
+  select notifications_on_collect into v from public.profiles where id = auth.uid();
+  if v is not true then raise exception 'notifications should default on'; end if;
+end $$;
+
+-- five cards per user, and the sixth is refused
+do $$ declare n int; cap int := public.cards_per_user_cap(); begin
+  select count(*) into n from public.cards where owner_id = auth.uid();
+  if n > cap then raise exception 'fixture already exceeds the cap: %', n; end if;
+  while n < cap loop
+    insert into public.cards (owner_id) values (auth.uid());
+    n := n + 1;
+  end loop;
+  begin
+    insert into public.cards (owner_id) values (auth.uid());
+    raise exception 'card cap was not enforced at %', cap;
+  exception when others then
+    if sqlerrm <> 'card_cap_reached' then raise; end if;
+  end;
+end $$;
+
+-- a card with overrides speaks for itself; the snapshot carries its values
+update public.profiles set pronouns = 'she/her' where id = auth.uid();
+update public.cards
+   set display_name = 'Jade the Armourer', bio = 'Ask me about the wings.', pronouns = 'they/them'
+ where id = '10000000-0000-0000-0000-000000000002';
+
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000c';
+do $$ declare snap jsonb; begin
+  snap := public.collect_card('alice_01')->'card_snapshot';
+  if (snap->>'title') <> 'Jade the Armourer' then
+    raise exception 'snapshot should use the card display_name, got %', snap->>'title'; end if;
+  if (snap->>'bio') <> 'Ask me about the wings.' then
+    raise exception 'snapshot should use the card bio, got %', snap->>'bio'; end if;
+  if (snap->>'pronouns') <> 'they/them' then
+    raise exception 'snapshot should use the card pronouns, got %', snap->>'pronouns'; end if;
+  -- the owner block still reports the profile, so a binder can link to the person
+  if (snap->'owner'->>'display_name') <> 'Alice' then
+    raise exception 'owner block should stay the profile name, got %', snap->'owner'->>'display_name'; end if;
+end $$;
+
+-- with the overrides cleared, the same card falls back to the profile
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000a';
+update public.cards set display_name = null, bio = null, pronouns = null
+ where id = '10000000-0000-0000-0000-000000000002';
+
+reset role;
+insert into auth.users (id, email) values ('00000000-0000-0000-0000-00000000000d', 'd@example.com');
+set local role authenticated;
+set local request.jwt.claim.sub = '00000000-0000-0000-0000-00000000000d';
+insert into public.profiles (id, username, display_name) values (auth.uid(), 'dev_dana', 'Dana');
+do $$ declare snap jsonb; begin
+  snap := public.collect_card('alice_01')->'card_snapshot';
+  if (snap->>'title') <> 'Alice' then
+    raise exception 'null override should fall back to the profile name, got %', snap->>'title'; end if;
+  if (snap->>'bio') <> 'Cosplayer, sewist, tea person.' then
+    raise exception 'null override should fall back to the profile bio, got %', snap->>'bio'; end if;
+  if (snap->>'pronouns') <> 'she/her' then
+    raise exception 'null override should fall back to the profile pronouns, got %', snap->>'pronouns'; end if;
+end $$;
+
 -- anonymous: can read profiles, templates, stickers and displayed cards; cannot collect
 reset role;
 set local role anon;
 set local request.jwt.claim.sub = '';
 do $$ declare n int; begin
-  select count(*) into n from public.profiles; if n <> 3 then raise exception 'anon should see 3 profiles'; end if;
+  select count(*) into n from public.profiles; if n <> 4 then raise exception 'anon should see 4 profiles'; end if;
   select count(*) into n from public.fandoms; if n < 1 then raise exception 'anon should see fandoms'; end if;
   select count(*) into n from public.cards; if n <> 1 then raise exception 'anon should see only displayed cards, saw %', n; end if;
   select count(*) into n from public.collections; if n <> 0 then raise exception 'anon should see no collections'; end if;
