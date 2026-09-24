@@ -1,5 +1,7 @@
 // Copied verbatim from concard-app/src/stickers/fandom-layout.ts by
 // scripts/sync-sticker-renderer.mjs. Edit it there, then re-run the script.
+// Linted in concard-app, under that repo's rules.
+/* eslint-disable */
 
 /**
  * Deterministic layout for generative fandom stickers.

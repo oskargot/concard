@@ -18,7 +18,8 @@ for (const file of FILES) {
 	const src = readFileSync(path.join(app, 'src/stickers', file), 'utf8');
 	const out =
 		`// Copied verbatim from concard-app/src/stickers/${file} by\n` +
-		`// scripts/sync-sticker-renderer.mjs. Edit it there, then re-run the script.\n\n` +
+		`// scripts/sync-sticker-renderer.mjs. Edit it there, then re-run the script.\n` +
+		`// Linted in concard-app, under that repo's rules.\n/* eslint-disable */\n\n` +
 		src.replace(`import { font } from '@/theme/tokens';`, `import { font } from './fonts';`);
 	writeFileSync(path.join(here, '../src/lib/stickers', file), out);
 	console.log(`synced ${file}`);

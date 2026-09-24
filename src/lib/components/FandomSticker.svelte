@@ -1,5 +1,10 @@
 <script lang="ts" module>
-	let nextId = 0;
+	let lastId = 0;
+	/** A page-unique id for this sticker's mask and gradient. */
+	function nextId(): string {
+		lastId += 1;
+		return `fandom-${lastId}`;
+	}
 </script>
 
 <script lang="ts">
@@ -32,7 +37,7 @@
 
 	let { label, styleCategory, width, foil = 'none', lx = 30 }: Props = $props();
 
-	const id = `fandom-${nextId++}`;
+	const id = nextId();
 	const layout = $derived(layoutFandomSticker(label, recipeFor(styleCategory), width));
 	const height = $derived(layout ? stickerHeight(layout, width) : 0);
 	const transform = $derived(

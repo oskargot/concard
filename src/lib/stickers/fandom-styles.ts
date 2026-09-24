@@ -1,5 +1,7 @@
 // Copied verbatim from concard-app/src/stickers/fandom-styles.ts by
 // scripts/sync-sticker-renderer.mjs. Edit it there, then re-run the script.
+// Linted in concard-app, under that repo's rules.
+/* eslint-disable */
 
 /**
  * Visual recipes for generative fandom stickers.

@@ -1,5 +1,7 @@
 // Copied verbatim from concard-app/src/stickers/font-metrics.ts by
 // scripts/sync-sticker-renderer.mjs. Edit it there, then re-run the script.
+// Linted in concard-app, under that repo's rules.
+/* eslint-disable */
 
 /**
  * Advance widths for the bundled sticker fonts, as thousandths of an em.
