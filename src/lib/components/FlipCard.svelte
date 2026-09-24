@@ -23,9 +23,13 @@
 	let ry = $state(0);
 	let dragging = $state(false);
 	let reduceMotion = $state(false);
+	let el: HTMLDivElement | undefined = $state();
 
 	const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
 	const TAP_THRESHOLD_PX = 9;
+	/** concard-app's FlipCard: ±10° is full tilt, reached over 55% of the card's width. */
+	const TILT_RANGE = 10;
+	const DRAG_TO_FULL = 0.55;
 
 	let start: { x: number; y: number; id: number } | null = null;
 	let moved = 0;
@@ -35,11 +39,45 @@
 		reduceMotion = mq.matches;
 		const onChange = () => (reduceMotion = mq.matches);
 		mq.addEventListener('change', onChange);
-		return () => mq.removeEventListener('change', onChange);
+		return () => {
+			mq.removeEventListener('change', onChange);
+			cancelAnimationFrame(springFrame);
+		};
 	});
+
+	// The release: the app's withSpring(0, { damping: 16, stiffness: 140 }),
+	// so the light settles back the way it does on a phone.
+	let springFrame = 0;
+	let vx = 0;
+	let vy = 0;
+	function settle() {
+		cancelAnimationFrame(springFrame);
+		let last = performance.now();
+		const step = (now: number) => {
+			const dt = Math.min(0.032, (now - last) / 1000);
+			last = now;
+			vx += (-140 * rx - 16 * vx) * dt;
+			vy += (-140 * ry - 16 * vy) * dt;
+			rx += vx * dt;
+			ry += vy * dt;
+			if (
+				Math.abs(rx) < 0.01 &&
+				Math.abs(ry) < 0.01 &&
+				Math.abs(vx) < 0.05 &&
+				Math.abs(vy) < 0.05
+			) {
+				rx = ry = vx = vy = 0;
+				return;
+			}
+			springFrame = requestAnimationFrame(step);
+		};
+		springFrame = requestAnimationFrame(step);
+	}
 
 	function down(e: PointerEvent) {
 		if (e.pointerType === 'mouse' && e.button !== 0) return;
+		cancelAnimationFrame(springFrame);
+		vx = vy = 0;
 		start = { x: e.clientX, y: e.clientY, id: e.pointerId };
 		moved = 0;
 		dragging = true;
@@ -52,16 +90,16 @@
 		const dy = e.clientY - start.y;
 		moved = Math.max(moved, Math.hypot(dx, dy));
 		if (reduceMotion) return;
-		ry = clamp(dx / 5, -22, 22);
-		rx = clamp(-dy / 6, -18, 18);
+		const span = (el?.clientWidth ?? 300) * DRAG_TO_FULL;
+		ry = clamp((dx / span) * TILT_RANGE, -TILT_RANGE, TILT_RANGE);
+		rx = clamp((-dy / span) * TILT_RANGE, -TILT_RANGE, TILT_RANGE);
 	}
 	function up(e: PointerEvent) {
 		if (!start || e.pointerId !== start.id) return;
 		const tap = moved < TAP_THRESHOLD_PX;
 		start = null;
 		dragging = false;
-		rx = 0;
-		ry = 0;
+		settle();
 		if (tap && canFlip) flipped = !flipped;
 	}
 	function key(e: KeyboardEvent) {
@@ -72,12 +110,13 @@
 		}
 	}
 
-	const transform = $derived(`rotateY(${flipped ? 180 + ry : ry}deg) rotateX(${rx}deg)`);
+	const tiltTransform = $derived(`rotateY(${ry}deg) rotateX(${rx}deg)`);
 </script>
 
 <!-- role is 'button' whenever tabindex is set; the checker can't see the pairing -->
 <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
 <div
+	bind:this={el}
 	class="flip"
 	class:flipped
 	class:dragging
@@ -92,11 +131,13 @@
 	onpointercancel={up}
 	onkeydown={key}
 >
-	<div class="inner" style="transform: {transform}">
-		<div class="side front">{@render front({ rx, ry, dragging })}</div>
-		{#if back}
-			<div class="side back">{@render back({ rx, ry, dragging })}</div>
-		{/if}
+	<div class="tilt" style="transform: {tiltTransform}">
+		<div class="inner">
+			<div class="side front">{@render front({ rx, ry, dragging })}</div>
+			{#if back}
+				<div class="side back">{@render back({ rx, ry, dragging })}</div>
+			{/if}
+		</div>
 	</div>
 </div>
 
@@ -112,7 +153,7 @@
 		  point it would land ~80ms late and WebKit would flash the mirrored front.
 		*/
 		--turn-edge-on: calc(var(--turn) * 0.36);
-		perspective: 1600px;
+		perspective: 1400px;
 		cursor: pointer;
 		touch-action: none;
 		-webkit-tap-highlight-color: transparent;
@@ -127,15 +168,18 @@
 		outline-offset: 8px;
 		border-radius: 12px;
 	}
+	.tilt {
+		transform-style: preserve-3d;
+	}
 	.inner {
 		position: relative;
 		width: 100%;
-		aspect-ratio: 5 / 7;
+		aspect-ratio: 250 / 350;
 		transform-style: preserve-3d;
 		transition: transform var(--turn) cubic-bezier(0.4, 0.1, 0.2, 1);
 	}
-	.dragging .inner {
-		transition: transform 0.08s linear;
+	.flipped .inner {
+		transform: rotateY(180deg);
 	}
 	/*
 	  Keeping the two faces apart takes three things, because each covers a case

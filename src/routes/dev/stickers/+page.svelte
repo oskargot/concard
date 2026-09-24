@@ -25,7 +25,7 @@
 </p>
 
 <section class="mx-auto mt-6 max-w-[266px]" data-shot="card">
-	<Card {view} {catalog} rx={0} ry={tilt} />
+	<Card {view} {catalog} foil="none" rx={0} ry={tilt} />
 </section>
 
 <div class="mt-4 flex justify-center gap-2 text-xs">

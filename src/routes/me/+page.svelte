@@ -5,6 +5,7 @@
 	import FlipCard from '$lib/components/FlipCard.svelte';
 	import { cardToView, catalogFrom, fandomMap } from '$lib/card';
 	import { normalizeStyle } from '$lib/card-style';
+	import { foilForTier } from '$lib/app-card/tiers';
 
 	let { data, form } = $props();
 
@@ -52,19 +53,18 @@
 				{#snippet front(t)}<Card
 						view={activeView}
 						{catalog}
+						foil={foilForTier(0)}
 						rx={t.rx}
 						ry={t.ry}
-						dragging={t.dragging}
 					/>{/snippet}
 				{#snippet back(t)}
 					<CardBack
 						variant="qr"
 						style={normalizeStyle(active.style)}
-						qrSvg={data.qr}
+						qrValue={data.link}
 						url={prettyLink}
 						rx={t.rx}
 						ry={t.ry}
-						dragging={t.dragging}
 					/>
 				{/snippet}
 			</FlipCard>
@@ -120,6 +120,8 @@
 						<Card
 							view={cardToView(card, data.profile, isActive ? data.placements : [], fandoms)}
 							{catalog}
+							foil={foilForTier(0)}
+							detail="thumb"
 						/>
 					</a>
 					{#if isActive}

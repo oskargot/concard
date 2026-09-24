@@ -5,6 +5,7 @@
 	import FlipCard from '$lib/components/FlipCard.svelte';
 	import StickerGlyph from '$lib/components/StickerGlyph.svelte';
 	import { catalogFrom, snapshotToView } from '$lib/card';
+	import { foilForTier, tierForMeetings } from '$lib/app-card/tiers';
 
 	let { data } = $props();
 
@@ -44,9 +45,9 @@
 		{#snippet front(t)}<Card
 				view={snap}
 				{catalog}
+				foil={foilForTier(tierForMeetings(data.meetings))}
 				rx={t.rx}
 				ry={t.ry}
-				dragging={t.dragging}
 			/>{/snippet}
 		{#snippet back(t)}<CardBack
 				variant="record"
@@ -54,7 +55,6 @@
 				{record}
 				rx={t.rx}
 				ry={t.ry}
-				dragging={t.dragging}
 			/>{/snippet}
 	</FlipCard>
 </div>

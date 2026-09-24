@@ -6,7 +6,7 @@ import {
 	STICKER_IMAGE_MAX_BYTES,
 	STICKER_IMAGE_TYPES
 } from '$lib/server/forms';
-import type { StickerRarity, StickerSource } from '$lib/supabase/types';
+import type { Database, StickerRarity, StickerSource } from '$lib/supabase/types';
 import type { Actions, PageServerLoad } from './$types';
 
 const SLUG = /^[a-z0-9][a-z0-9-]{1,29}$/;
@@ -113,7 +113,7 @@ export const actions: Actions = {
 		const sourceRaw = str(form, 'source', 20);
 		const priceRaw = str(form, 'price_cents', 10);
 
-		const patch: Record<string, unknown> = {
+		const patch: Database['public']['Tables']['stickers']['Update'] = {
 			name,
 			glyph: str(form, 'glyph', 8) || null,
 			rarity: isRarity(rarityRaw) ? rarityRaw : 'common',

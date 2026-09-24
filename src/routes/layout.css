@@ -41,6 +41,27 @@
 	font-display: block;
 }
 
+/*
+ * The card face's type (card spec §9): Outfit 400 / 600 / 700, the app's own
+ * TTFs under the app's family names (scripts/sync-card-spec.mjs copies them),
+ * because the shared layout measured its line breaks from exactly these files.
+ */
+@font-face {
+	font-family: 'Outfit-Regular';
+	src: url('/fonts/card/Outfit-Regular.ttf') format('truetype');
+	font-display: block;
+}
+@font-face {
+	font-family: 'Outfit-SemiBold';
+	src: url('/fonts/card/Outfit-SemiBold.ttf') format('truetype');
+	font-display: block;
+}
+@font-face {
+	font-family: 'Outfit-Bold';
+	src: url('/fonts/card/Outfit-Bold.ttf') format('truetype');
+	font-display: block;
+}
+
 /**
  * The app is the album; the card is the thing in it.
  *
@@ -165,34 +186,4 @@ body {
 /* Panels are stock, not glass: a flat warm surface with a real hairline. */
 @utility panel {
 	@apply rounded-xl border border-line bg-surface p-4;
-}
-
-/* Card light position: registered so the highlight can transition on release. */
-@property --lx {
-	syntax: '<percentage>';
-	inherits: true;
-	initial-value: 50%;
-}
-@property --ly {
-	syntax: '<percentage>';
-	inherits: true;
-	initial-value: 30%;
-}
-
-/*
- * A holo sticker's grain drift (see FoilFx.svelte): registered the same way
- * as --lx/--ly above so it can be keyframe-animated. Glitter holds its grain
- * still and only sweeps --lx/--ly across it; holo also drifts --gx/--gy —
- * the parallax version of the card's own effect that was tried and shelved
- * for the card face itself (docs/DESIGN.md).
- */
-@property --gx {
-	syntax: '<percentage>';
-	inherits: true;
-	initial-value: 0%;
-}
-@property --gy {
-	syntax: '<percentage>';
-	inherits: true;
-	initial-value: 0%;
 }

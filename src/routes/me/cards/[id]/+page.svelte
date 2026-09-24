@@ -4,30 +4,46 @@
 	import Card from '$lib/components/Card.svelte';
 	import StickerTile from '$lib/components/StickerTile.svelte';
 	import {
+		BIO_MAX,
 		catalogFrom,
 		fandomMap,
 		fandomToAffiliation,
 		FOIL_LABEL,
 		placementToPlaced,
-		RARITY_LABEL,
-		readLinks
+		RARITY_LABEL
 	} from '$lib/card';
 	import {
+		ALIGNMENT_LABEL,
+		ALIGNMENTS,
 		ART_SCALE_RANGE,
 		BADGE_HOME,
 		BG_KEYS,
+		BG_LABEL,
+		BGS,
 		FRAME_KEYS,
+		FRAME_LABEL,
+		FRAMES,
 		normalizeStyle,
+		PHOTO_SHAPE_LABEL,
 		PHOTO_SHAPES,
-		SHAPES,
-		stickerRotation,
 		STICKER_SCALE_RANGE,
 		STICKER_X_RANGE,
 		STICKER_Y_RANGE,
+		stickerRotation,
 		type CardStyle
 	} from '$lib/card-style';
 	import { baseSizeOf, MAX_STICKERS_PER_CARD, STICKER_BASE_WIDTH } from '$lib/stickers/resolve';
-	import type { CardView, PlacedSticker, ProfileLink } from '$lib/types';
+	import {
+		canAddLink,
+		layoutFront,
+		photoHeightStops,
+		snapPhotoHeight
+	} from '$lib/app-card/layout/front';
+	import { displayHandle, LINK_HANDLE_MAX, MAX_LINKS, normalizeLinks } from '$lib/app-card/links';
+	import { linkInfo } from '$lib/app-card/link-platforms';
+	import { foilForTier } from '$lib/app-card/tiers';
+	import { fitNotices } from '$lib/app-card/editor/fit-notices';
+	import type { CardLink, CardView, PlacedSticker } from '$lib/types';
 
 	type PlacementPatch = Partial<Pick<PlacedSticker, 'x' | 'y' | 'rotation' | 'scale' | 'z_index'>>;
 
@@ -38,19 +54,26 @@
 	// protected route: the hook guarantees a profile here
 	const profile = $derived(data.profile!);
 
-	// ---- who you are (profile) and how this card looks (card); previewed live ----
+	// ---- what this card says, and how it looks; previewed live ----
+	// Each text field shows the card's own value, or the profile's it inherits
+	// (null on the card); the server writes it back as null again whenever it
+	// matches the profile — concard-app's inherit rule (use-card-editor.ts).
 	// Seeded once from the server; later invalidations must not clobber edits in progress.
 	// svelte-ignore state_referenced_locally
-	let displayName = $state(profile.display_name);
-	// svelte-ignore state_referenced_locally
-	let bio = $state(profile.bio);
-	// svelte-ignore state_referenced_locally
-	const existingLinks = readLinks(profile.links);
-	let links = $state<ProfileLink[]>(
-		existingLinks.length ? existingLinks.map((l) => ({ ...l })) : [{ label: '', url: '' }]
+	const seed = {
+		display_name: data.card.display_name ?? profile.display_name,
+		pronouns: data.card.pronouns ?? profile.pronouns ?? '',
+		bio: data.card.bio ?? profile.bio ?? '',
+		links: normalizeLinks(data.card.links),
+		style: normalizeStyle(data.card.style)
+	};
+	let displayName = $state(seed.display_name);
+	let pronouns = $state(seed.pronouns);
+	let bio = $state(seed.bio);
+	let links = $state<CardLink[]>(
+		seed.links.length ? seed.links.map((l) => ({ ...l })) : [{ url: '', handle: '' }]
 	);
-	// svelte-ignore state_referenced_locally
-	let style = $state<CardStyle>(normalizeStyle(data.card.style));
+	let style = $state<CardStyle>({ ...seed.style });
 	// svelte-ignore state_referenced_locally
 	let affiliation = $state<string>(data.card.affiliation ?? '');
 	// svelte-ignore state_referenced_locally
@@ -64,27 +87,30 @@
 	// svelte-ignore state_referenced_locally
 	let artScale = $state(Number(data.card.art_scale));
 
-	// Style and profile fields only persist on Save, while stickers and the photo
-	// write straight through. Track what is still unsaved so the save bar can say
-	// so, rather than letting an edit quietly disappear on navigate.
-	const savedStyle = $derived(normalizeStyle(data.card.style));
-	const savedLinks = $derived(readLinks(profile.links));
+	/** Rows with a url are links; a blank row is only a place to type. */
 	const filledLinks = $derived(links.filter((l) => l.url.trim()));
+	const linkCount = $derived(filledLinks.length);
+
+	// Card fields only persist on Save, while stickers and the photo write
+	// straight through. Track what is still unsaved so the save bar can say so,
+	// rather than letting an edit quietly disappear on navigate.
 	const dirty = $derived(
-		displayName !== profile.display_name ||
-			bio !== profile.bio ||
+		displayName !== seed.display_name ||
+			pronouns !== seed.pronouns ||
+			bio !== seed.bio ||
 			affiliation !== (data.card.affiliation ?? '') ||
-			style.frame !== savedStyle.frame ||
-			style.bg !== savedStyle.bg ||
-			style.shape !== savedStyle.shape ||
-			style.photo_shape !== savedStyle.photo_shape ||
+			style.frame !== seed.style.frame ||
+			style.bg !== seed.style.bg ||
+			style.photo_shape !== seed.style.photo_shape ||
+			style.alignment !== seed.style.alignment ||
+			style.photo_height !== seed.style.photo_height ||
 			badgeX !== Number(data.card.affiliation_x) ||
 			badgeY !== Number(data.card.affiliation_y) ||
 			artX !== Number(data.card.art_x) ||
 			artY !== Number(data.card.art_y) ||
 			artScale !== Number(data.card.art_scale) ||
-			filledLinks.length !== savedLinks.length ||
-			filledLinks.some((l, i) => l.url !== savedLinks[i]?.url || l.label !== savedLinks[i]?.label)
+			filledLinks.length !== seed.links.length ||
+			filledLinks.some((l, i) => l.url !== seed.links[i]?.url || l.handle !== seed.links[i]?.handle)
 	);
 
 	// ---- stickers (saved directly through the browser client) ----
@@ -107,6 +133,7 @@
 		return {
 			title: displayName || 'Your name',
 			handle: profile.username,
+			pronouns: pronouns || null,
 			bio,
 			art_url: data.card.art_url,
 			art_x: artX,
@@ -114,7 +141,7 @@
 			art_scale: artScale,
 			style,
 			affiliation: base ? null : fandomToAffiliation(fandom, badgeX, badgeY),
-			links: links.filter((l) => l.url.trim()),
+			links: filledLinks,
 			stickers:
 				base && fandom
 					? [
@@ -248,13 +275,46 @@
 		const i = values.indexOf(current);
 		return values[(i + dir + values.length) % values.length];
 	}
-	const stepFrame = (dir: 1 | -1) => (style.frame = step(FRAME_KEYS, style.frame, dir));
-	const stepBg = (dir: 1 | -1) => (style.bg = step(BG_KEYS, style.bg, dir));
-	const stepCorners = (dir: 1 | -1) => (style.shape = step(SHAPES, style.shape, dir));
-	const stepPhotoShape = (dir: 1 | -1) =>
-		(style.photo_shape = step(PHOTO_SHAPES, style.photo_shape, dir));
 	const stepZoom = (dir: 1 | -1) =>
 		(artScale = clamp(round(artScale + dir * 0.15), ...ART_SCALE_RANGE));
+
+	// ---- the photo / bio divider, as a stepper over the spec's stops ----
+	const stops = $derived(photoHeightStops(linkCount));
+	const photoHeight = $derived(snapPhotoHeight(style.photo_height, linkCount));
+	function stepPhotoHeight(dir: 1 | -1) {
+		const i = stops.indexOf(photoHeight);
+		style.photo_height = stops[Math.min(stops.length - 1, Math.max(0, i + dir))];
+	}
+
+	// ---- what doesn't fit, said out loud (the app's fit notices) ----
+	const notices = $derived(
+		fitNotices(
+			layoutFront({
+				name: view.title,
+				username: view.handle,
+				pronouns: view.pronouns,
+				bio: view.bio,
+				linkHandles: filledLinks.map(displayHandle),
+				photoShape: style.photo_shape,
+				photoHeight: style.photo_height,
+				alignment: style.alignment
+			}),
+			linkCount > 0
+		)
+	);
+
+	// ---- links: paste a url, the handle fills itself in ----
+	const hasDraftRow = $derived(links.some((l) => !l.url.trim()));
+	const addable = $derived(!hasDraftRow && canAddLink(style.photo_height, linkCount));
+	function onLinkUrl(i: number, url: string) {
+		const before = links[i];
+		const suggested = linkInfo(before.url)?.handle ?? '';
+		// Keep a handle the user typed; follow the url while it's still the suggestion.
+		const handle =
+			!before.handle || before.handle === suggested ? (linkInfo(url)?.handle ?? '') : before.handle;
+		links[i] = { url, handle: handle.slice(0, LINK_HANDLE_MAX) };
+	}
+
 	function onArtPan(x: number, y: number) {
 		artX = x;
 		artY = y;
@@ -354,25 +414,18 @@
 			onstickerhandledown={onStickerHandleDown}
 			onbadgedown={onBadgeDown}
 			onfacedown={onFaceDown}
-			onframestep={stepFrame}
-			onbgstep={stepBg}
-			oncornersstep={stepCorners}
-			onphotoshapestep={stepPhotoShape}
-			onzoomstep={stepZoom}
 			onartpan={onArtPan}
+			foil={foilForTier(0)}
 		/>
 	</div>
 
-	<!--
-	  Look and photo framing live on the card itself: pills at the frame,
-	  background, corners and photo shape's own spot on the card, stepped with
-	  their arrows, plus drag-to-pan and the zoom buttons on the photo. These
-	  hidden inputs carry the current values into the save form below.
-	-->
+	<!-- the look, stepped in the panel below; these carry it into the save form -->
 	<input type="hidden" form="card-save" name="frame" value={style.frame} />
 	<input type="hidden" form="card-save" name="bg" value={style.bg} />
-	<input type="hidden" form="card-save" name="shape" value={style.shape} />
 	<input type="hidden" form="card-save" name="photo_shape" value={style.photo_shape} />
+	<input type="hidden" form="card-save" name="alignment" value={style.alignment} />
+	<input type="hidden" form="card-save" name="photo_height" value={photoHeight} />
+	<input type="hidden" form="card-save" name="links" value={JSON.stringify(filledLinks)} />
 	<input type="hidden" form="card-save" name="art_x" value={artX} />
 	<input type="hidden" form="card-save" name="art_y" value={artY} />
 	<input type="hidden" form="card-save" name="art_scale" value={artScale} />
@@ -391,14 +444,65 @@
 			Tap a sticker or badge to pick it up, or drag the photo to reframe it
 		</p>
 	{/if}
+	{#each notices as n (n.key)}
+		<p class="mt-1 text-center text-xs text-dim">{n.text}</p>
+	{/each}
 </div>
+
+{#snippet stepper(name: string, label: string, dot: string | null, onstep: (dir: 1 | -1) => void)}
+	<div class="step">
+		<span class="label !mb-0">{name}</span>
+		<div class="pill">
+			<button type="button" class="arrow" aria-label="Previous {name}" onclick={() => onstep(-1)}
+				>‹</button
+			>
+			<span class="val">
+				{#if dot}<span class="dot" style="background: {dot}"></span>{/if}
+				{label}
+			</span>
+			<button type="button" class="arrow" aria-label="Next {name}" onclick={() => onstep(1)}
+				>›</button
+			>
+		</div>
+	</div>
+{/snippet}
+
+<section class="mt-4 panel">
+	<h2 class="display text-lg">Look</h2>
+	<div class="mt-3 grid gap-2">
+		{@render stepper('Edge', FRAME_LABEL[style.frame], FRAMES[style.frame], (d) => {
+			style.frame = step(FRAME_KEYS, style.frame, d);
+		})}
+		{@render stepper('Face', BG_LABEL[style.bg], BGS[style.bg], (d) => {
+			style.bg = step(BG_KEYS, style.bg, d);
+		})}
+		{@render stepper('Photo shape', PHOTO_SHAPE_LABEL[style.photo_shape], null, (d) => {
+			style.photo_shape = step(PHOTO_SHAPES, style.photo_shape, d);
+		})}
+		{@render stepper('Alignment', ALIGNMENT_LABEL[style.alignment], null, (d) => {
+			style.alignment = step(ALIGNMENTS, style.alignment, d);
+		})}
+		{@render stepper(
+			'Photo height',
+			`${stops.indexOf(photoHeight) + 1} of ${stops.length}`,
+			null,
+			stepPhotoHeight
+		)}
+		{#if data.card.art_url}
+			{@render stepper('Zoom', `${Math.round(artScale * 100)}%`, null, stepZoom)}
+		{/if}
+	</div>
+	<p class="mt-2 text-xs text-faint">
+		A taller photo leaves the bio fewer lines. Links never shrink the photo.
+	</p>
+</section>
 
 <!-- the badge is placed and dragged like a sticker, so it is picked the same way -->
 <section class="mt-4 panel">
 	<h2 class="display text-lg">Fandom</h2>
 	<p class="mt-1 text-xs text-faint">
-		Tap a badge to put it on the card, then drag it anywhere. It starts in the corner the badge has
-		always sat in.
+		Tap a fandom to put its sticker on the card, then drag it anywhere. It starts in the card's
+		bottom-right corner.
 	</p>
 	<input type="hidden" form="card-save" name="affiliation" value={affiliation} />
 	<input type="hidden" form="card-save" name="affiliation_x" value={badgeX} />
@@ -492,9 +596,9 @@
 
 <section class="mt-4 space-y-4 panel">
 	<div>
-		<h2 class="display text-lg">You</h2>
+		<h2 class="display text-lg">On this card</h2>
 		<p class="text-xs text-faint">
-			Shared by all your cards. @{profile.username} can't be changed.
+			Left as your profile's, a field follows your profile. @{profile.username} can't be changed.
 		</p>
 	</div>
 	<div>
@@ -510,6 +614,18 @@
 		/>
 	</div>
 	<div>
+		<label class="label" for="pronouns">Pronouns</label>
+		<input
+			id="pronouns"
+			form="card-save"
+			class="field"
+			name="pronouns"
+			maxlength="30"
+			placeholder="they/them"
+			bind:value={pronouns}
+		/>
+	</div>
+	<div>
 		<label class="label" for="bio">Bio</label>
 		<textarea
 			id="bio"
@@ -517,32 +633,31 @@
 			class="field"
 			name="bio"
 			rows="3"
-			maxlength="200"
+			maxlength={BIO_MAX}
 			bind:value={bio}></textarea>
 	</div>
 	<fieldset>
 		<legend class="label">Links</legend>
 		<p class="mb-2 text-xs text-faint">
-			The first three show on the card as chips; all of them are tappable under it. Up to 8.
+			Paste a link; its icon and handle fill themselves in. Up to {MAX_LINKS}, in two columns.
 		</p>
 		<div class="space-y-2">
 			{#each links as link, i (i)}
 				<div class="flex gap-2">
 					<input
-						form="card-save"
-						class="field !w-28"
-						name="link_label"
-						placeholder="Label"
-						maxlength="30"
-						bind:value={link.label}
-					/>
-					<input
-						form="card-save"
 						class="field flex-1"
-						name="link_url"
 						placeholder="https://…"
 						inputmode="url"
-						bind:value={link.url}
+						aria-label="Link {i + 1}"
+						value={link.url}
+						oninput={(e) => onLinkUrl(i, e.currentTarget.value)}
+					/>
+					<input
+						class="field !w-32"
+						placeholder="handle"
+						maxlength={LINK_HANDLE_MAX}
+						aria-label="Handle {i + 1}"
+						bind:value={link.handle}
 					/>
 					<button
 						type="button"
@@ -553,14 +668,21 @@
 				</div>
 			{/each}
 		</div>
-		{#if links.length < 8}
+		{#if links.length < MAX_LINKS}
 			<button
 				type="button"
 				class="mt-2 btn-secondary"
-				onclick={() => (links = [...links, { label: '', url: '' }])}
+				disabled={!addable}
+				onclick={() => (links = [...links, { url: '', handle: '' }])}
 			>
 				Add link
 			</button>
+			{#if !addable && !hasDraftRow}
+				<p class="mt-1 text-xs text-faint">
+					Another link needs a new row, and the photo is using that space. Make the photo shorter to
+					make room.
+				</p>
+			{/if}
 		{/if}
 	</fieldset>
 </section>
@@ -590,7 +712,7 @@
 		</div>
 	{:else if form?.saved}
 		<div class="bar border-line">
-			<p class="text-sm text-sage" role="status">Saved.</p>
+			<p class="text-sm text-sage" role="status">{form.notice ?? 'Saved.'}</p>
 		</div>
 	{/if}
 </form>
@@ -624,6 +746,45 @@
 		backdrop-filter: blur(10px);
 		padding: 0.75rem;
 		box-shadow: 0 12px 32px rgb(0 0 0 / 0.6);
+	}
+	.step {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.75rem;
+	}
+	.pill {
+		display: flex;
+		align-items: center;
+		gap: 0.1rem;
+		border-radius: 0.5rem;
+		border: 1px solid var(--color-line);
+		background: var(--color-ground);
+		padding: 0.1rem;
+	}
+	.arrow {
+		width: 1.6rem;
+		height: 1.6rem;
+		border-radius: 0.35rem;
+		color: var(--color-dim);
+	}
+	.arrow:active {
+		background: var(--color-raised);
+	}
+	.val {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.35rem;
+		min-width: 6.5rem;
+		font-size: 0.75rem;
+		font-weight: 600;
+	}
+	.dot {
+		width: 0.7rem;
+		height: 0.7rem;
+		border-radius: 0.2rem;
+		border: 1px solid var(--color-line);
 	}
 	.fandom {
 		display: flex;

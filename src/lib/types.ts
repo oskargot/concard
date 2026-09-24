@@ -1,5 +1,6 @@
 import type { Tables, StickerFoil } from '$lib/supabase/types';
 import type { CardStyle } from '$lib/card-style';
+import type { FandomStyleCategory } from '$lib/stickers/types';
 
 export type { StickerFoil };
 
@@ -10,21 +11,37 @@ export type Sticker = Tables<'stickers'>;
 export type StickerPlacement = Tables<'sticker_placements'>;
 export type Collection = Tables<'collections'>;
 
+/** A link on a profile, as the profile editor stores it (`profiles.links`). */
 export interface ProfileLink {
 	label: string;
 	url: string;
 }
 
-/** The fandom badge as rendered on a card; frozen into snapshots. */
+/**
+ * A link pill (card spec §3.5, §8), as concard-app's `CardLink`: its position
+ * is its index, its icon comes from the url's domain when drawn. The synced
+ * `app-card/links.ts` reads and writes this shape.
+ */
+export interface CardLink {
+	url: string;
+	/** Shown on the pill. Pre-filled from the url, then the user's to edit. */
+	handle: string;
+}
+
+/**
+ * The fandom affiliation as rendered on a card — concard-app's `Affiliation`:
+ * enough to redraw the generative sticker forever without a fandoms lookup.
+ */
 export interface Affiliation {
 	id: string;
 	name: string;
-	mark: string;
-	color_a: string;
-	color_b: string;
-	/** Placed on the face like a sticker: 0..1 of the card, centre of the badge. */
+	style_category: FandomStyleCategory;
+	/** Placed on the face like a sticker: 0..1 of the card, centre of the sticker. */
 	x: number;
 	y: number;
+	rotation: number;
+	scale: number;
+	foil: StickerFoil;
 }
 
 /**
@@ -57,29 +74,34 @@ export interface PlacedSticker {
 }
 
 /**
- * Everything needed to draw a card front. Live cards and frozen collection
- * snapshots both reduce to this shape, so one component renders both.
+ * Everything needed to draw a card front — concard-app's `CardView`. Live cards
+ * and frozen collection snapshots both reduce to this shape, so one component
+ * renders both, identically to the app.
  */
 export interface CardView {
-	/** display name on the card */
+	/** Display name on the card. */
 	title: string;
-	/** owner's username, shown as @handle */
+	/** Owner's username, shown as @handle. */
 	handle: string;
+	pronouns?: string | null;
 	bio: string;
+	/** The owner's name for this card in their switcher; never drawn. */
+	label?: string | null;
 	art_url: string | null;
-	/** Where the photo is panned to, 0..1 of the image, and how far it's zoomed in (>=1). */
+	/** The photo's focal point, 0..1 of the image, and its zoom (>= 1). */
 	art_x: number;
 	art_y: number;
 	art_scale: number;
 	style: CardStyle;
 	affiliation: Affiliation | null;
-	links: ProfileLink[];
+	links: CardLink[];
 	stickers: PlacedSticker[];
 }
 
-/** Shape written by collect_card() into collections.card_snapshot (version 2). */
+/** A collection snapshot, read into a view plus who and what it was. */
 export interface CardSnapshot extends CardView {
-	version: 2;
+	/** The snapshot format it was written in (1–4). */
+	version: number;
 	card_id: string;
 	owner: {
 		id: string;

@@ -1,7 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { randomStyle } from '$lib/card-style';
 import type { Json } from '$lib/supabase/types';
-import { qrSvg } from '$lib/server/qr';
 import { siteOrigin } from '$lib/supabase/env';
 import { profileUrl } from '$lib/username';
 import type { Actions, PageServerLoad } from './$types';
@@ -38,7 +37,6 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		stickers: stickers.data ?? [],
 		placements,
 		link,
-		qr: await qrSvg(link),
 		stats: { collected: collected.count ?? 0, collectors: collectors.count ?? 0 }
 	};
 };

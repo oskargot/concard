@@ -1,42 +1,48 @@
 <script lang="ts">
+	/**
+	 * One component draws a live card or a frozen snapshot, exactly as
+	 * concard-app's `Card.tsx` / `CardFace.tsx` do: nothing here decides a size
+	 * or a line break. `layoutFront` — synced verbatim from the app — returns
+	 * every rectangle in design units and every string already ellipsised or
+	 * wrapped, measured from Outfit's real metrics; this file only positions
+	 * them at `--u` (width / 250) per unit, one element per line, in the same
+	 * Outfit files. So a bio breaks in the same place here, in the app and in
+	 * a months-old snapshot.
+	 *
+	 * Layering, bottom to top (card spec §7): face colour; photo, text, bio box
+	 * and pills; the tier foil over the whole face; stickers.
+	 */
 	import type { CardView, PlacedSticker } from '$lib/types';
-	import {
-		BGS,
-		BG_LABEL,
-		FRAMES,
-		FRAME_LABEL,
-		PHOTO_SHAPE_LABEL,
-		SHAPE_LABEL,
-		stickerRotation
-	} from '$lib/card-style';
-	import { bakedArt, type StickerCatalog } from '$lib/card';
-	import { BAKED_ART_SCALE } from '$lib/sticker-art';
+	import { inkFor, normalizeStyle, withAlpha, type CardStyle } from '$lib/card-style';
+	import { BIO, BOX, CARD_W, FRAME, LINKS, NAME, PILL, TAG } from '$lib/app-card/layout/spec';
+	import { layoutFront, type Rect } from '$lib/app-card/layout/front';
+	import { coverCrop, panFocal, type Focal } from '$lib/app-card/layout/crop';
+	import { displayHandle, normalizeLinks } from '$lib/app-card/links';
+	import type { FoilKind } from '$lib/app-card/tiers';
+	import type { StickerCatalog } from '$lib/card';
 	import CardShell from './CardShell.svelte';
-	import StickerGlyph from './StickerGlyph.svelte';
-	import FoilFx from './FoilFx.svelte';
-	import FandomSticker from './FandomSticker.svelte';
-	import {
-		AFFILIATION_STICKER_WIDTH,
-		baseSizeOf,
-		lookFor,
-		type StickerLook
-	} from '$lib/stickers/resolve';
-	import { fly } from 'svelte/transition';
+	import LinkIcon from './LinkIcon.svelte';
+	import StickerLayer from './StickerLayer.svelte';
 
 	interface Props {
 		view: CardView;
 		catalog: StickerCatalog;
-		/** Pointer tilt, in degrees; drives the light. */
+		/**
+		 * The tier foil over the face (`foilForTier`): `none` still draws the
+		 * gloss and lip; leave it out for a face with no light at all.
+		 */
+		foil?: FoilKind;
+		/** Pointer tilt, in degrees (FlipCard's rx / ry): drives the light. */
 		rx?: number;
 		ry?: number;
-		dragging?: boolean;
-		/** When set, stickers become pointer targets and the selected one is outlined. */
+		/** `thumb`: binder minis — the light holds still, stickers draw plain. */
+		detail?: 'full' | 'thumb';
+		intensity?: number;
+		/** When set, stickers and the photo become pointer targets. */
 		editable?: boolean;
 		selectedId?: string | null;
-		/** The fandom badge is placed like a sticker, so it can be picked up too. */
 		badgeSelected?: boolean;
 		onstickerdown?: (sticker: PlacedSticker, event: PointerEvent) => void;
-		/** The rotate or resize handle on the selected sticker was grabbed. */
 		onstickerhandledown?: (
 			sticker: PlacedSticker,
 			handle: 'rotate' | 'resize',
@@ -44,23 +50,18 @@
 		) => void;
 		onbadgedown?: (event: PointerEvent) => void;
 		onfacedown?: (event: PointerEvent) => void;
-		/** Look controls, each stepped from right where it applies on the card. */
-		onframestep?: (dir: 1 | -1) => void;
-		onbgstep?: (dir: 1 | -1) => void;
-		oncornersstep?: (dir: 1 | -1) => void;
-		onphotoshapestep?: (dir: 1 | -1) => void;
-		/** Zoom the photo in/out around its current pan point. */
-		onzoomstep?: (dir: 1 | -1) => void;
-		/** The photo has been dragged to a new pan point, 0..1 of the image. */
+		/** The photo was dragged: its new focal point (0..1 of the image). */
 		onartpan?: (x: number, y: number) => void;
 	}
 
 	let {
 		view,
 		catalog,
+		foil,
 		rx = 0,
 		ry = 0,
-		dragging = false,
+		detail = 'full',
+		intensity = 1,
 		editable = false,
 		selectedId = null,
 		badgeSelected = false,
@@ -68,766 +69,301 @@
 		onstickerhandledown,
 		onbadgedown,
 		onfacedown,
-		onframestep,
-		onbgstep,
-		oncornersstep,
-		onphotoshapestep,
-		onzoomstep,
 		onartpan
 	}: Props = $props();
 
-	const MAX_CHIPS = 3;
-	const chips = $derived(view.links.slice(0, MAX_CHIPS));
-	const more = $derived(Math.max(0, view.links.length - MAX_CHIPS));
+	// Normalised here, not trusted: snapshots were written by older builds,
+	// before `alignment`, `photo_height` or handles.
+	const style = $derived<CardStyle>(normalizeStyle(view.style));
+	const links = $derived(normalizeLinks(view.links));
+	const layout = $derived(
+		layoutFront({
+			name: view.title,
+			username: view.handle,
+			pronouns: view.pronouns,
+			bio: view.bio,
+			linkHandles: links.map(displayHandle),
+			photoShape: style.photo_shape,
+			photoHeight: style.photo_height,
+			alignment: style.alignment
+		})
+	);
+	const ink = $derived(inkFor(style.bg));
+
+	let width = $state(0);
+	const s = $derived(width / CARD_W);
+
+	/** Units → a CSS length. */
+	const u = (n: number) => `calc(var(--u) * ${n})`;
+	/** A card-coordinate rect → an absolute box inside the face (inset by the edge). */
+	const place = (r: Rect) =>
+		`left: ${u(r.x - FRAME.edge)}; top: ${u(r.y - FRAME.edge)}; width: ${u(r.w)}; height: ${u(r.h)};`;
+	/** The spec's 1-unit outline, never thinner than the web's hairline. */
+	const BW = `max(var(--u) * ${BOX.outline}, 1px)`;
+
 	/**
-	 * The affiliation is a sticker too — the generative fandom sticker, as the
-	 * app draws it. Once the schema has moved it into a placement
-	 * (`is_affiliation`) that one is drawn; until then it's made from the card's
-	 * affiliation columns, on top of the others like the badge was.
+	 * The username's box, a few units wider than measured on the side away
+	 * from its anchor, so a browser that renders a hair wider than the metrics
+	 * never clips its last character (CardFace's `slack`).
 	 */
-	const AFFILIATION_ID = '__affiliation';
-	const affiliationPlaced = $derived(view.stickers.some((s) => s.is_affiliation));
-	const stickers = $derived(
-		[
-			...view.stickers,
-			...(view.affiliation && !affiliationPlaced
-				? [
-						{
-							id: AFFILIATION_ID,
-							sticker_id: `fandom-${view.affiliation.id}`,
-							kind: 'fandom' as const,
-							label: view.affiliation.name,
-							fandom_id: view.affiliation.id,
-							x: view.affiliation.x,
-							y: view.affiliation.y,
-							rotation: 0,
-							scale: 1,
-							z_index: 1000,
-							foil: 'none' as const,
-							size: AFFILIATION_STICKER_WIDTH,
-							is_affiliation: true
-						}
-					]
-				: [])
-		].sort((a, b) => a.z_index - b.z_index)
-	);
-	/** The card's width in px: a fandom sticker's layout depends on its real size. */
-	let cardPx = $state(0);
-
-	/** A new-style sticker's box, as CSS: deco by its long edge, fandom by width. */
-	function boxStyle(look: StickerLook, base: number): string {
-		if (look.kind === 'deco') {
-			const w = look.aspect >= 1 ? base * 100 : base * look.aspect * 100;
-			return `width: ${w}cqw; height: auto; aspect-ratio: ${look.aspect};`;
-		}
-		return `width: ${base * 100}cqw; height: auto;`;
+	function slack(r: Rect, align: 'left' | 'center' | 'right'): Rect {
+		const extra = 4;
+		const x = align === 'left' ? r.x : align === 'right' ? r.x - extra : r.x - extra / 2;
+		return { ...r, x, w: r.w + extra };
 	}
 
-	// Foil stickers get a glow behind them, lit by the same drag tilt as the
-	// card's own holo frame (mirrors CardShell's --lx/--ly). Holo also drifts
-	// its grain with the tilt — the parallax shelved for the card face itself
-	// (see docs/DESIGN.md) — while glitter's grain holds still.
-	const clampFx = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
-	const foilLx = $derived(clampFx(50 - ry * 2.1, -15, 115));
-	const foilLy = $derived(clampFx(30 - rx * 2.4, -15, 115));
-	const foilGx = $derived(clampFx(ry * 3, -30, 30));
-	const foilGy = $derived(clampFx(-rx * 3, -30, 30));
-	// While the badge is still sitting over the footer, the chips leave room for
-	// it, the way the old flex row did. Moved anywhere else, they take the width.
-	const badgeOverFooter = $derived(
-		!!view.affiliation && view.affiliation.x > 0.62 && view.affiliation.y > 0.76
+	const text = (family: string, size: number, lineHeight: number, color: string) =>
+		`font-family: ${family}; font-size: ${u(size)}; line-height: ${u(lineHeight)}; color: ${color};`;
+	const FAMILY = { 400: 'Outfit-Regular', 600: 'Outfit-SemiBold', 700: 'Outfit-Bold' } as const;
+
+	const boxFill = $derived(
+		`background-color: ${withAlpha(ink.raised, BOX.fillOpacity)}; border: ${BW} solid ${ink.line};`
 	);
 
-	// ---- photo pan/zoom: drag directly on the photo to pan; the zoom buttons
-	// beside its shape control scale it. Panning needs the image's natural size
-	// to convert a pixel drag into the object-position fraction it changes. ----
-	let imgEl: HTMLImageElement | undefined = $state();
-	let imgNatural = $state<{ w: number; h: number } | null>(null);
-	function onImgLoad() {
-		imgNatural = imgEl ? { w: imgEl.naturalWidth, h: imgEl.naturalHeight } : null;
+	// ---- the photo: cover-cropped around its focal point (spec §3.3) ----
+	let natural = $state<{ url: string; w: number; h: number } | null>(null);
+	const focal = $derived<Focal>({ x: view.art_x, y: view.art_y, zoom: view.art_scale });
+	const known = $derived(view.art_url && natural?.url === view.art_url ? natural : null);
+	const crop = $derived(
+		known && width > 0
+			? coverCrop(known.w, known.h, layout.photo.clip.w * s, layout.photo.clip.h * s, focal)
+			: null
+	);
+	function onImgLoad(e: Event) {
+		const img = e.currentTarget as HTMLImageElement;
+		if (view.art_url) natural = { url: view.art_url, w: img.naturalWidth, h: img.naturalHeight };
 	}
 
-	interface PhotoDrag {
-		pointerId: number;
-		startX: number;
-		startY: number;
-		startArtX: number;
-		startArtY: number;
-		overflowX: number;
-		overflowY: number;
-	}
-	let photoDrag: PhotoDrag | null = null;
-	const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
-
-	function onPhotoPointerDown(e: PointerEvent) {
-		if (!onartpan || !view.art_url || !imgNatural) return;
+	let photoDrag: { pointerId: number; x: number; y: number; from: Focal } | null = null;
+	function onPhotoDown(e: PointerEvent) {
+		if (!onartpan || !known) return;
 		e.stopPropagation();
-		const el = e.currentTarget as HTMLElement;
-		const rect = el.getBoundingClientRect();
-		if (rect.width <= 0 || rect.height <= 0) return;
-		const coverScale = Math.max(rect.width / imgNatural.w, rect.height / imgNatural.h);
-		const effW = imgNatural.w * coverScale * view.art_scale;
-		const effH = imgNatural.h * coverScale * view.art_scale;
-		photoDrag = {
-			pointerId: e.pointerId,
-			startX: e.clientX,
-			startY: e.clientY,
-			startArtX: view.art_x,
-			startArtY: view.art_y,
-			overflowX: Math.max(1, effW - rect.width),
-			overflowY: Math.max(1, effH - rect.height)
-		};
-		el.setPointerCapture?.(e.pointerId);
+		photoDrag = { pointerId: e.pointerId, x: e.clientX, y: e.clientY, from: focal };
+		(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId);
 	}
-	function onPhotoPointerMove(e: PointerEvent) {
+	function onPhotoMove(e: PointerEvent) {
 		const d = photoDrag;
-		if (!d || e.pointerId !== d.pointerId) return;
-		const dx = e.clientX - d.startX;
-		const dy = e.clientY - d.startY;
-		onartpan?.(clamp01(d.startArtX - dx / d.overflowX), clamp01(d.startArtY - dy / d.overflowY));
+		if (!d || e.pointerId !== d.pointerId || !known) return;
+		const next = panFocal(
+			{ ...d.from, zoom: focal.zoom },
+			e.clientX - d.x,
+			e.clientY - d.y,
+			known.w,
+			known.h,
+			layout.photo.clip.w * s,
+			layout.photo.clip.h * s
+		);
+		onartpan?.(next.x, next.y);
 	}
-	function onPhotoPointerUp(e: PointerEvent) {
+	function onPhotoUp(e: PointerEvent) {
 		if (photoDrag?.pointerId === e.pointerId) photoDrag = null;
 	}
+
+	const radii = $derived(layout.photo.radii);
 </script>
 
-{#snippet stepper(
-	name: string,
-	label: string,
-	dot: string | null,
-	onprev: (() => void) | undefined,
-	onnext: (() => void) | undefined
-)}
-	<div class="pill" role="presentation" onpointerdown={(e) => e.stopPropagation()}>
-		<button type="button" class="arrow" aria-label="Previous {name}" onclick={onprev}>‹</button>
-		<span class="val">
-			{#key label}
-				<span
-					class="valinner"
-					in:fly|local={{ x: 10, duration: 140 }}
-					out:fly|local={{ x: -10, duration: 140 }}
-				>
-					{#if dot}<span class="dot" style="background: {dot}"></span>{/if}
-					{label}
-				</span>
-			{/key}
-		</span>
-		<button type="button" class="arrow" aria-label="Next {name}" onclick={onnext}>›</button>
-	</div>
-{/snippet}
-
-<CardShell style={view.style} fx {rx} {ry} {dragging} {editable} {onfacedown}>
-	<div class="body photo-{view.style.photo_shape}">
-		<header class="head">
-			<div class="name">{view.title}</div>
-			<div class="handle">@{view.handle}</div>
-		</header>
-
-		<div class="photo">
-			<div
-				class="photo-clip"
-				role={editable ? 'presentation' : undefined}
-				onpointerdown={editable ? onPhotoPointerDown : undefined}
-				onpointermove={editable ? onPhotoPointerMove : undefined}
-				onpointerup={editable ? onPhotoPointerUp : undefined}
-				onpointercancel={editable ? onPhotoPointerUp : undefined}
-			>
-				{#if view.art_url}
-					<img
-						bind:this={imgEl}
-						onload={onImgLoad}
-						src={view.art_url}
-						alt=""
-						draggable="false"
-						style="object-position: {view.art_x * 100}% {view.art_y *
-							100}%; transform: scale({view.art_scale}); transform-origin: {view.art_x *
-							100}% {view.art_y * 100}%;"
-					/>
-				{:else}
-					<span class="lab">photo</span>
-				{/if}
-			</div>
-			{#if editable && (onphotoshapestep || onzoomstep)}
-				<div class="photo-controls" role="presentation" onpointerdown={(e) => e.stopPropagation()}>
-					{#if view.art_url && onzoomstep}
-						<button
-							type="button"
-							class="zoom-btn"
-							aria-label="Zoom out"
-							onclick={() => onzoomstep(-1)}>−</button
-						>
-					{/if}
-					{@render stepper(
-						'photo shape',
-						PHOTO_SHAPE_LABEL[view.style.photo_shape],
-						null,
-						() => onphotoshapestep?.(-1),
-						() => onphotoshapestep?.(1)
-					)}
-					{#if view.art_url && onzoomstep}
-						<button
-							type="button"
-							class="zoom-btn"
-							aria-label="Zoom in"
-							onclick={() => onzoomstep(1)}>+</button
-						>
-					{/if}
-				</div>
-			{/if}
+<CardShell {style} {foil} {rx} {ry} {intensity} {detail} {editable} {onfacedown} bind:width>
+	<!-- Name -->
+	<div class="box" style={place(layout.name.rect)}>
+		<div
+			class="line"
+			style="{text(FAMILY[NAME.weight], NAME.size, NAME.lineHeight, ink.ink)} letter-spacing: {u(
+				NAME.tracking * NAME.size
+			)}; text-align: {layout.name.align};"
+		>
+			{layout.name.text}
 		</div>
-
-		<div class="bio">{view.bio}</div>
-
-		<footer class="foot">
-			<div class="links" class:reserve={badgeOverFooter}>
-				{#each chips as l, i (l.url + i)}
-					<span class="chip">{l.label || l.url.replace(/^https?:\/\/(www\.)?/, '')}</span>
-				{/each}
-				{#if more > 0}<span class="lab more">+{more} more</span>{/if}
-			</div>
-		</footer>
 	</div>
+
+	<!-- @username: never truncates -->
+	<div
+		class="box line"
+		style="{place(slack(layout.username.rect, style.alignment))} {text(
+			FAMILY[TAG.weight],
+			TAG.size,
+			TAG.lineHeight,
+			ink.mute
+		)} text-align: {style.alignment};"
+	>
+		{layout.username.text}
+	</div>
+
+	<!-- Pronoun pill -->
+	{#if layout.pill}
+		<div
+			class="box pill"
+			style="{place(layout.pill.rect)} {boxFill} border-radius: {u(PILL.radius)};"
+		>
+			<div class="pill-in" style="inset: calc(-1 * {BW}); padding: 0 {u(PILL.padX)};">
+				<div
+					class="line"
+					style="{text(
+						FAMILY[PILL.weight],
+						PILL.size,
+						PILL.size * 1.3,
+						ink.ink
+					)} text-align: center;"
+				>
+					{layout.pill.text}
+				</div>
+			</div>
+		</div>
+	{/if}
+
+	<!-- Photo: the picture clipped to its shape, or only the shape's outline -->
+	<div
+		class="box photo"
+		class:empty={!view.art_url}
+		class:pannable={editable && !!onartpan && !!known}
+		style="{place(layout.photo.clip)} border-radius: {u(radii.tl)} {u(radii.tr)} {u(radii.br)} {u(
+			radii.bl
+		)}; {view.art_url ? '' : `border: ${BW} solid ${ink.line};`}"
+		role={editable ? 'presentation' : undefined}
+		onpointerdown={editable ? onPhotoDown : undefined}
+		onpointermove={editable ? onPhotoMove : undefined}
+		onpointerup={editable ? onPhotoUp : undefined}
+		onpointercancel={editable ? onPhotoUp : undefined}
+	>
+		{#if view.art_url}
+			<img
+				src={view.art_url}
+				alt=""
+				draggable="false"
+				onload={onImgLoad}
+				style={crop
+					? `left: ${crop.x}px; top: ${crop.y}px; width: ${crop.w}px; height: ${crop.h}px;`
+					: 'inset: 0; width: 100%; height: 100%; object-fit: cover;'}
+			/>
+		{:else if editable}
+			<span class="add" style="{text(FAMILY[600], 10, 12, ink.mute)} letter-spacing: {u(1.1)};"
+				>Add photo</span
+			>
+		{/if}
+	</div>
+
+	<!-- Bio box -->
+	{#if layout.bio}
+		{@const bio = layout.bio}
+		<div class="box bio" style="{place(bio.rect)} {boxFill} border-radius: {u(BIO.radius)};">
+			<div
+				class="bio-in"
+				style="left: {u(BIO.padX)}; right: {u(BIO.padX)}; top: {u(BIO.padY)}; bottom: {u(
+					BIO.padY
+				)};"
+			>
+				{#each bio.lines as line, i (i)}
+					<div
+						class="line bio-line"
+						style="{text(FAMILY[BIO.weight], BIO.size, BIO.lineHeight, ink.mute)} top: {u(
+							i * BIO.lineHeight
+						)}; height: {u(BIO.lineHeight)}; text-align: {bio.align};"
+					>
+						{line}
+					</div>
+				{/each}
+			</div>
+		</div>
+	{/if}
+
+	<!-- Link pills: always left-aligned inside, whatever the alignment -->
+	{#each layout.links.pills as pill (pill.index)}
+		<div class="box" style="{place(pill.rect)} {boxFill} border-radius: {u(LINKS.radius)};">
+			<div
+				class="icon"
+				style="left: calc({u(pill.icon.x - pill.rect.x)} - {BW}); top: calc({u(
+					pill.icon.y - pill.rect.y
+				)} - {BW}); width: {u(LINKS.icon)}; height: {u(LINKS.icon)};"
+			>
+				<LinkIcon url={links[pill.index]?.url ?? ''} color={ink.mute} />
+			</div>
+			<div
+				class="line link-text"
+				style="{text(FAMILY[LINKS.weight], LINKS.size, LINKS.lineHeight, ink.mute)} left: calc({u(
+					pill.text.x - pill.rect.x
+				)} - {BW}); top: calc(-1 * {BW}); width: {u(pill.text.w)}; height: {u(pill.text.h)};"
+			>
+				{pill.label}
+			</div>
+		</div>
+	{/each}
 
 	{#snippet overlay()}
-		{#if editable && onframestep}
-			<div class="anchor anchor-frame">
-				{@render stepper(
-					'frame',
-					FRAME_LABEL[view.style.frame],
-					FRAMES[view.style.frame],
-					() => onframestep(-1),
-					() => onframestep(1)
-				)}
-			</div>
-		{/if}
-		{#if editable && onbgstep}
-			<div class="anchor anchor-bg">
-				{@render stepper(
-					'background',
-					BG_LABEL[view.style.bg],
-					BGS[view.style.bg],
-					() => onbgstep(-1),
-					() => onbgstep(1)
-				)}
-			</div>
-		{/if}
-		{#if editable && oncornersstep}
-			<div class="anchor anchor-corners">
-				{@render stepper(
-					'corner style',
-					SHAPE_LABEL[view.style.shape],
-					null,
-					() => oncornersstep(-1),
-					() => oncornersstep(1)
-				)}
-			</div>
-		{/if}
-		<div class="measure" bind:clientWidth={cardPx} aria-hidden="true"></div>
-		{#each stickers as s (s.id ?? `${s.sticker_id}-${s.x}-${s.y}`)}
-			{@const isAffiliation = s.id === AFFILIATION_ID || !!s.is_affiliation}
-			{@const isSelected =
-				editable && (isAffiliation ? badgeSelected : s.id != null && s.id === selectedId)}
-			{@const sticker = catalog.get(s.sticker_id)}
-			{@const look = lookFor(s, sticker)}
-			{@const baked = bakedArt(sticker)}
-			{@const base = baseSizeOf(s)}
-			<div
-				class="sticker"
-				class:selected={isSelected}
-				class:drawn={look.kind !== 'legacy'}
-				role={editable ? 'presentation' : undefined}
-				style="left: {s.x * 100}%; top: {s.y * 100}%; z-index: {isSelected ? 1000 : s.z_index + 1};
-					transform: translate(-50%, -50%) rotate({s.rotation +
-					(isAffiliation ? 0 : stickerRotation(s.id ?? s.sticker_id))}deg) scale({s.scale});
-					{look.kind === 'legacy' ? '' : boxStyle(look, base)}"
-				onpointerdown={editable && (isAffiliation ? onbadgedown : onstickerdown)
-					? (e) => {
-							e.stopPropagation();
-							if (isAffiliation) onbadgedown?.(e);
-							else onstickerdown?.(s, e);
-						}
-					: undefined}
-			>
-				{#if look.kind === 'deco'}
-					<img class="art" src={look.full} alt={look.name} draggable="false" />
-				{:else if look.kind === 'fandom'}
-					<FandomSticker
-						label={look.label}
-						styleCategory={look.styleCategory}
-						width={base * cardPx}
-						foil={s.foil}
-						lx={foilLx}
-					/>
-				{:else}
-					<div
-						class="cut"
-						class:baked={!!baked}
-						style={baked ? `--art-scale: ${BAKED_ART_SCALE * 100}%` : undefined}
-					>
-						<StickerGlyph {sticker} label={false} />
-					</div>
-				{/if}
-				{#if s.foil !== 'none' && look.kind === 'deco'}
-					<div class="sticker-foil">
-						<FoilFx
-							foil={s.foil}
-							sticker={undefined}
-							mask={`url("${look.mask}")`}
-							iconSize={1}
-							lx={foilLx}
-							ly={foilLy}
-							gx={s.foil === 'holo' ? foilGx : undefined}
-							gy={s.foil === 'holo' ? foilGy : undefined}
-						/>
-					</div>
-				{:else if s.foil !== 'none' && look.kind === 'legacy'}
-					<div class="sticker-foil">
-						<FoilFx
-							foil={s.foil}
-							{sticker}
-							iconSize={baked ? BAKED_ART_SCALE : 0.86}
-							lx={foilLx}
-							ly={foilLy}
-							gx={s.foil === 'holo' ? foilGx : undefined}
-							gy={s.foil === 'holo' ? foilGy : undefined}
-						/>
-					</div>
-				{/if}
-				{#if isSelected && onstickerhandledown && !isAffiliation}
-					{@const handleScale = Math.min(2, Math.max(0.6, 1 / s.scale))}
-					<button
-						type="button"
-						class="grip grip-rotate"
-						style="transform: translate(-50%, -50%) scale({handleScale})"
-						aria-label="Rotate sticker"
-						onpointerdown={(e) => {
-							e.stopPropagation();
-							onstickerhandledown(s, 'rotate', e);
-						}}>↻</button
-					>
-					<button
-						type="button"
-						class="grip grip-resize"
-						style="transform: translate(50%, 50%) scale({handleScale})"
-						aria-label="Resize sticker"
-						onpointerdown={(e) => {
-							e.stopPropagation();
-							onstickerhandledown(s, 'resize', e);
-						}}
-					></button>
-				{/if}
-			</div>
-		{/each}
+		<StickerLayer
+			{view}
+			{catalog}
+			{width}
+			{rx}
+			{ry}
+			{detail}
+			animate={detail === 'full'}
+			{editable}
+			{selectedId}
+			{badgeSelected}
+			{onstickerdown}
+			{onstickerhandledown}
+			{onbadgedown}
+		/>
 	{/snippet}
 </CardShell>
 
 <style>
-	.body {
+	.box {
 		position: absolute;
-		inset: 0;
-		display: flex;
-		flex-direction: column;
-		gap: 3cqw;
-		padding: 4.67cqw;
-		color: var(--ink);
+		box-sizing: border-box;
 	}
-
-	/* ruled header */
-	.head {
-		display: flex;
-		flex-direction: column;
-		gap: 1cqw;
-		padding-bottom: 2cqw;
-		border-bottom: var(--hair) solid var(--ink);
-		min-width: 0;
-	}
-	.name {
-		font:
-			400 7.67cqw/1 Fredoka,
-			system-ui,
-			sans-serif;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	.handle {
-		font:
-			700 max(3.17cqw, 7px) / 1.2 'Space Mono',
-			ui-monospace,
-			monospace;
-		color: var(--mute);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-
-	/* photo slot: `.photo` sizes and positions the slot; `.photo-clip` alone
-	   clips to its shape, so pan/zoom controls anchored on `.photo` can hang
-	   over the edge instead of being cut off with the image. */
-	.photo {
-		position: relative;
-		flex: none;
-		height: 47.33cqw;
-	}
-	.photo-clip {
-		width: 100%;
-		height: 100%;
-		border-radius: 4.67cqw;
-		overflow: hidden;
-		display: grid;
-		place-items: center;
-		background: repeating-linear-gradient(135deg, var(--hatch-a) 0 7px, var(--hatch-b) 7px 14px);
-	}
-	.photo-clip img {
+	/* One line of card text: never wrapped, never re-ellipsised — the string
+	   is already cut to fit by measurement; a hair of overflow is clipped. */
+	.line {
 		display: block;
-		width: 100%;
-		height: 100%;
-		/* Without this, a grid item's automatic minimum size lets an intrinsically
-		   tall image ignore the 100% height above and lay out at its own aspect
-		   ratio instead — object-fit: cover then has no real box to crop against,
-		   so it just shows the image scaled to width from the top. This is the
-		   actual cause of the "only half my photo shows" bug. */
-		min-width: 0;
-		min-height: 0;
-		object-fit: cover;
-	}
-	:global(.editable) .photo-clip {
-		touch-action: none;
-	}
-	:global(.editable) .photo-clip:has(img) {
-		cursor: grab;
-	}
-	.photo-square .photo-clip {
-		border-radius: 1.33cqw;
-	}
-	.photo-arch .photo-clip {
-		border-radius: 31.33cqw 31.33cqw 4.67cqw 4.67cqw;
-	}
-	.photo-circle .photo {
-		height: 49.33cqw;
-		width: 49.33cqw;
-		align-self: center;
-	}
-	.photo-circle .photo-clip {
-		border-radius: 50%;
-	}
-
-	/* look controls, live only when editable: floating pills anchored right at
-	   what they change, so the card stays put while its options step past. */
-	.pill,
-	.zoom-btn {
-		pointer-events: auto;
-	}
-	.pill {
-		display: flex;
-		align-items: center;
-		gap: 0.1rem;
-		border-radius: 0.5rem;
-		border: 1px solid var(--color-line);
-		background: var(--color-surface);
-		padding: 0.1rem;
-		box-shadow: 0 3px 10px rgb(0 0 0 / 0.35);
 		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: clip;
+		font-weight: normal;
+		font-kerning: normal;
 	}
-	.arrow {
-		flex: none;
-		width: 1.15rem;
-		height: 1.15rem;
-		border-radius: 0.35rem;
-		font-size: 0.75rem;
-		line-height: 1;
-		color: var(--color-dim);
-	}
-	.arrow:active {
-		transform: scale(0.9);
-		background: var(--color-raised);
-	}
-	.val {
+	.pill-in {
+		position: absolute;
 		display: flex;
-		align-items: center;
+		flex-direction: column;
 		justify-content: center;
-		min-width: 2.6rem;
+	}
+	.photo {
 		overflow: hidden;
-		font-size: 0.5625rem;
-		font-weight: 600;
-		color: var(--color-paper);
-		padding: 0 0.1rem;
-	}
-	.valinner {
-		display: flex;
-		align-items: center;
-		gap: 0.25rem;
-	}
-	.dot {
-		flex: none;
-		width: 0.55rem;
-		height: 0.55rem;
-		border-radius: 0.15rem;
-		border: 1px solid var(--color-line);
-	}
-	.zoom-btn {
-		flex: none;
-		width: 1.25rem;
-		height: 1.25rem;
-		border-radius: 50%;
-		border: 1px solid var(--color-line);
-		background: var(--color-surface);
-		color: var(--color-paper);
-		font-size: 0.85rem;
-		line-height: 1;
-		box-shadow: 0 3px 10px rgb(0 0 0 / 0.35);
-	}
-	.zoom-btn:active {
-		transform: scale(0.9);
-	}
-	.photo-controls {
-		position: absolute;
-		left: 50%;
-		bottom: 0;
-		transform: translate(-50%, 50%);
-		display: flex;
-		align-items: center;
-		gap: 0.35rem;
-		z-index: 3;
-	}
-
-	/* the frame/background/corners pills anchor to the whole card's own edges
-	   (top-left, top-right, bottom-center), regardless of what's inside */
-	.anchor {
-		position: absolute;
-		pointer-events: none;
-		z-index: 7;
-	}
-	.anchor-frame {
-		top: 0;
-		left: 22%;
-		transform: translate(-50%, -50%);
-	}
-	.anchor-bg {
-		top: 0;
-		left: 78%;
-		transform: translate(-50%, -50%);
-	}
-	.anchor-corners {
-		bottom: 0;
-		left: 50%;
-		transform: translate(-50%, 50%);
-	}
-
-	/* bio panel */
-	.bio {
-		flex: 1;
-		min-height: 0;
-		overflow: hidden;
-		border-radius: 4.67cqw;
-		padding: 2.67cqw 3cqw;
-		background: var(--wash);
-		border: var(--hair) solid color-mix(in srgb, var(--ink) 25%, transparent);
-		font:
-			400 max(3.83cqw, 8px) / 1.45 Archivo,
-			system-ui,
-			sans-serif;
-		color: var(--body);
-		overflow-wrap: anywhere;
-	}
-
-	/* footer */
-	.foot {
-		display: flex;
-		align-items: flex-end;
-		gap: 2cqw;
-		margin-top: auto;
-	}
-	.links {
-		flex: 1;
-		min-width: 0;
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 1.33cqw;
-	}
-	.links.reserve {
-		padding-right: 22cqw;
-	}
-	.chip {
-		max-width: 100%;
-		border-radius: 3cqw;
-		padding: 1.33cqw 2.67cqw;
-		background: var(--wash);
-		border: var(--hair) solid color-mix(in srgb, var(--ink) 25%, transparent);
-		font:
-			600 max(3.17cqw, 7px) / 1.2 Archivo,
-			system-ui,
-			sans-serif;
-		color: var(--ink);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	.lab {
-		font:
-			700 max(2.67cqw, 6.5px) / 1 'Space Mono',
-			ui-monospace,
-			monospace;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: var(--mute);
-	}
-	/* miniatures (binder thumbnails): the pixel floors on chip and bio type would
-	   overflow, so show name, photo and badge only */
-	@container (max-width: 180px) {
-		.bio,
-		.links {
-			display: none;
-		}
-		.photo {
-			flex: 1;
-			height: auto;
-		}
-		.photo-circle .photo {
-			flex: none;
-			height: 49.33cqw;
-		}
-	}
-
-	@container (max-width: 110px) {
-		.handle {
-			display: none;
-		}
-	}
-
-	/* die-cut stickers, outside the face clip: a paper-white outline traced
-	   around the artwork's alpha, like a real vinyl sticker. Baked stickers
-	   arrive with that cut already drawn in (scripts/bake-stickers.mjs); the
-	   rim variables and the filter below are the fallback for stickers with no
-	   baked artwork — admin uploads, and any emoji not in the bake. */
-	/* the card's size in px, for the fandom renderer */
-	.measure {
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-		visibility: hidden;
-	}
-	/* a sticker drawn from the ingest's art or the fandom renderer: its box is
-	   the art itself (sized inline), no CSS rim */
-	.sticker.drawn {
-		display: block;
-	}
-	.sticker .art {
-		display: block;
-		width: 100%;
-		height: 100%;
-		pointer-events: none;
-		user-select: none;
-	}
-	.sticker {
-		position: absolute;
-		width: 15.33cqw;
-		height: 15.33cqw;
-		display: grid;
-		place-items: center;
-		transform-origin: center;
-		--rim: #fbf9f3;
-		--rim-w: 0.7cqw;
-		/* the 8 diagonal offsets below, at cos/sin 30°: with the 4 cardinal
-		   offsets that makes 12 evenly-spaced copies instead of 4, so the rim
-		   traces an actual round dilation instead of a diamond that notches
-		   sharp points (a star's, say) into a little blunt double-bump. */
-		--rim-a: calc(var(--rim-w) * 0.866);
-		--rim-b: calc(var(--rim-w) * 0.5);
-	}
-	.sticker-foil {
-		position: absolute;
-		inset: 0;
-		z-index: 2;
-		pointer-events: none;
-	}
-	.cut {
-		position: relative;
+		/* over the text, under the foil (CardFace lifts it to 1) */
 		z-index: 1;
-		width: 100%;
-		height: 100%;
-		display: grid;
-		place-items: center;
-		font-size: 11cqw;
-		line-height: 1;
 	}
-	/* The baked canvas carries the rim and shadows around the artwork, so the
-	   image overflows its box by --art-scale to put the artwork itself back at
-	   the 86% the filtered path draws it at. No filter: that is the whole point. */
-	.cut.baked {
-		width: var(--art-scale);
-		height: var(--art-scale);
-	}
-	.cut.baked :global(img) {
-		width: 100%;
-		height: 100%;
-	}
-	.cut:not(.baked) {
-		/* 12 hard shadows trace the paper rim around the alpha; a soft dark edge
-		   keeps pale stickers legible on pale cards; the last one lifts it off the card */
-		filter: drop-shadow(var(--rim-w) 0 0 var(--rim))
-			drop-shadow(calc(-1 * var(--rim-w)) 0 0 var(--rim)) drop-shadow(0 var(--rim-w) 0 var(--rim))
-			drop-shadow(0 calc(-1 * var(--rim-w)) 0 var(--rim))
-			drop-shadow(var(--rim-a) var(--rim-b) 0 var(--rim))
-			drop-shadow(calc(-1 * var(--rim-a)) var(--rim-b) 0 var(--rim))
-			drop-shadow(var(--rim-a) calc(-1 * var(--rim-b)) 0 var(--rim))
-			drop-shadow(calc(-1 * var(--rim-a)) calc(-1 * var(--rim-b)) 0 var(--rim))
-			drop-shadow(var(--rim-b) var(--rim-a) 0 var(--rim))
-			drop-shadow(calc(-1 * var(--rim-b)) var(--rim-a) 0 var(--rim))
-			drop-shadow(var(--rim-b) calc(-1 * var(--rim-a)) 0 var(--rim))
-			drop-shadow(calc(-1 * var(--rim-b)) calc(-1 * var(--rim-a)) 0 var(--rim))
-			drop-shadow(0 0 0.25cqw rgb(23 22 27 / 0.45)) drop-shadow(0 1cqw 1.6cqw rgb(23 22 27 / 0.3));
-	}
-	.cut :global(img) {
-		width: 86%;
-		height: 86%;
-		object-fit: contain;
-	}
-	:global(.editable) .sticker {
-		pointer-events: auto;
-		cursor: grab;
-	}
-	/* Selection is a ring around the sticker's own box, not a recoloured rim: a
-	   baked rim is part of the artwork and cannot be recoloured, and a border is
-	   a great deal cheaper than another pass over a filter chain. --ink is the
-	   card's own contrasting ink (see CardShell), so it reads on any card. The
-	   grips sit on the ring's corners. */
-	.sticker.selected::after {
-		content: '';
+	.photo img {
 		position: absolute;
-		inset: 0;
-		z-index: 3;
-		border: 0.5cqw solid var(--ink, #17161b);
-		border-radius: 1.4cqw;
+		display: block;
+		max-width: none;
+		user-select: none;
 		pointer-events: none;
 	}
-
-	/* rotate/resize handles: nested inside the sticker's own rotate+scale
-	   transform, so they swing and move out with it automatically; the inline
-	   scale() counters that so the dot itself stays a constant size. */
-	.grip {
-		position: absolute;
+	.photo.pannable {
+		cursor: grab;
+		touch-action: none;
+		pointer-events: auto;
+	}
+	.photo.empty {
 		display: grid;
 		place-items: center;
-		width: 1.35rem;
-		height: 1.35rem;
-		border-radius: 50%;
-		border: 1px solid var(--color-line, #34323d);
-		background: var(--color-surface, #1c1b22);
-		color: var(--color-paper, #efedf2);
-		font-size: 0.7rem;
-		line-height: 1;
-		box-shadow: 0 2px 6px rgb(0 0 0 / 0.4);
-		touch-action: none;
-		cursor: grab;
 	}
-	.grip-rotate {
-		top: -6%;
-		left: 50%;
+	.add {
+		text-transform: uppercase;
 	}
-	.grip-resize {
-		bottom: 0;
+	.bio {
+		overflow: hidden;
+	}
+	.bio-in {
+		position: absolute;
+	}
+	.bio-line {
+		position: absolute;
+		left: 0;
 		right: 0;
+	}
+	.icon,
+	.link-text {
+		position: absolute;
 	}
 </style>

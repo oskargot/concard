@@ -5,8 +5,10 @@
 	import Card from '$lib/components/Card.svelte';
 	import FlipCard from '$lib/components/FlipCard.svelte';
 	import StickerGlyph from '$lib/components/StickerGlyph.svelte';
-	import { cardToView, catalogFrom, fandomMap, readLinks } from '$lib/card';
+	import { cardToView, catalogFrom, fandomMap, isLinkUrl, readLinks } from '$lib/card';
 	import { formatRetryIn } from '$lib/collect';
+	import { foilForTier } from '$lib/app-card/tiers';
+	import { displayHandle } from '$lib/app-card/links';
 
 	let { data, form } = $props();
 
@@ -14,7 +16,13 @@
 	const view = $derived(
 		data.card ? cardToView(data.card, data.profile, data.placements, fandomMap(data.fandoms)) : null
 	);
-	const links = $derived(readLinks(data.profile.links));
+	// The card's own links, tappable; a card with none lists the profile's.
+	const links = $derived(
+		(view?.links.length
+			? view.links.map((l) => ({ label: displayHandle(l), url: l.url }))
+			: readLinks(data.profile.links)
+		).filter((l) => isLinkUrl(l.url))
+	);
 	const bonus = $derived(form?.bonusStickerId ? catalog.get(form.bonusStickerId) : undefined);
 
 	const retryAt = $derived(form?.retryAt ?? data.cooldownUntil);
@@ -53,9 +61,9 @@
 			{#snippet front(t)}<Card
 					{view}
 					{catalog}
+					foil={foilForTier(0)}
 					rx={t.rx}
 					ry={t.ry}
-					dragging={t.dragging}
 				/>{/snippet}
 		</FlipCard>
 	{:else}

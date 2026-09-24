@@ -13,7 +13,7 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 		.maybeSingle();
 	if (!collection) error(404, 'Not in your binder');
 
-	const [owner, stickers, mutual] = await Promise.all([
+	const [owner, stickers, mutual, meetings] = await Promise.all([
 		supabase
 			.from('profiles')
 			.select('username, display_name')
@@ -24,14 +24,20 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 			.from('collections')
 			.select('id', { count: 'exact', head: true })
 			.eq('collector_id', collection.owner_id)
-			.eq('owner_id', uid)
+			.eq('owner_id', uid),
+		supabase
+			.from('collections')
+			.select('id', { count: 'exact', head: true })
+			.eq('collector_id', uid)
+			.eq('owner_id', collection.owner_id)
 	]);
 
 	return {
 		collection,
 		owner: owner.data,
 		stickers: stickers.data ?? [],
-		mutual: (mutual.count ?? 0) > 0
+		mutual: (mutual.count ?? 0) > 0,
+		meetings: Math.max(1, meetings.count ?? 1)
 	};
 };
 

@@ -4,13 +4,19 @@ import {
 	ART_DEFAULT,
 	ART_SCALE_RANGE,
 	BADGE_HOME,
-	normalizeStyle,
 	STICKER_X_RANGE,
 	STICKER_Y_RANGE
 } from '$lib/card-style';
-import { IMAGE_MAX_BYTES, IMAGE_TYPES, imageExt, isHttpUrl, num, str } from '$lib/server/forms';
+import { IMAGE_MAX_BYTES, IMAGE_TYPES, imageExt, num, str } from '$lib/server/forms';
 import type { Json } from '$lib/supabase/types';
-import type { ProfileLink } from '$lib/types';
+import type { CardLink } from '$lib/types';
+import { LINKS_LIVE_MAX, linksToJson, normalizeLinks, normalizeUrl } from '$lib/app-card/links';
+import { BIO_MAX, isLinkUrl, styleForSave } from '$lib/card';
+
+/** A check violation on the links shape constraint (the old six-link cap). */
+function isLinksCapViolation(err: { code?: string; message?: string }): boolean {
+	return err.code === '23514' && /cards_links_valid/.test(err.message ?? '');
+}
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals, params }) => {
@@ -84,31 +90,51 @@ async function ownCard(locals: App.Locals, id: string) {
 }
 
 export const actions: Actions = {
-	/** One save for everything on the screen: who you are (profile) and how this card looks (card). */
+	/**
+	 * One save for the card: what it says (its own name, pronouns, bio and
+	 * links, each inheriting the profile's when it says the same), and how it
+	 * looks. Only columns this editor edits are written, and the style is
+	 * merged into what is stored, so keys the web doesn't edit survive.
+	 */
 	save: async ({ request, locals, params }) => {
-		await ownCard(locals, params.id);
+		const { data: card } = await locals.supabase
+			.from('cards')
+			.select('*')
+			.eq('id', params.id)
+			.eq('owner_id', locals.user!.id)
+			.maybeSingle();
+		if (!card) error(404, 'Card not found');
+		const profile = locals.profile!;
 		const form = await request.formData();
 
 		const displayName = str(form, 'display_name', 40);
 		if (!displayName) return fail(400, { error: 'Your card needs a name.' });
-		const bio = str(form, 'bio', 200);
 
-		const labels = form.getAll('link_label').map((v) => String(v).trim().slice(0, 30));
-		const urls = form.getAll('link_url').map((v) => String(v).trim().slice(0, 500));
-		const links: ProfileLink[] = [];
-		for (let i = 0; i < Math.min(urls.length, 8); i++) {
-			if (!urls[i]) continue;
-			const url = /^https?:\/\//i.test(urls[i]) ? urls[i] : `https://${urls[i]}`;
-			if (!isHttpUrl(url)) return fail(400, { error: `"${urls[i]}" is not a valid link.` });
-			links.push({ label: labels[i] || new URL(url).hostname.replace(/^www\./, ''), url });
+		let links: CardLink[];
+		try {
+			links = normalizeLinks(JSON.parse(String(form.get('links') ?? '[]')));
+		} catch {
+			return fail(400, { error: 'Those links could not be read.' });
 		}
+		for (const l of links) {
+			if (!isLinkUrl(normalizeUrl(l.url))) {
+				return fail(400, { error: `"${l.url}" is not a link that can be opened.` });
+			}
+		}
+		const linkRows = linksToJson(links);
 
-		const style = normalizeStyle({
-			frame: str(form, 'frame', 20),
-			bg: str(form, 'bg', 20),
-			shape: str(form, 'shape', 20),
-			photo_shape: str(form, 'photo_shape', 20)
-		});
+		const photoHeight = Number(form.get('photo_height'));
+		const style = styleForSave(
+			card.style,
+			{
+				frame: str(form, 'frame', 20),
+				bg: str(form, 'bg', 20),
+				photo_shape: str(form, 'photo_shape', 20),
+				alignment: str(form, 'alignment', 20),
+				photo_height: Number.isFinite(photoHeight) ? photoHeight : undefined
+			},
+			linkRows.length
+		);
 
 		const affiliationRaw = str(form, 'affiliation', 40);
 		let affiliation: string | null = null;
@@ -123,31 +149,44 @@ export const actions: Actions = {
 			affiliation = f.id;
 		}
 
-		const profileUpdate = await locals.supabase
-			.from('profiles')
-			.update({ display_name: displayName, bio, links: links as unknown as Json })
-			.eq('id', locals.user!.id);
-		if (profileUpdate.error)
-			return fail(400, { error: profileUpdate.error.hint ?? profileUpdate.error.message });
+		// Blank, or the same as the profile's: both mean "inherit" (null).
+		const override = (value: string, inherited: string | null | undefined) => {
+			const v = value.trim();
+			return !v || v === (inherited ?? '').trim() ? null : v;
+		};
 
-		// The badge is dragged on the card, so its position arrives with the form.
-		// Clamp to the same range stickers use; the column check enforces it too.
-		const cardUpdate = await locals.supabase
-			.from('cards')
-			.update({
-				style: style as unknown as Json,
-				affiliation,
-				affiliation_x: num(form, 'affiliation_x', BADGE_HOME.x, ...STICKER_X_RANGE),
-				affiliation_y: num(form, 'affiliation_y', BADGE_HOME.y, ...STICKER_Y_RANGE),
-				art_x: num(form, 'art_x', ART_DEFAULT.x, 0, 1),
-				art_y: num(form, 'art_y', ART_DEFAULT.y, 0, 1),
-				art_scale: num(form, 'art_scale', ART_DEFAULT.scale, ...ART_SCALE_RANGE)
-			})
-			.eq('id', params.id);
-		if (cardUpdate.error)
-			return fail(400, { error: cardUpdate.error.hint ?? cardUpdate.error.message });
+		const update = {
+			display_name: override(displayName, profile.display_name),
+			pronouns: override(str(form, 'pronouns', 30), profile.pronouns),
+			bio: override(str(form, 'bio', BIO_MAX), profile.bio),
+			links: linkRows as unknown as Json,
+			style: style as unknown as Json,
+			affiliation,
+			// The badge is dragged on the card, so its position arrives with the
+			// form. Its centre stays on the card; the column check enforces it too.
+			affiliation_x: num(form, 'affiliation_x', BADGE_HOME.x, ...STICKER_X_RANGE),
+			affiliation_y: num(form, 'affiliation_y', BADGE_HOME.y, ...STICKER_Y_RANGE),
+			art_x: num(form, 'art_x', ART_DEFAULT.x, 0, 1),
+			art_y: num(form, 'art_y', ART_DEFAULT.y, 0, 1),
+			art_scale: num(form, 'art_scale', ART_DEFAULT.scale, ...ART_SCALE_RANGE)
+		};
 
-		return { saved: true };
+		let { error: err } = await locals.supabase.from('cards').update(update).eq('id', params.id);
+		// Until the card spec's links check is live everywhere, the old one
+		// allows six. Save the first six rather than lose the whole save, and
+		// say so (the app's editor degrades the same way).
+		let capped = false;
+		if (err && isLinksCapViolation(err) && linkRows.length > LINKS_LIVE_MAX) {
+			capped = true;
+			update.links = linkRows.slice(0, LINKS_LIVE_MAX) as unknown as Json;
+			({ error: err } = await locals.supabase.from('cards').update(update).eq('id', params.id));
+		}
+		if (err) return fail(400, { error: err.hint ?? err.message });
+
+		return {
+			saved: true,
+			notice: capped ? `Only your first ${LINKS_LIVE_MAX} links are saving for now.` : null
+		};
 	},
 
 	art: async ({ request, locals, params }) => {

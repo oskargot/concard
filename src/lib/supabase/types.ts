@@ -89,6 +89,12 @@ export interface Database {
 					affiliation: string | null;
 					affiliation_x: number;
 					affiliation_y: number;
+					/**
+					 * The card's own link pills, `{url, handle, label, position}` (card spec
+					 * §8). Live since concard-app's hand-applied 20260915000000 /
+					 * 20260923000000 migrations; this repo's folder doesn't have them yet.
+					 */
+					links: Json;
 					created_at: string;
 					updated_at: string;
 				};
@@ -107,6 +113,7 @@ export interface Database {
 					affiliation?: string | null;
 					affiliation_x?: number;
 					affiliation_y?: number;
+					links?: Json;
 				};
 				Update: {
 					display_name?: string | null;
@@ -121,6 +128,7 @@ export interface Database {
 					affiliation?: string | null;
 					affiliation_x?: number;
 					affiliation_y?: number;
+					links?: Json;
 				};
 				Relationships: [];
 			};

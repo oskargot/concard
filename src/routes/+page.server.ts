@@ -1,5 +1,5 @@
+import { meetingsByOwner } from '$lib/card';
 import { DEMO_CARD } from '$lib/demo-card';
-import { qrSvg } from '$lib/server/qr';
 import { siteOrigin } from '$lib/supabase/env';
 import { profileUrl } from '$lib/username';
 import type { PageServerLoad } from './$types';
@@ -21,14 +21,15 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		return {
 			mine: null,
 			recent: [],
+			meetings: {} as Record<string, number>,
 			stickers: [],
 			link: link.replace(/^https?:\/\//, ''),
-			qr: await qrSvg(link)
+			qrValue: link
 		};
 	}
 
 	const supabase = locals.supabase;
-	const [card, fandoms, stickers, recent] = await Promise.all([
+	const [card, fandoms, stickers, recent, met] = await Promise.all([
 		profile.active_card_id
 			? supabase.from('cards').select('*').eq('id', profile.active_card_id).maybeSingle()
 			: Promise.resolve({ data: null }),
@@ -36,10 +37,12 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 		supabase.from('stickers').select('*'),
 		supabase
 			.from('collections')
-			.select('id, card_snapshot, collected_at')
+			.select('id, owner_id, card_snapshot, collected_at')
 			.eq('collector_id', profile.id)
 			.order('collected_at', { ascending: false })
-			.limit(RECENT)
+			.limit(RECENT),
+		// every meeting, so a recent card shows the tier it has earned in the binder
+		supabase.from('collections').select('owner_id').eq('collector_id', profile.id)
 	]);
 
 	const placements = card.data
@@ -51,8 +54,9 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 	return {
 		mine: card.data ? { card: card.data, fandoms: fandoms.data ?? [], placements } : null,
 		recent: recent.data ?? [],
+		meetings: Object.fromEntries(meetingsByOwner(met.data ?? [])),
 		stickers: stickers.data ?? [],
 		link: link.replace(/^https?:\/\//, ''),
-		qr: await qrSvg(link)
+		qrValue: link
 	};
 };

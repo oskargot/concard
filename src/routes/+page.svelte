@@ -4,6 +4,7 @@
 	import FlipCard from '$lib/components/FlipCard.svelte';
 	import { cardToView, catalogFrom, fandomMap, snapshotToView } from '$lib/card';
 	import { normalizeStyle } from '$lib/card-style';
+	import { foilForTier, tierForMeetings } from '$lib/app-card/tiers';
 	import { DEMO_CARD, demoCatalog } from '$lib/demo-card';
 
 	let { data } = $props();
@@ -70,17 +71,16 @@
 		<div class="mx-auto max-w-[300px]">
 			<FlipCard bind:flipped label={flipped ? 'Show the card front' : 'Show the QR code'}>
 				{#snippet front(t)}
-					<Card {view} {catalog} rx={t.rx} ry={t.ry} dragging={t.dragging} />
+					<Card {view} {catalog} foil={foilForTier(0)} rx={t.rx} ry={t.ry} />
 				{/snippet}
 				{#snippet back(t)}
 					<CardBack
 						variant="qr"
 						{style}
-						qrSvg={data.qr}
+						qrValue={data.qrValue}
 						url={data.link}
 						rx={t.rx}
 						ry={t.ry}
-						dragging={t.dragging}
 					/>
 				{/snippet}
 			</FlipCard>
@@ -124,7 +124,12 @@
 					{@const snap = snapshotToView(c.card_snapshot)}
 					<li>
 						<a href="/binder/{c.id}" class="block" aria-label="{snap.title}'s card">
-							<Card view={snap} {catalog} />
+							<Card
+								view={snap}
+								{catalog}
+								foil={foilForTier(tierForMeetings(data.meetings[c.owner_id] ?? 1))}
+								detail="thumb"
+							/>
 							<div class="mt-2 truncate text-center text-xs text-dim">
 								{snap.owner.display_name}
 							</div>

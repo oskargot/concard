@@ -1,9 +1,12 @@
 <script lang="ts">
 	import Card from '$lib/components/Card.svelte';
-	import { catalogFrom, snapshotToView } from '$lib/card';
+	import { catalogFrom, meetingsByOwner, snapshotToView } from '$lib/card';
+	import { foilForTier, tierForMeetings } from '$lib/app-card/tiers';
 
 	let { data } = $props();
 	const catalog = $derived(catalogFrom(data.stickers));
+	// Meeting someone again upgrades their card in your binder (design bible §7).
+	const meetings = $derived(meetingsByOwner(data.collections));
 </script>
 
 <svelte:head><title>Binder · concard</title></svelte:head>
@@ -30,7 +33,12 @@
 					class="block"
 					aria-label="{snap.title} from {snap.owner.display_name}"
 				>
-					<Card view={snap} {catalog} />
+					<Card
+						view={snap}
+						{catalog}
+						foil={foilForTier(tierForMeetings(meetings.get(c.owner_id) ?? 1))}
+						detail="thumb"
+					/>
 					<div class="mt-2 truncate text-center text-xs text-dim">
 						{snap.owner.display_name}
 					</div>
