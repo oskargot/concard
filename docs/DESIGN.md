@@ -41,25 +41,31 @@ Out of v1: events, chat, friends, purchases, native apps.
 
 ## The card
 
-`src/lib/components/CardShell.svelte` draws the frame band, inset face,
-silhouette clip and the effect layers from a `CardStyle`: a holo wash, a faint
-smooth specular for volume, a glitter layer (a holo tint revealed
-through a fixed grain texture, only inside the light spot, so the light moves
-over the glitter rather than the glitter moving), and an inner edge. A
-parallax version, where the flecks drift with tilt, was tried and shelved: it
-read as depth rather than surface for the card face itself. It came back for
-holographic stickers instead (see `FoilFx.svelte` below), where "depth" is
-exactly the point. `Card.svelte` puts the face content and the sticker overlay in
-it; `CardBack.svelte` puts the QR or the collector's record in it.
-`CardBack.svelte` takes the same tilt and draws a bare sheen _under_ its
-content, so the light plays across the ink but the opaque QR plate occludes
-it and the code stays scannable. `FlipCard.svelte` owns pointer tilt and
-tap-to-flip and passes `rx`/`ry` down to both faces, so the light can never
-desync from the card. Tokens live in
-`src/lib/card-style.ts`. Everything is sized in `cqw` off the container, and
-below 180px the card drops its bio and chips so binder thumbnails stay legible.
+The card is concard-app's card, to the "Concard Card Spec": one fixed
+250 × 350-unit layout drawn at any size by `width / 250`. The shared parts are
+copied verbatim from the app by `scripts/sync-card-spec.mjs` into
+`src/lib/app-card/` (layout, style tokens, tiers, links and their icons, the
+foil shader) — edit them in the app and re-run the script, never here.
+`layoutFront` returns every rectangle and every string already cut to fit,
+measured from the app's own Outfit TTFs (`static/fonts/card/`), and
+`Card.svelte` only positions them in `--u` units; `CardBack.svelte` does the
+same with `layoutBack` and draws the QR from its module matrix. `CardShell`
+is the edge band, the face and the foil stack; `FlipCard` tilts ±10° like the
+app and hands `rx`/`ry` to both faces.
 
-`/dev/cards` is a dev-server-only gallery of every combination on fixture data.
+The foil is the app's engine, not a look-alike: the SkSL in `foil-sksl.ts`
+runs through CanvasKit (`src/lib/foil/engine.ts`, loaded lazily), with the
+same uniforms, textures and compositing as the app's `SkiaFoil`/`Foil`/
+`StickerFoil`. There is one WebGL surface per page; each card copies its
+drawing into its own 2D canvas, and `scheduler.ts` redraws only what changed or
+is drifting, and only on screen. A card whose stickers carry foil has its whole
+sticker layer painted into one canvas. Until the engine loads, or without
+WebGL, a card shows the gloss and edge lip and stickers without foil — the
+app's own fallback.
+
+`/dev/cards` is the app's galleries on the web card (`?tilt=x,y`, `?t=0`,
+`?ref=rnweb`), and `scripts/card-parity.mjs` compares it with the app's web
+target into `docs/card-port/`.
 
 ## The app around the card
 
@@ -133,7 +139,8 @@ Everything is behind row-level security:
 | Binder grid and card detail with notes back                     | `src/routes/binder`                                                                |
 | One component renders live cards and snapshots                  | `src/lib/components/Card.svelte` via the `CardView` shape in `src/lib/types.ts`    |
 | Sticker collection grid + combine flow                          | `src/routes/stickers`, calling the `combine_stickers()` RPC                        |
-| Foil effect layers (glitter's fixed sweep, holo's parallax)     | `src/lib/components/FoilFx.svelte`, used by `StickerTile.svelte` and `Card.svelte` |
+| The card's layout, style and foil shader, copied from the app   | `scripts/sync-card-spec.mjs` → `src/lib/app-card/`                                  |
+| Foil engine (CanvasKit, one shared GPU surface)                 | `src/lib/foil/`, drawn by `Foil.svelte`, `StickerLayer.svelte`, `StickerTile.svelte` |
 
 ## Open questions
 
