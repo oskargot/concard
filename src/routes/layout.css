@@ -15,6 +15,32 @@
 @import '@fontsource/space-mono/latin-700.css';
 @plugin '@tailwindcss/forms';
 
+/*
+ * The generative fandom stickers' fonts, as the app bundles them and under the
+ * app's family names (src/lib/stickers/fonts.ts), so a sticker's layout —
+ * measured from these exact files — lands the same on both.
+ */
+@font-face {
+	font-family: 'Fredoka-Bold';
+	src: url('/fonts/stickers/Fredoka-Bold.ttf') format('truetype');
+	font-display: block;
+}
+@font-face {
+	font-family: 'Fredoka-SemiBold';
+	src: url('/fonts/stickers/Fredoka-SemiBold.ttf') format('truetype');
+	font-display: block;
+}
+@font-face {
+	font-family: 'SpaceGrotesk-Medium';
+	src: url('/fonts/stickers/SpaceGrotesk-Medium.ttf') format('truetype');
+	font-display: block;
+}
+@font-face {
+	font-family: 'SpaceGrotesk-Bold';
+	src: url('/fonts/stickers/SpaceGrotesk-Bold.ttf') format('truetype');
+	font-display: block;
+}
+
 /**
  * The app is the album; the card is the thing in it.
  *

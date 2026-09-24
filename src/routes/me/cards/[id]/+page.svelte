@@ -31,7 +31,7 @@
 
 	let { data, form } = $props();
 
-	const catalog = $derived(catalogFrom(data.stickers));
+	const catalog = $derived(catalogFrom(data.stickers, data.fandoms));
 	const fandoms = $derived(fandomMap(data.fandoms));
 	// protected route: the hook guarantees a profile here
 	const profile = $derived(data.profile!);

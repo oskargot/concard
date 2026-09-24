@@ -1,5 +1,6 @@
 import { ART_DEFAULT, BADGE_HOME, normalizeStyle } from '$lib/card-style';
 import { BAKED_STICKERS } from '$lib/sticker-art';
+import type { CatalogSticker } from '$lib/stickers/resolve';
 import type {
 	Affiliation,
 	Card,
@@ -13,7 +14,7 @@ import type {
 	StickerPlacement
 } from '$lib/types';
 
-const FOILS: StickerFoil[] = ['none', 'glitter', 'holo'];
+const FOILS: StickerFoil[] = ['none', 'glitter', 'holo', 'cosmic', 'mosaic'];
 const isFoil = (v: unknown): v is StickerFoil => FOILS.includes(v as StickerFoil);
 
 /** A foil tier off a row or a snapshot, falling back to plain when missing or unrecognized. */
@@ -21,17 +22,22 @@ export function normalizeFoil(v: unknown): StickerFoil {
 	return isFoil(v) ? v : 'none';
 }
 
-/** none -> glitter -> holo; holo is the ceiling, nothing combines past it. */
+/** none -> glitter -> holo -> cosmic -> mosaic; mosaic is the ceiling. Mirrors
+ *  sticker_foil_next() in 20260924000001. */
 export const NEXT_FOIL: Record<StickerFoil, StickerFoil | null> = {
 	none: 'glitter',
 	glitter: 'holo',
-	holo: null
+	holo: 'cosmic',
+	cosmic: 'mosaic',
+	mosaic: null
 };
 
 export const FOIL_LABEL: Record<StickerFoil, string> = {
 	none: 'Plain',
 	glitter: 'Glitter',
-	holo: 'Holo'
+	holo: 'Holo',
+	cosmic: 'Cosmic',
+	mosaic: 'Mosaic'
 };
 
 export function placementToPlaced(p: StickerPlacement): PlacedSticker {
@@ -43,7 +49,9 @@ export function placementToPlaced(p: StickerPlacement): PlacedSticker {
 		rotation: Number(p.rotation),
 		scale: Number(p.scale),
 		z_index: p.z_index,
-		foil: normalizeFoil(p.foil)
+		foil: normalizeFoil(p.foil),
+		size: p.size == null ? null : Number(p.size),
+		is_affiliation: p.is_affiliation === true
 	};
 }
 
@@ -158,7 +166,10 @@ export function snapshotToView(snapshot: unknown): CardSnapshot {
 		style: v1 ? normalizeStyle({}) : normalizeStyle(s.style),
 		affiliation: v1 ? null : readAffiliation(s.affiliation),
 		links: v1 ? [] : readLinks(s.links),
+		// v4 snapshots carry each sticker's definition too; keep it, so a
+		// collected card draws forever without a catalog lookup.
 		stickers: rawStickers.map((p) => ({
+			...p,
 			id: undefined,
 			sticker_id: String(p.sticker_id),
 			x: Number(p.x),
@@ -166,7 +177,9 @@ export function snapshotToView(snapshot: unknown): CardSnapshot {
 			rotation: Number(p.rotation ?? 0),
 			scale: Number(p.scale ?? 1),
 			z_index: Number(p.z_index ?? 0),
-			foil: normalizeFoil(p.foil)
+			foil: normalizeFoil(p.foil),
+			size: p.size == null ? null : Number(p.size),
+			is_affiliation: p.is_affiliation === true
 		})),
 		owner: {
 			id: String(owner.id ?? ''),
@@ -198,10 +211,17 @@ export function bakedArt(sticker: Sticker | undefined): BakedArt | null {
 	return { src: `/stickers/${sticker.id}.webp`, mask: `/stickers/${sticker.id}.mask.webp` };
 }
 
-export type StickerCatalog = Map<string, Sticker>;
+export type StickerCatalog = Map<string, CatalogSticker>;
 
-export function catalogFrom(stickers: Sticker[]): StickerCatalog {
-	return new Map(stickers.map((s) => [s.id, s]));
+/** Catalog rows by id; a fandom sticker picks up its fandom's style category. */
+export function catalogFrom(stickers: Sticker[], fandoms: Fandom[] = []): StickerCatalog {
+	const styles = new Map(fandoms.map((f) => [f.id, f.style_category]));
+	return new Map(
+		stickers.map((s) => [
+			s.id,
+			{ ...s, style_category: s.fandom_id ? (styles.get(s.fandom_id) ?? null) : null }
+		])
+	);
 }
 
 export function fandomMap(fandoms: Fandom[]): Map<string, Fandom> {

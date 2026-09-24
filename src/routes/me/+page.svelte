@@ -8,7 +8,7 @@
 
 	let { data, form } = $props();
 
-	const catalog = $derived(catalogFrom(data.stickers));
+	const catalog = $derived(catalogFrom(data.stickers, data.fandoms));
 	const fandoms = $derived(fandomMap(data.fandoms));
 	const active = $derived(data.cards.find((c) => c.id === data.profile.active_card_id));
 	const activeView = $derived(

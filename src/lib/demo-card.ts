@@ -16,7 +16,13 @@ export const DEMO_STICKERS: Sticker[] = [
 		source: 'starter',
 		price_cents: null,
 		sort_order: 1,
-		is_active: true
+		is_active: true,
+		kind: 'deco',
+		full_path: null,
+		mask_path: null,
+		thumb_path: null,
+		art_aspect: null,
+		fandom_id: null
 	},
 	{
 		id: 'cat',
@@ -27,7 +33,13 @@ export const DEMO_STICKERS: Sticker[] = [
 		source: 'drop',
 		price_cents: null,
 		sort_order: 2,
-		is_active: true
+		is_active: true,
+		kind: 'deco',
+		full_path: null,
+		mask_path: null,
+		thumb_path: null,
+		art_aspect: null,
+		fandom_id: null
 	},
 	{
 		id: 'dragon',
@@ -38,7 +50,13 @@ export const DEMO_STICKERS: Sticker[] = [
 		source: 'drop',
 		price_cents: null,
 		sort_order: 3,
-		is_active: true
+		is_active: true,
+		kind: 'deco',
+		full_path: null,
+		mask_path: null,
+		thumb_path: null,
+		art_aspect: null,
+		fandom_id: null
 	},
 	{
 		id: 'rainbow',
@@ -49,7 +67,13 @@ export const DEMO_STICKERS: Sticker[] = [
 		source: 'drop',
 		price_cents: null,
 		sort_order: 4,
-		is_active: true
+		is_active: true,
+		kind: 'deco',
+		full_path: null,
+		mask_path: null,
+		thumb_path: null,
+		art_aspect: null,
+		fandom_id: null
 	}
 ];
 

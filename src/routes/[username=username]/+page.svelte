@@ -10,7 +10,7 @@
 
 	let { data, form } = $props();
 
-	const catalog = $derived(catalogFrom(data.stickers));
+	const catalog = $derived(catalogFrom(data.stickers, data.fandoms));
 	const view = $derived(
 		data.card ? cardToView(data.card, data.profile, data.placements, fandomMap(data.fandoms)) : null
 	);
