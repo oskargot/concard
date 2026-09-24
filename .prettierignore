@@ -10,3 +10,11 @@ bun.lockb
 
 # Oskar's brand bible, kept verbatim
 DESIGN.md
+
+# Copied verbatim from concard-app (scripts/sync-card-spec.mjs), formatted under its rules
+/src/lib/app-card/
+/src/lib/stickers/constants.ts
+/src/lib/stickers/fixtures.ts
+
+# Written by scripts/card-parity.mjs
+/docs/card-port/

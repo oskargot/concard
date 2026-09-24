@@ -10,6 +10,17 @@ const gitignorePath = path.resolve(import.meta.dirname, '.gitignore');
 
 export default defineConfig(
 	includeIgnoreFile(gitignorePath),
+	// Copied verbatim from concard-app and linted there (scripts/sync-*.mjs).
+	{
+		ignores: [
+			'src/lib/app-card/**',
+			'src/lib/stickers/constants.ts',
+			'src/lib/stickers/fixtures.ts',
+			'src/lib/stickers/fandom-layout.ts',
+			'src/lib/stickers/fandom-styles.ts',
+			'src/lib/stickers/font-metrics.ts'
+		]
+	},
 	js.configs.recommended,
 	ts.configs.recommended,
 	svelte.configs.recommended,
