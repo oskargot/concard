@@ -1,0 +1,11495 @@
+[
+ {
+  "id": "shape-sharp",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 0,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 0,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "shape-rounded",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 10,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 10,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "shape-arch",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "shape-circle",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 63,
+     "x": 61.96,
+     "y": 69.96,
+     "w": 125.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 63,
+     "x": 61.96,
+     "y": 69.96,
+     "w": 125.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "divider-112",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Inks comics too slowly, sells stickers too",
+    "app": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 196.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 196.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "cheaply. Table H14 all weekend — say hi and",
+    "app": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "ask about the zine. Trades welcome, tea",
+    "app": {
+     "text": "ask about the zine. Trades welcome, tea",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 224.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "ask about the zine. Trades welcome, tea",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 224.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "preferred!!",
+    "app": {
+     "text": "preferred!!",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 238.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "preferred!!",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 238.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 111.98
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 111.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 189.96,
+     "w": 209.99,
+     "h": 113.99
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 189.96,
+     "w": 209.99,
+     "h": 113.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "divider-140",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Inks comics too slowly, sells stickers too",
+    "app": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 224.48,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 224.48,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "cheaply. Table H14 all weekend — say hi and",
+    "app": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 238.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 238.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "ask about the zine. Trades welcome, tea",
+    "app": {
+     "text": "ask about the zine. Trades welcome, tea",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 252.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "ask about the zine. Trades welcome, tea",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 252.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "preferred!!",
+    "app": {
+     "text": "preferred!!",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 266.48,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "preferred!!",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 266.48,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 139.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 139.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 217.97,
+     "w": 209.99,
+     "h": 85.98
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 217.97,
+     "w": 209.99,
+     "h": 85.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "divider-196",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Inks comics too slowly, sells stickers too",
+    "app": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 280.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 280.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 196
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 196
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 273.96,
+     "w": 209.99,
+     "h": 30
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 273.96,
+     "w": 209.99,
+     "h": 30
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "divider-234",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 234
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 234
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "links-0",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Inks comics too slowly, sells stickers too",
+    "app": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 196.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 196.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "cheaply. Table H14 all weekend — say hi and",
+    "app": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "ask about the zine. Trades welcome, tea",
+    "app": {
+     "text": "ask about the zine. Trades welcome, tea",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 224.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "ask about the zine. Trades welcome, tea",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 224.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "preferred!!",
+    "app": {
+     "text": "preferred!!",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 238.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "preferred!!",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 238.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 111.98
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 111.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 189.96,
+     "w": 209.99,
+     "h": 139.99
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 189.96,
+     "w": 209.99,
+     "h": 139.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "links-1",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Inks comics too slowly, sells stickers too",
+    "app": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 196.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 196.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "cheaply. Table H14 all weekend — say hi and",
+    "app": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "ask about the zine. Trades welcome, tea",
+    "app": {
+     "text": "ask about the zine. Trades welcome, tea",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 224.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "ask about the zine. Trades welcome, tea",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 224.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "preferred!!",
+    "app": {
+     "text": "preferred!!",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 238.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "preferred!!",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 238.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 111.98
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 111.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 189.96,
+     "w": 209.99,
+     "h": 113.99
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 189.96,
+     "w": 209.99,
+     "h": 113.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "links-4",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Inks comics too slowly, sells stickers too",
+    "app": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 196.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 196.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "cheaply. Table H14 all weekend — say hi and",
+    "app": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@rafa.bsky.social",
+    "app": {
+     "text": "@rafa.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@rafa.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "rafadraws",
+    "app": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 111.98
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 111.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 189.96,
+     "w": 209.99,
+     "h": 47.99
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 189.96,
+     "w": 209.99,
+     "h": 47.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "links-8",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Inks comics too slowly, sells stickers too",
+    "app": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 196.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 196.47,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "cheaply. Table H14 all weekend — say hi and",
+    "app": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.46,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@rafa.bsky.social",
+    "app": {
+     "text": "@rafa.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@rafa.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "rafadraws",
+    "app": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "rafadraws",
+    "app": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "rafadraws",
+    "app": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "discord.gg/concard",
+    "app": {
+     "text": "discord.gg/concard",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "discord.gg/concard",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@rafadraws",
+    "app": {
+     "text": "@rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 134.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 134.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 134.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 134.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 134.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 134.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 134.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 134.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 111.98
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 111.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 189.96,
+     "w": 209.99,
+     "h": 47.99
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 189.96,
+     "w": 209.99,
+     "h": 47.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 127.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 127.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 127.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 127.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 127.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 127.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 127.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 127.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "align-left",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "they/them",
+    "app": {
+     "text": "they/them",
+     "font": "Outfit-SemiBold",
+     "size": 9,
+     "x": 182.22,
+     "y": 49.1,
+     "w": 42.73,
+     "h": 11.7
+    },
+    "web": {
+     "text": "they/them",
+     "font": "Outfit-SemiBold",
+     "size": 9,
+     "x": 182.22,
+     "y": 49.1,
+     "w": 42.73,
+     "h": 11.7
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 7,
+     "x": 177.23,
+     "y": 47.96,
+     "w": 52.72,
+     "h": 13.99
+    },
+    "web": {
+     "radius": 7,
+     "x": 177.23,
+     "y": 47.96,
+     "w": 52.72,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "align-center",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 105.28,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 105.28,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "they/them",
+    "app": {
+     "text": "they/them",
+     "font": "Outfit-SemiBold",
+     "size": 9,
+     "x": 182.22,
+     "y": 49.1,
+     "w": 42.73,
+     "h": 11.7
+    },
+    "web": {
+     "text": "they/them",
+     "font": "Outfit-SemiBold",
+     "size": 9,
+     "x": 182.22,
+     "y": 49.1,
+     "w": 42.73,
+     "h": 11.7
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 7,
+     "x": 177.23,
+     "y": 47.96,
+     "w": 52.72,
+     "h": 13.99
+    },
+    "web": {
+     "radius": 7,
+     "x": 177.23,
+     "y": 47.96,
+     "w": 52.72,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "align-right",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 190.6,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 190.6,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "they/them",
+    "app": {
+     "text": "they/them",
+     "font": "Outfit-SemiBold",
+     "size": 9,
+     "x": 24.95,
+     "y": 49.1,
+     "w": 42.73,
+     "h": 11.7
+    },
+    "web": {
+     "text": "they/them",
+     "font": "Outfit-SemiBold",
+     "size": 9,
+     "x": 24.95,
+     "y": 49.1,
+     "w": 42.73,
+     "h": 11.7
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 7,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 52.72,
+     "h": 13.99
+    },
+    "web": {
+     "radius": 7,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 52.72,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "fit-name",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Alexandria Montgo…",
+    "app": {
+     "text": "Alexandria Montgo…",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Alexandria Montgo…",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "fit-centre",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@abcdefghijklmnopqrst",
+    "app": {
+     "text": "@abcdefghijklmnopqrst",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 61.13,
+     "y": 47.96,
+     "w": 119.39,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@abcdefghijklmnopqrst",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 61.13,
+     "y": 47.96,
+     "w": 119.39,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "she/they",
+    "app": {
+     "text": "she/they",
+     "font": "Outfit-SemiBold",
+     "size": 9,
+     "x": 189.54,
+     "y": 49.1,
+     "w": 35.44,
+     "h": 11.7
+    },
+    "web": {
+     "text": "she/they",
+     "font": "Outfit-SemiBold",
+     "size": 9,
+     "x": 189.54,
+     "y": 49.1,
+     "w": 35.44,
+     "h": 11.7
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 7,
+     "x": 184.54,
+     "y": 47.96,
+     "w": 45.43,
+     "h": 13.99
+    },
+    "web": {
+     "radius": 7,
+     "x": 184.54,
+     "y": 47.96,
+     "w": 45.43,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "fit-pill",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "she/her/hers…",
+    "app": {
+     "text": "she/her/hers…",
+     "font": "Outfit-SemiBold",
+     "size": 9,
+     "x": 165.86,
+     "y": 49.1,
+     "w": 59.09,
+     "h": 11.7
+    },
+    "web": {
+     "text": "she/her/hers…",
+     "font": "Outfit-SemiBold",
+     "size": 9,
+     "x": 165.86,
+     "y": 49.1,
+     "w": 59.09,
+     "h": 11.7
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 7,
+     "x": 160.87,
+     "y": 47.96,
+     "w": 69.08,
+     "h": 13.99
+    },
+    "web": {
+     "radius": 7,
+     "x": 160.87,
+     "y": 47.96,
+     "w": 69.08,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "edge-silver",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "edge-gold",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "edge-holo",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "edge-ink",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "face-paper",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "face-blush",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "face-butter",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "face-cyan",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "face-violet",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "face-slate",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "tier-0",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "tier-1",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "tier-2",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "tier-3",
+  "width": 165,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 209.99,
+     "h": 25.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.96,
+     "y": 47.96,
+     "w": 39.35,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "Anime and sci-fi con regular. Making",
+    "app": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "web": {
+     "text": "Anime and sci-fi con regular. Making",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 27.46,
+     "y": 210.49,
+     "w": 194.98,
+     "h": 13.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@oskar.bsky.social",
+    "app": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@oskar.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 245.98,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskar",
+    "app": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskar",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 267.97,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 289.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.95,
+     "y": 311.96,
+     "w": 72.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.95,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.94,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.93,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.96,
+     "y": 69.96,
+     "w": 209.99,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.96,
+     "y": 203.98,
+     "w": 209.99,
+     "h": 34
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 245.98,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 267.97,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 289.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.96,
+     "y": 311.96,
+     "w": 101.99,
+     "h": 17.99
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "back-qr",
+  "width": 165,
+  "texts": [
+   {
+    "text": "concard.me/oskar",
+    "app": {
+     "text": "concard.me/oskar",
+     "font": "Outfit-Regular",
+     "size": 9,
+     "x": 7.98,
+     "y": 254.97,
+     "w": 234,
+     "h": 11.98
+    },
+    "web": {
+     "text": "concard.me/oskar",
+     "font": "Outfit-Regular",
+     "size": 9,
+     "x": 7.98,
+     "y": 254.97,
+     "w": 234,
+     "h": 11.98
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [],
+  "boxes": []
+ },
+ {
+  "id": "back-placeholder",
+  "width": 165,
+  "texts": [
+   {
+    "text": "concard.me/oskar",
+    "app": {
+     "text": "concard.me/oskar",
+     "font": "Outfit-Regular",
+     "size": 9,
+     "x": 7.98,
+     "y": 254.97,
+     "w": 234,
+     "h": 11.98
+    },
+    "web": {
+     "text": "concard.me/oskar",
+     "font": "Outfit-Regular",
+     "size": 9,
+     "x": 7.98,
+     "y": 254.97,
+     "w": 234,
+     "h": 11.98
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [],
+  "boxes": []
+ },
+ {
+  "id": "back-record",
+  "width": 165,
+  "texts": [
+   {
+    "text": "collector's record",
+    "app": {
+     "text": "collector's record",
+     "font": "Outfit-SemiBold",
+     "size": 8,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 210.09,
+     "h": 11.01
+    },
+    "web": {
+     "text": "collector's record",
+     "font": "Outfit-SemiBold",
+     "size": 8,
+     "x": 19.96,
+     "y": 19.96,
+     "w": 210.09,
+     "h": 11.01
+    },
+    "delta": 0
+   },
+   {
+    "text": "collected",
+    "app": {
+     "text": "collected",
+     "font": "Outfit-SemiBold",
+     "size": 8,
+     "x": 19.96,
+     "y": 42.95,
+     "w": 210.09,
+     "h": 11.01
+    },
+    "web": {
+     "text": "collected",
+     "font": "Outfit-SemiBold",
+     "size": 8,
+     "x": 19.96,
+     "y": 42.95,
+     "w": 210.09,
+     "h": 11.01
+    },
+    "delta": 0
+   },
+   {
+    "text": "Sep 23, 2026",
+    "app": {
+     "text": "Sep 23, 2026",
+     "font": "Outfit-Bold",
+     "size": 14,
+     "x": 19.96,
+     "y": 55.94,
+     "w": 210.09,
+     "h": 17
+    },
+    "web": {
+     "text": "Sep 23, 2026",
+     "font": "Outfit-Bold",
+     "size": 14,
+     "x": 19.96,
+     "y": 55.94,
+     "w": 210.09,
+     "h": 17
+    },
+    "delta": 0
+   },
+   {
+    "text": "event",
+    "app": {
+     "text": "event",
+     "font": "Outfit-SemiBold",
+     "size": 8,
+     "x": 19.96,
+     "y": 84.92,
+     "w": 210.09,
+     "h": 11.01
+    },
+    "web": {
+     "text": "event",
+     "font": "Outfit-SemiBold",
+     "size": 8,
+     "x": 19.96,
+     "y": 84.92,
+     "w": 210.09,
+     "h": 11.01
+    },
+    "delta": 0
+   },
+   {
+    "text": "In person",
+    "app": {
+     "text": "In person",
+     "font": "Outfit-Bold",
+     "size": 14,
+     "x": 19.96,
+     "y": 97.92,
+     "w": 210.09,
+     "h": 17
+    },
+    "web": {
+     "text": "In person",
+     "font": "Outfit-Bold",
+     "size": 14,
+     "x": 19.96,
+     "y": 97.92,
+     "w": 210.09,
+     "h": 17
+    },
+    "delta": 0
+   },
+   {
+    "text": "note",
+    "app": {
+     "text": "note",
+     "font": "Outfit-SemiBold",
+     "size": 8,
+     "x": 28.46,
+     "y": 126.89,
+     "w": 201.59,
+     "h": 11.01
+    },
+    "web": {
+     "text": "note",
+     "font": "Outfit-SemiBold",
+     "size": 8,
+     "x": 28.46,
+     "y": 126.89,
+     "w": 201.59,
+     "h": 11.01
+    },
+    "delta": 0
+   },
+   {
+    "text": "First meeting logged.",
+    "app": {
+     "text": "First meeting logged.",
+     "font": "Outfit-Bold",
+     "size": 14,
+     "x": 28.46,
+     "y": 139.89,
+     "w": 201.59,
+     "h": 17
+    },
+    "web": {
+     "text": "First meeting logged.",
+     "font": "Outfit-Bold",
+     "size": 14,
+     "x": 28.46,
+     "y": 139.89,
+     "w": 201.59,
+     "h": 17
+    },
+    "delta": 0
+   },
+   {
+    "text": "a collected card carries no code",
+    "app": {
+     "text": "a collected card carries no code",
+     "font": "Outfit-SemiBold",
+     "size": 8,
+     "x": 19.96,
+     "y": 309.54,
+     "w": 210.09,
+     "h": 20.5
+    },
+    "web": {
+     "text": "a collected card carries no code",
+     "font": "Outfit-SemiBold",
+     "size": 8,
+     "x": 19.96,
+     "y": 309.54,
+     "w": 210.09,
+     "h": 20.5
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [],
+  "boxes": [
+   {
+    "app": {
+     "radius": 0,
+     "x": 19.96,
+     "y": 309.54,
+     "w": 210.09,
+     "h": 20.5
+    },
+    "web": null,
+    "delta": null
+   }
+  ]
+ },
+ {
+  "id": "binder-0",
+  "width": 106,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.97,
+     "y": 19.97,
+     "w": 209.98,
+     "h": 25.98
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.97,
+     "y": 19.97,
+     "w": 209.98,
+     "h": 26.02
+    },
+    "delta": 0.04
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.97,
+     "y": 47.98,
+     "w": 39.36,
+     "h": 13.97
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.97,
+     "y": 47.98,
+     "w": 39.36,
+     "h": 13.97
+    },
+    "delta": 0
+   },
+   {
+    "text": "Inks comics too slowly, sells stickers too",
+    "app": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 211.31,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "web": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 211.31,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "delta": 0
+   },
+   {
+    "text": "cheaply. Table H14 all weekend — say hi and",
+    "app": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 225.27,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "web": {
+     "text": "cheaply. Table H14 all weekend — say hi and",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 225.27,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "delta": 0
+   },
+   {
+    "text": "ask about the zine. Trades welcome, tea",
+    "app": {
+     "text": "ask about the zine. Trades welcome, tea",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 239.28,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "web": {
+     "text": "ask about the zine. Trades welcome, tea",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 239.28,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "delta": 0
+   },
+   {
+    "text": "preferred!!",
+    "app": {
+     "text": "preferred!!",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 253.28,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "web": {
+     "text": "preferred!!",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 253.28,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 289.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 289.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "@rafa.bsky.social",
+    "app": {
+     "text": "@rafa.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 311.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "@rafa.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 311.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 0,
+     "x": 19.97,
+     "y": 69.98,
+     "w": 209.98,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 0,
+     "x": 19.97,
+     "y": 69.98,
+     "w": 209.98,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.97,
+     "y": 203.97,
+     "w": 209.98,
+     "h": 77.98
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.97,
+     "y": 203.97,
+     "w": 209.98,
+     "h": 77.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 289.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 289.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 311.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 311.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "binder-1",
+  "width": 106,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.97,
+     "y": 19.97,
+     "w": 209.98,
+     "h": 25.98
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.97,
+     "y": 19.97,
+     "w": 209.98,
+     "h": 26.02
+    },
+    "delta": 0.04
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.97,
+     "y": 47.98,
+     "w": 39.36,
+     "h": 13.97
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.97,
+     "y": 47.98,
+     "w": 39.36,
+     "h": 13.97
+    },
+    "delta": 0
+   },
+   {
+    "text": "Inks comics too slowly, sells stickers too",
+    "app": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 211.31,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "web": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 211.31,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 245.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 245.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "@rafa.bsky.social",
+    "app": {
+     "text": "@rafa.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 267.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "@rafa.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 267.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "rafadraws",
+    "app": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 289.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 289.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 311.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 311.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 10,
+     "x": 19.97,
+     "y": 69.98,
+     "w": 209.98,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 10,
+     "x": 19.97,
+     "y": 69.98,
+     "w": 209.98,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.97,
+     "y": 203.97,
+     "w": 209.98,
+     "h": 33.98
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.97,
+     "y": 203.97,
+     "w": 209.98,
+     "h": 33.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 245.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 245.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 267.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 267.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 289.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 289.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 311.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 311.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   }
+  ]
+ },
+ {
+  "id": "binder-2",
+  "width": 106,
+  "texts": [
+   {
+    "text": "Oskar",
+    "app": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.97,
+     "y": 19.97,
+     "w": 209.98,
+     "h": 25.98
+    },
+    "web": {
+     "text": "Oskar",
+     "font": "Outfit-Bold",
+     "size": 22,
+     "x": 19.97,
+     "y": 19.97,
+     "w": 209.98,
+     "h": 26.02
+    },
+    "delta": 0.04
+   },
+   {
+    "text": "@oskar",
+    "app": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.97,
+     "y": 47.98,
+     "w": 39.36,
+     "h": 13.97
+    },
+    "web": {
+     "text": "@oskar",
+     "font": "Outfit-Regular",
+     "size": 11,
+     "x": 19.97,
+     "y": 47.98,
+     "w": 39.36,
+     "h": 13.97
+    },
+    "delta": 0
+   },
+   {
+    "text": "Inks comics too slowly, sells stickers too",
+    "app": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 211.31,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "web": {
+     "text": "Inks comics too slowly, sells stickers too",
+     "font": "Outfit-Regular",
+     "size": 10,
+     "x": 28.3,
+     "y": 211.31,
+     "w": 193.32,
+     "h": 13.97
+    },
+    "delta": 0
+   },
+   {
+    "text": "@pixelpastrycafe",
+    "app": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 245.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "@pixelpastrycafe",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 245.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "@rafa.bsky.social",
+    "app": {
+     "text": "@rafa.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 267.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "@rafa.bsky.social",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 267.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "rafadraws",
+    "app": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 289.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 289.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "oskargot.space",
+    "app": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 311.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "oskargot.space",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 41.94,
+     "y": 311.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "rafadraws",
+    "app": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 245.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 245.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "rafadraws",
+    "app": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 267.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 267.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "discord.gg/concard",
+    "app": {
+     "text": "discord.gg/concard",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 289.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "discord.gg/concard",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 289.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "text": "@rafadraws",
+    "app": {
+     "text": "@rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 311.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "web": {
+     "text": "@rafadraws",
+     "font": "Outfit-Regular",
+     "size": 8,
+     "x": 149.95,
+     "y": 311.98,
+     "w": 72.97,
+     "h": 17.98
+    },
+    "delta": 0
+   }
+  ],
+  "icons": [
+   {
+    "app": {
+     "x": 26.94,
+     "y": 249.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 249.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 271.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 271.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 293.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 293.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 26.94,
+     "y": 315.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 26.94,
+     "y": 315.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 134.95,
+     "y": 249.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 134.95,
+     "y": 249.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 134.95,
+     "y": 271.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 134.95,
+     "y": 271.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 134.95,
+     "y": 293.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 134.95,
+     "y": 293.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "x": 134.95,
+     "y": 315.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "web": {
+     "x": 134.95,
+     "y": 315.96,
+     "w": 9.99,
+     "h": 9.99
+    },
+    "delta": 0
+   }
+  ],
+  "boxes": [
+   {
+    "app": {
+     "radius": 105,
+     "x": 19.97,
+     "y": 69.98,
+     "w": 209.98,
+     "h": 125.99
+    },
+    "web": {
+     "radius": 105,
+     "x": 19.97,
+     "y": 69.98,
+     "w": 209.98,
+     "h": 125.99
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 6,
+     "x": 19.97,
+     "y": 203.97,
+     "w": 209.98,
+     "h": 33.98
+    },
+    "web": {
+     "radius": 6,
+     "x": 19.97,
+     "y": 203.97,
+     "w": 209.98,
+     "h": 33.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 245.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 245.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 267.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 267.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 289.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 289.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 311.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 19.97,
+     "y": 311.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 127.98,
+     "y": 245.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 127.98,
+     "y": 245.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 127.98,
+     "y": 267.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 127.98,
+     "y": 267.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 127.98,
+     "y": 289.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 127.98,
+     "y": 289.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   },
+   {
+    "app": {
+     "radius": 4,
+     "x": 127.98,
+     "y": 311.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "web": {
+     "radius": 4,
+     "x": 127.98,
+     "y": 311.98,
+     "w": 101.97,
+     "h": 17.98
+    },
+    "delta": 0
+   }
+  ]
+ }
+]

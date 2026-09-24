@@ -1,0 +1,42 @@
+# Geometry, app vs web (design units)
+
+Worst difference over every matched line and icon: **0.04 units**.
+
+- **shape-sharp** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **shape-rounded** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **shape-arch** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **shape-circle** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **divider-112** (165px): 7 text lines, 1 icons, 3 boxes (app) / 3 (web), worst Δ 0.00 u
+- **divider-140** (165px): 7 text lines, 1 icons, 3 boxes (app) / 3 (web), worst Δ 0.00 u
+- **divider-196** (165px): 4 text lines, 1 icons, 3 boxes (app) / 3 (web), worst Δ 0.00 u
+- **divider-234** (165px): 3 text lines, 1 icons, 2 boxes (app) / 2 (web), worst Δ 0.00 u
+- **links-0** (165px): 6 text lines, 0 icons, 2 boxes (app) / 2 (web), worst Δ 0.00 u
+- **links-1** (165px): 7 text lines, 1 icons, 3 boxes (app) / 3 (web), worst Δ 0.00 u
+- **links-4** (165px): 8 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **links-8** (165px): 12 text lines, 8 icons, 10 boxes (app) / 10 (web), worst Δ 0.00 u
+- **align-left** (165px): 8 text lines, 4 icons, 7 boxes (app) / 7 (web), worst Δ 0.00 u
+- **align-center** (165px): 8 text lines, 4 icons, 7 boxes (app) / 7 (web), worst Δ 0.00 u
+- **align-right** (165px): 8 text lines, 4 icons, 7 boxes (app) / 7 (web), worst Δ 0.00 u
+- **fit-name** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **fit-centre** (165px): 8 text lines, 4 icons, 7 boxes (app) / 7 (web), worst Δ 0.00 u
+- **fit-pill** (165px): 8 text lines, 4 icons, 7 boxes (app) / 7 (web), worst Δ 0.00 u
+- **edge-silver** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **edge-gold** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **edge-holo** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **edge-ink** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **face-paper** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **face-blush** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **face-butter** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **face-cyan** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **face-violet** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **face-slate** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **tier-0** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **tier-1** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **tier-2** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **tier-3** (165px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.00 u
+- **back-qr** (165px): 1 text lines, 0 icons, 0 boxes (app) / 0 (web), worst Δ 0.00 u
+- **back-placeholder** (165px): 1 text lines, 0 icons, 0 boxes (app) / 0 (web), worst Δ 0.00 u
+- **back-record** (165px): 8 text lines, 0 icons, 1 boxes (app) / 0 (web), worst Δ 0.00 u
+- **binder-0** (106px): 8 text lines, 2 icons, 4 boxes (app) / 4 (web), worst Δ 0.04 u
+- **binder-1** (106px): 7 text lines, 4 icons, 6 boxes (app) / 6 (web), worst Δ 0.04 u
+- **binder-2** (106px): 11 text lines, 8 icons, 10 boxes (app) / 10 (web), worst Δ 0.04 u

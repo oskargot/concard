@@ -1,304 +1,394 @@
 <script lang="ts">
+	/**
+	 * Dev only: every card look on fixture data, laid out to be compared card
+	 * for card with concard-app's own galleries — its `/dev/cards` (same groups,
+	 * same fixture, same 165 / 106 px widths), `/dev/foil-lab` (every foil on
+	 * the silver / blush demo at 320) and `/dev/stickers` (its two sticker
+	 * cards at 320) — plus the cases those don't show.
+	 *
+	 * Query params pin a state for screenshots (scripts/card-parity.mjs):
+	 *   ?tilt=x,y   the light as the shader sees it, −1..1 each (0,0 = at rest)
+	 *   ?t=s        pin the idle clock at s seconds (0 = the app's `thumb` stillness)
+	 *   ?ref=rnweb  draw what the app's *web target* can: no edge gradient, no
+	 *               gloss, display-p3 foil canvases (see CardShell)
+	 * Sticker art is the app's fixture bakes (PUBLIC_STICKER_ASSET_BASE).
+	 */
+	import { page } from '$app/state';
 	import Card from '$lib/components/Card.svelte';
 	import CardBack from '$lib/components/CardBack.svelte';
-	import FlipCard from '$lib/components/FlipCard.svelte';
+	import CardShell, { setRnWebReference } from '$lib/components/CardShell.svelte';
+	import StickerTile from '$lib/components/StickerTile.svelte';
 	import {
-		ART_DEFAULT,
-		BADGE_HOME,
-		BG_KEYS,
+		ALIGNMENTS,
 		FRAME_KEYS,
 		PHOTO_SHAPES,
-		SHAPES,
-		stickerRotation,
+		type BgKey,
 		type CardStyle
 	} from '$lib/card-style';
-	import { demoCatalog } from '$lib/demo-card';
-	import type { CardView, PlacedSticker } from '$lib/types';
+	import { photoHeightMax } from '$lib/app-card/layout/front';
+	import { CARD_TIERS, FOIL_KINDS, foilForTier, STICKER_FOILS } from '$lib/app-card/tiers';
+	import { STICKER_BASE_WIDTH } from '$lib/stickers/constants';
+	import { DEMO_CARD, fixtureCatalog } from '$lib/demo-card';
+	import { setEngineOptions } from '$lib/foil/engine';
+	import { pinFoilClock } from '$lib/foil/scheduler';
+	import type { CardLink, CardView, PlacedSticker, StickerFoil } from '$lib/types';
 
-	const catalog = demoCatalog();
+	const catalog = fixtureCatalog();
+	const q = page.url.searchParams;
+	const [tx, ty] = (q.get('tilt') ?? '0,0').split(',').map(Number);
+	// u_tilt = [ry, -rx] / TILT_RANGE, so invert that here (as the app's lab does)
+	const rx = -(Number.isFinite(ty) ? ty : 0) * 10;
+	const ry = (Number.isFinite(tx) ? tx : 0) * 10;
+	const rnweb = q.get('ref') === 'rnweb';
+	setRnWebReference(rnweb);
+	setEngineOptions({ p3: rnweb });
+	const pinned = q.get('t');
+	if (pinned !== null) pinFoilClock(Number(pinned) || 0);
 
-	const base: Omit<CardView, 'style'> = {
-		title: 'Oskar',
-		handle: 'oskar',
-		bio: 'Anime and sci-fi con regular. Making concard. Will trade stickers for good tea recommendations.',
-		art_url: null,
-		art_x: ART_DEFAULT.x,
-		art_y: ART_DEFAULT.y,
-		art_scale: ART_DEFAULT.scale,
-		affiliation: {
-			id: 'anime',
-			name: 'Anime',
-			mark: 'ANI',
-			color_a: '#ff7eb6',
-			color_b: '#7c4dff',
-			...BADGE_HOME
+	const HERO = 165;
+	const BINDER = 106;
+	const LAB = 320;
+
+	const BG_SAMPLE: BgKey[] = ['paper', 'blush', 'butter', 'cyan', 'violet', 'slate'];
+	const EIGHT_LINKS: CardLink[] = [
+		{ url: 'https://instagram.com/pixelpastrycafe', handle: '@pixelpastrycafe' },
+		{ url: 'https://bsky.app/profile/rafa.bsky.social', handle: '@rafa.bsky.social' },
+		{ url: 'https://rafadraws.itch.io', handle: 'rafadraws' },
+		{ url: 'https://oskargot.space', handle: 'oskargot.space' },
+		{ url: 'https://twitch.tv/rafadraws', handle: 'rafadraws' },
+		{ url: 'https://ko-fi.com/rafadraws', handle: 'rafadraws' },
+		{ url: 'https://discord.gg/concard', handle: 'discord.gg/concard' },
+		{ url: 'https://tiktok.com/@rafadraws', handle: '@rafadraws' }
+	];
+	const LONG_BIO =
+		'Inks comics too slowly, sells stickers too cheaply. Table H14 all weekend — say hi and ask about the zine. Trades welcome, tea preferred!!';
+
+	const v = (patch: Partial<CardView>, style: Partial<CardStyle> = {}): CardView => ({
+		...DEMO_CARD,
+		...patch,
+		style: { ...DEMO_CARD.style, ...style }
+	});
+
+	interface Sample {
+		id: string;
+		label: string;
+		view: CardView;
+		width?: number;
+		tier?: number;
+		foil?: (typeof FOIL_KINDS)[number] | null;
+		detail?: 'full' | 'thumb';
+	}
+	interface Group {
+		id: string;
+		title: string;
+		samples: Sample[];
+	}
+
+	/** A plain sticker placement, as the app's sticker lab makes them. */
+	const place = (
+		sticker_id: string,
+		x: number,
+		y: number,
+		foil: StickerFoil,
+		extra: Partial<PlacedSticker> = {}
+	): PlacedSticker => ({
+		id: `${sticker_id}-${x}-${y}`,
+		sticker_id,
+		x,
+		y,
+		rotation: 0,
+		scale: 1,
+		z_index: 1,
+		foil,
+		size: STICKER_BASE_WIDTH,
+		...extra
+	});
+
+	const groups: Group[] = [
+		{
+			id: 'shape',
+			title: 'Photo shapes · no photo draws the outline only',
+			samples: PHOTO_SHAPES.map((photo_shape) => ({
+				id: photo_shape,
+				label: photo_shape,
+				view: v({}, { photo_shape })
+			}))
 		},
-		links: [
-			{ label: 'Bluesky', url: 'https://bsky.app/oskar' },
-			{ label: 'Itch', url: 'https://oskar.itch.io' },
-			{ label: 'Site', url: 'https://oskar.dev' },
-			{ label: 'Ko-fi', url: 'https://ko-fi.com/oskar' },
-			{ label: 'Tumblr', url: 'https://oskar.tumblr.com' }
-		],
-		stickers: [
-			{
-				id: 'a',
-				sticker_id: 'star',
-				x: 0.96,
-				y: 0.06,
-				rotation: 0,
-				scale: 1,
-				z_index: 1,
-				foil: 'none'
-			},
-			{
-				id: 'b',
-				sticker_id: 'cat',
-				x: 0.08,
-				y: 0.62,
-				rotation: -10,
-				scale: 1.1,
-				z_index: 2,
-				foil: 'glitter'
-			},
-			{
-				id: 'c',
-				sticker_id: 'dragon',
-				x: 0.9,
-				y: 0.9,
-				rotation: 15,
-				scale: 0.9,
-				z_index: 3,
-				foil: 'holo'
-			},
-			{
-				id: 'd',
-				sticker_id: 'rainbow',
-				x: -0.04,
-				y: 0.3,
-				rotation: 0,
-				scale: 1,
-				z_index: 4,
-				foil: 'none'
-			}
-		]
-	};
-
-	const withArt = { ...base, art_url: 'https://picsum.photos/seed/concard/600/600' };
-
-	const hero: CardStyle = { frame: 'gold', bg: 'mint', shape: 'rounded', photo_shape: 'arch' };
-	const variants: CardStyle[] = [
-		{ frame: 'silver', bg: 'paper', shape: 'rounded', photo_shape: 'round' },
-		{ frame: 'holo', bg: 'sky', shape: 'shaved', photo_shape: 'circle' },
-		{ frame: 'ink', bg: 'slate', shape: 'rect', photo_shape: 'square' },
-		{ frame: 'gold', bg: 'blush', shape: 'shaved', photo_shape: 'arch' },
-		{ frame: 'silver', bg: 'butter', shape: 'rect', photo_shape: 'round' },
-		{ frame: 'holo', bg: 'slate', shape: 'rounded', photo_shape: 'circle' }
+		{
+			id: 'divider',
+			title: 'Divider · one link row · H 112 / 140 / 196 / H_max 234 (bio hidden)',
+			samples: [112, 140, 196, photoHeightMax(1)].map((photo_height) => ({
+				id: String(photo_height),
+				label: `H ${photo_height}`,
+				view: v({ bio: LONG_BIO, links: EIGHT_LINKS.slice(0, 1) }, { photo_height })
+			}))
+		},
+		{
+			id: 'links',
+			title: 'Links · 0 / 1 / 4 / 8 (5–8 under the default sticker)',
+			samples: [0, 1, 4, 8].map((n) => ({
+				id: String(n),
+				label: `${n} links`,
+				view: v({ links: EIGHT_LINKS.slice(0, n), bio: LONG_BIO }, { photo_height: 112 })
+			}))
+		},
+		{
+			id: 'align',
+			title: 'Alignment · name, username row, bio',
+			samples: ALIGNMENTS.map((alignment) => ({
+				id: alignment,
+				label: alignment,
+				view: v({ pronouns: 'they/them', affiliation: null }, { alignment })
+			}))
+		},
+		{
+			id: 'fit',
+			title: 'Fit · long name, 20-char username, long pronouns',
+			samples: [
+				{ id: 'name', label: 'name cut', view: v({ title: 'Alexandria Montgomery-Vale' }) },
+				{
+					id: 'centre',
+					label: 'centre collision',
+					view: v(
+						{ handle: 'abcdefghijklmnopqrst', pronouns: 'she/they', affiliation: null },
+						{ alignment: 'center' }
+					)
+				},
+				{ id: 'pill', label: 'pill truncates', view: v({ pronouns: 'she/her/hers/they/them' }) }
+			]
+		},
+		{
+			id: 'edge',
+			title: 'Edges',
+			samples: FRAME_KEYS.map((frame) => ({ id: frame, label: frame, view: v({}, { frame }) }))
+		},
+		{
+			id: 'face',
+			title: 'Faces',
+			samples: BG_SAMPLE.map((bg) => ({ id: bg, label: bg, view: v({}, { bg }) }))
+		},
+		{
+			id: 'tier',
+			title: 'Tiers · the foil covers the whole face',
+			samples: CARD_TIERS.map((spec) => ({
+				id: String(spec.tier),
+				label: `T${spec.tier} · ${spec.label}`,
+				view: DEMO_CARD,
+				tier: spec.tier
+			}))
+		},
+		{
+			id: 'binder',
+			title: 'Binder size · identical layout at ~0.42×',
+			samples: CARD_TIERS.slice(0, 3).map((spec, i) => ({
+				id: String(spec.tier),
+				label: '',
+				view: v(
+					{ links: EIGHT_LINKS.slice(0, [2, 4, 8][i]), bio: LONG_BIO },
+					{ photo_shape: PHOTO_SHAPES[i], bg: BG_SAMPLE[i + 2] }
+				),
+				width: BINDER,
+				tier: spec.tier,
+				detail: 'thumb' as const
+			}))
+		},
+		{
+			// the app's /dev/foil-lab: the demo on silver / blush, every foil
+			id: 'lab',
+			title: 'Foil lab · silver on blush, every kind (app: /dev/foil-lab)',
+			samples: FOIL_KINDS.map((kind) => ({
+				id: kind,
+				label: kind,
+				view: v({}, { frame: 'silver', bg: 'blush' }),
+				width: LAB,
+				foil: kind,
+				detail: 'thumb' as const
+			}))
+		},
+		{
+			// the app's /dev/stickers cards
+			id: 'stickers',
+			title: 'Stickers · a glitter card and every rung (app: /dev/stickers)',
+			samples: [
+				{
+					id: 'glitter-check',
+					label: 'glitter sticker on a glitter card',
+					width: LAB,
+					foil: 'glitter',
+					view: {
+						...DEMO_CARD,
+						affiliation: null,
+						stickers: [
+							place('sparkles', 0.3, 0.42, 'glitter', { scale: 1.3 }),
+							place('heart', 0.72, 0.4, 'none', { scale: 1.1 })
+						]
+					}
+				},
+				{
+					id: 'rungs',
+					label: 'every rung, and a holo fandom sticker',
+					width: LAB,
+					foil: null,
+					view: {
+						...DEMO_CARD,
+						affiliation: null,
+						stickers: [
+							place('star', 0.2, 0.2, 'none', { rotation: -8 }),
+							place('star', 0.78, 0.2, 'glitter', { rotation: 6 }),
+							place('star', 0.5, 0.45, 'holo', { scale: 1.2 }),
+							place('star', 0.22, 0.72, 'cosmic', { rotation: 12 }),
+							place('star', 0.78, 0.72, 'mosaic', { rotation: -10 }),
+							place('fandom-scifi', 0.5, 0.92, 'holo', {
+								kind: 'fandom',
+								label: 'Sci-fi',
+								style_category: 'retro-sci-fi',
+								is_affiliation: false,
+								size: 0.3
+							})
+						]
+					}
+				}
+			]
+		},
+		{
+			// what the app's galleries don't show
+			id: 'more',
+			title: 'More · 5 links, overflowing bio, the affiliation over a foiled card',
+			samples: [
+				{
+					id: 'five',
+					label: '5 links',
+					view: v({ links: EIGHT_LINKS.slice(0, 5), bio: LONG_BIO }, { photo_height: 126 })
+				},
+				{
+					id: 'overflow',
+					label: 'bio overflows',
+					view: v(
+						{ bio: `${LONG_BIO} ${LONG_BIO}`, pronouns: 'xe/xem', links: EIGHT_LINKS.slice(0, 2) },
+						{ photo_height: 112, bg: 'slate', frame: 'ink', photo_shape: 'circle' }
+					)
+				},
+				{
+					id: 'affiliation',
+					label: 'affiliation + foiled stickers, mosaic',
+					foil: 'mosaic',
+					view: v({
+						stickers: [
+							place('dragon', 0.2, 0.3, 'cosmic', { rotation: 10 }),
+							place('crown', 0.75, 0.25, 'holo', { scale: 0.8 })
+						]
+					})
+				}
+			]
+		}
 	];
 
-	let flipped = $state(false);
-
-	// ---- editable preview: the on-card Look controls and photo pan/zoom,
-	// wired the same way the real edit screen wires them, so this page can
-	// exercise the interaction without any backend behind it. ----
-	let editStyle = $state<CardStyle>({ ...hero });
-	let editArtUrl = $state<string | null>('https://picsum.photos/seed/concard-edit/500/900');
-	let editArtX = $state(ART_DEFAULT.x);
-	let editArtY = $state(ART_DEFAULT.y);
-	let editArtScale = $state(ART_DEFAULT.scale);
-	const editView = $derived<CardView>({
-		...base,
-		art_url: editArtUrl,
-		style: editStyle,
-		art_x: editArtX,
-		art_y: editArtY,
-		art_scale: editArtScale
-	});
-	function stepIn<T>(values: readonly T[], current: T, dir: 1 | -1): T {
-		const i = values.indexOf(current);
-		return values[(i + dir + values.length) % values.length];
-	}
-
-	// ---- sticker rotate/resize handles: same drag math as the real edit
-	// screen, so this exercises it without a backend. ----
-	let editEl: HTMLDivElement | undefined = $state();
-	let editPlaced = $state<PlacedSticker[]>(base.stickers.map((s) => ({ ...s })));
-	let editSelectedId = $state<string | null>(null);
-	const editViewFull = $derived<CardView>({ ...editView, stickers: editPlaced });
-
-	type StickerDrag =
-		| { kind: 'move'; id: string; pointerId: number }
-		| { kind: 'rotate'; id: string; pointerId: number }
-		| { kind: 'resize'; id: string; pointerId: number };
-	let stickerDrag: StickerDrag | null = null;
-	const STICKER_BASE_RADIUS_FRAC = 0.1533 / 2;
-
-	function onEditStickerDown(s: PlacedSticker, e: PointerEvent) {
-		if (!s.id) return;
-		editSelectedId = s.id;
-		stickerDrag = { kind: 'move', id: s.id, pointerId: e.pointerId };
-		(e.currentTarget as HTMLElement | null)?.setPointerCapture?.(e.pointerId);
-	}
-	function onEditStickerHandleDown(s: PlacedSticker, handle: 'rotate' | 'resize', e: PointerEvent) {
-		if (!s.id) return;
-		editSelectedId = s.id;
-		stickerDrag = { kind: handle, id: s.id, pointerId: e.pointerId };
-		(e.currentTarget as HTMLElement | null)?.setPointerCapture?.(e.pointerId);
-	}
-	function onEditMove(e: PointerEvent) {
-		const d = stickerDrag;
-		if (!d || e.pointerId !== d.pointerId || !editEl) return;
-		const r = editEl.getBoundingClientRect();
-		if (d.kind === 'move') {
-			const x = Math.min(1.02, Math.max(-0.14, (e.clientX - r.left) / r.width));
-			const y = Math.min(0.96, Math.max(-0.1, (e.clientY - r.top) / r.height));
-			editPlaced = editPlaced.map((p) => (p.id === d.id ? { ...p, x, y } : p));
-			return;
-		}
-		const p = editPlaced.find((q) => q.id === d.id);
-		if (!p) return;
-		const cx = r.left + p.x * r.width;
-		const cy = r.top + p.y * r.height;
-		if (d.kind === 'rotate') {
-			const screenAngle = (Math.atan2(e.clientY - cy, e.clientX - cx) * 180) / Math.PI;
-			const raw = screenAngle + 90 - stickerRotation(d.id);
-			const rotation = ((((raw + 180) % 360) + 360) % 360) - 180;
-			editPlaced = editPlaced.map((q) => (q.id === d.id ? { ...q, rotation } : q));
-		} else {
-			const baseRadius = r.width * STICKER_BASE_RADIUS_FRAC;
-			const scale = Math.min(
-				3,
-				Math.max(0.25, Math.hypot(e.clientX - cx, e.clientY - cy) / baseRadius)
-			);
-			editPlaced = editPlaced.map((q) => (q.id === d.id ? { ...q, scale } : q));
-		}
-	}
-	function onEditUp() {
-		stickerDrag = null;
-	}
-	function onEditFaceDown() {
-		editSelectedId = null;
-	}
+	const backs = ['qr', 'placeholder', 'record'] as const;
+	const foilFor = (s: Sample) =>
+		s.foil === null ? undefined : (s.foil ?? foilForTier(s.tier ?? 0));
 </script>
 
-<svelte:window onpointermove={onEditMove} onpointerup={onEditUp} onpointercancel={onEditUp} />
+<svelte:head><title>Cards · dev</title></svelte:head>
 
-<svelte:head><title>Card gallery · dev</title></svelte:head>
+<h1 class="display text-2xl">Card gallery</h1>
+<p class="mt-1 text-xs text-faint">
+	Dev only. The app's galleries on the web card: <code>?tilt=x,y</code>, <code>?t=0</code>,
+	<code>?ref=rnweb</code>.
+</p>
 
-<h1 class="display text-xl">Card gallery</h1>
-<p class="text-xs text-faint">Dev only. Drag the hero to tilt, tap to flip.</p>
+{#each groups as g (g.id)}
+	<section class="group">
+		<h2 class="meta text-holo">{g.title}</h2>
+		<div class="row">
+			{#each g.samples as s (s.id)}
+				<figure>
+					<div
+						style="width: {s.width ?? HERO}px"
+						data-card="{g.id}-{s.id}"
+						data-width={s.width ?? HERO}
+					>
+						<Card view={s.view} {catalog} foil={foilFor(s)} detail={s.detail ?? 'full'} {rx} {ry} />
+					</div>
+					{#if s.label}<figcaption>{s.label}</figcaption>{/if}
+				</figure>
+			{/each}
+		</div>
+	</section>
+	{#if g.id === 'tier'}
+		<section class="group">
+			<h2 class="meta text-holo">Back · qr / offline placeholder / record</h2>
+			<div class="row">
+				{#each backs as variant (variant)}
+					<figure>
+						<div style="width: {HERO}px" data-card="back-{variant}" data-width={HERO}>
+							<CardBack
+								style={DEMO_CARD.style}
+								{variant}
+								qrValue="https://concard.me/oskar"
+								url="concard.me/oskar"
+								record={{
+									collected: 'Sep 23, 2026',
+									event: 'In person',
+									note: 'First meeting logged.'
+								}}
+								{rx}
+								{ry}
+							/>
+						</div>
+						<figcaption>{variant}</figcaption>
+					</figure>
+				{/each}
+			</div>
+		</section>
+	{/if}
+{/each}
 
-<section class="mx-auto mt-6 max-w-[320px]" data-shot="hero">
-	<FlipCard bind:flipped>
-		{#snippet front(t)}<Card
-				view={{ ...withArt, style: hero }}
-				{catalog}
-				rx={t.rx}
-				ry={t.ry}
-				dragging={t.dragging}
-			/>{/snippet}
-		{#snippet back(t)}<CardBack
-				variant="qr"
-				rx={t.rx}
-				ry={t.ry}
-				dragging={t.dragging}
-				style={hero}
-				url="concard.me/oskar"
-				qrSvg="<svg viewBox='0 0 21 21' xmlns='http://www.w3.org/2000/svg'><rect width='21' height='21' fill='#fff'/><path fill='#111' d='M0 0h7v7H0zM1 1v5h5V1zM2 2h3v3H2zM14 0h7v7h-7zM15 1v5h5V1zM16 2h3v3h-3zM0 14h7v7H0zM1 15v5h5v-5zM2 16h3v3H2zM9 0h1v1H9zM11 0h1v2h-1zM9 2h2v1H9zM12 3h1v1h-1zM9 4h1v2H9zM11 5h2v1h-2zM0 9h1v1H0zM2 9h2v1H2zM5 9h1v2H5zM7 8h1v1H7zM9 8h2v1H9zM12 8h1v2h-1zM14 9h1v1h-1zM16 8h2v1h-2zM19 9h2v1h-2zM1 11h1v2H1zM3 12h2v1H3zM7 11h1v1H7zM9 11h1v2H9zM11 11h2v1h-2zM14 11h1v2h-1zM16 12h1v1h-1zM18 11h1v1h-1zM20 12h1v1h-1zM9 14h2v1H9zM12 14h1v2h-1zM14 14h2v2h-2zM17 14h1v1h-1zM19 14h2v1h-2zM9 16h1v1H9zM11 17h1v1h-1zM13 17h2v1h-2zM16 16h1v2h-1zM18 16h1v1h-1zM20 17h1v2h-1zM9 19h1v2H9zM11 19h2v1h-2zM14 19h1v2h-1zM16 19h2v1h-2zM19 20h1v1h-1z'/></svg>"
-			/>{/snippet}
-	</FlipCard>
-	<button class="mt-3 btn-secondary w-full" type="button" onclick={() => (flipped = !flipped)}
-		>Flip</button
-	>
+<section class="group">
+	<h2 class="meta text-holo">The ladder, loose</h2>
+	{#each ['star', 'sparkles'] as id (id)}
+		<div class="ladder">
+			{#each STICKER_FOILS as f (f)}
+				<StickerTile sticker={catalog.get(id)} foil={f} title="{id} · {f}" />
+			{/each}
+		</div>
+	{/each}
 </section>
 
-<h2 class="mt-10 text-sm font-bold text-dim">Editable (mobile edit preview)</h2>
-<p class="text-xs text-faint">
-	Look controls float right on the card; drag the photo to pan, use the +/− to zoom.
-</p>
-<section class="mx-auto mt-4 max-w-[228px]" bind:this={editEl} data-shot="editable">
-	<Card
-		view={editViewFull}
-		{catalog}
-		editable
-		selectedId={editSelectedId}
-		onstickerdown={onEditStickerDown}
-		onstickerhandledown={onEditStickerHandleDown}
-		onfacedown={onEditFaceDown}
-		onframestep={(dir) => (editStyle.frame = stepIn(FRAME_KEYS, editStyle.frame, dir))}
-		onbgstep={(dir) => (editStyle.bg = stepIn(BG_KEYS, editStyle.bg, dir))}
-		oncornersstep={(dir) => (editStyle.shape = stepIn(SHAPES, editStyle.shape, dir))}
-		onphotoshapestep={(dir) =>
-			(editStyle.photo_shape = stepIn(PHOTO_SHAPES, editStyle.photo_shape, dir))}
-		onzoomstep={(dir) => (editArtScale = Math.min(3, Math.max(1, editArtScale + dir * 0.15)))}
-		onartpan={(x, y) => {
-			editArtX = x;
-			editArtY = y;
-		}}
-	/>
+<section class="group">
+	<h2 class="meta text-holo">A bare shell · no foil stack at all</h2>
+	<div style="width: {HERO}px">
+		<CardShell style={DEMO_CARD.style}><span></span></CardShell>
+	</div>
 </section>
 
-<h2 class="mt-10 text-sm font-bold text-dim">Variants</h2>
-<ul class="mt-3 grid grid-cols-3 gap-5" data-shot="variants">
-	{#each variants as style (JSON.stringify(style))}
-		<li>
-			<Card view={{ ...base, style }} {catalog} />
-			<p class="mt-2 text-center text-[10px] text-faint">
-				{style.frame} · {style.bg} · {style.shape} · {style.photo_shape}
-			</p>
-		</li>
-	{/each}
-</ul>
-
-<h2 class="mt-10 text-sm font-bold text-dim">Every background</h2>
-<ul class="mt-3 grid grid-cols-3 gap-4" data-shot="bgs">
-	{#each BG_KEYS as bg (bg)}
-		<li>
-			<Card
-				view={{
-					...base,
-					links: base.links.slice(0, 2),
-					style: { frame: 'silver', bg, shape: 'rounded', photo_shape: 'round' }
-				}}
-				{catalog}
-			/>
-			<p class="mt-1 text-center text-[10px] text-faint">{bg}</p>
-		</li>
-	{/each}
-</ul>
-
-<h2 class="mt-10 text-sm font-bold text-dim">Backs</h2>
-<ul class="mt-3 grid grid-cols-2 gap-5" data-shot="backs">
-	<li>
-		<CardBack
-			variant="qr"
-			style={variants[1]}
-			url="concard.me/oskar"
-			qrSvg="<svg viewBox='0 0 4 4' xmlns='http://www.w3.org/2000/svg'><rect width='4' height='4' fill='#fff'/><path fill='#111' d='M0 0h1v1H0zM2 0h1v1H2zM1 1h1v1H1zM3 1h1v1H3zM0 2h1v1H0zM2 2h1v1H2zM1 3h1v1H1zM3 3h1v1H3z'/></svg>"
-		/>
-	</li>
-	<li>
-		<CardBack
-			variant="record"
-			style={variants[3]}
-			record={{
-				collected: '12 Sep 2026, 01:14',
-				event: 'No event',
-				note: 'Traded with @alice. They have your card too.'
-			}}
-		/>
-	</li>
-</ul>
-
-<h2 class="mt-10 text-sm font-bold text-dim">Thumbnail size</h2>
-<ul class="mt-3 grid grid-cols-6 gap-3" data-shot="thumbs">
-	{#each variants as style (JSON.stringify(style))}
-		<li><Card view={{ ...withArt, style }} {catalog} /></li>
-	{/each}
-</ul>
-
-<p class="mt-10 text-xs text-faint">
-	All frames: {FRAME_KEYS.join(', ')}. Backgrounds: {BG_KEYS.join(', ')}. Shapes: {SHAPES.join(
-		', '
-	)}. Photo: {PHOTO_SHAPES.join(', ')}.
-</p>
+<style>
+	.group {
+		margin-top: 1.5rem;
+		padding: 0.75rem;
+		border-radius: 1rem;
+		border: 1px solid var(--color-line);
+		background: var(--color-raised);
+	}
+	.row {
+		margin-top: 0.75rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+	figure {
+		margin: 0;
+	}
+	figcaption {
+		margin-top: 0.25rem;
+		font-size: 9px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-faint);
+	}
+	.ladder {
+		margin-top: 0.5rem;
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: 0.25rem;
+	}
+</style>
