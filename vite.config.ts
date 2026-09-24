@@ -5,6 +5,9 @@ import { sveltekit } from '@sveltejs/kit/vite';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 
 export default defineConfig({
+	// The foil engine's CanvasKit is imported lazily; pre-bundle it up front so
+	// the dev server doesn't discover it mid-page and force a reload.
+	optimizeDeps: { include: ['canvaskit-wasm/bin/full/canvaskit.js'] },
 	plugins: [
 		tailwindcss(),
 		sveltekit({
