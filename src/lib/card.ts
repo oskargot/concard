@@ -1,5 +1,6 @@
 import { ART_DEFAULT, BADGE_HOME, normalizeStyle } from '$lib/card-style';
 import { BAKED_STICKERS } from '$lib/sticker-art';
+import type { CatalogSticker } from '$lib/stickers/resolve';
 import type {
 	Affiliation,
 	Card,
@@ -48,7 +49,9 @@ export function placementToPlaced(p: StickerPlacement): PlacedSticker {
 		rotation: Number(p.rotation),
 		scale: Number(p.scale),
 		z_index: p.z_index,
-		foil: normalizeFoil(p.foil)
+		foil: normalizeFoil(p.foil),
+		size: p.size == null ? null : Number(p.size),
+		is_affiliation: p.is_affiliation === true
 	};
 }
 
@@ -163,7 +166,10 @@ export function snapshotToView(snapshot: unknown): CardSnapshot {
 		style: v1 ? normalizeStyle({}) : normalizeStyle(s.style),
 		affiliation: v1 ? null : readAffiliation(s.affiliation),
 		links: v1 ? [] : readLinks(s.links),
+		// v4 snapshots carry each sticker's definition too; keep it, so a
+		// collected card draws forever without a catalog lookup.
 		stickers: rawStickers.map((p) => ({
+			...p,
 			id: undefined,
 			sticker_id: String(p.sticker_id),
 			x: Number(p.x),
@@ -171,7 +177,9 @@ export function snapshotToView(snapshot: unknown): CardSnapshot {
 			rotation: Number(p.rotation ?? 0),
 			scale: Number(p.scale ?? 1),
 			z_index: Number(p.z_index ?? 0),
-			foil: normalizeFoil(p.foil)
+			foil: normalizeFoil(p.foil),
+			size: p.size == null ? null : Number(p.size),
+			is_affiliation: p.is_affiliation === true
 		})),
 		owner: {
 			id: String(owner.id ?? ''),
@@ -203,10 +211,17 @@ export function bakedArt(sticker: Sticker | undefined): BakedArt | null {
 	return { src: `/stickers/${sticker.id}.webp`, mask: `/stickers/${sticker.id}.mask.webp` };
 }
 
-export type StickerCatalog = Map<string, Sticker>;
+export type StickerCatalog = Map<string, CatalogSticker>;
 
-export function catalogFrom(stickers: Sticker[]): StickerCatalog {
-	return new Map(stickers.map((s) => [s.id, s]));
+/** Catalog rows by id; a fandom sticker picks up its fandom's style category. */
+export function catalogFrom(stickers: Sticker[], fandoms: Fandom[] = []): StickerCatalog {
+	const styles = new Map(fandoms.map((f) => [f.id, f.style_category]));
+	return new Map(
+		stickers.map((s) => [
+			s.id,
+			{ ...s, style_category: s.fandom_id ? (styles.get(s.fandom_id) ?? null) : null }
+		])
+	);
 }
 
 export function fandomMap(fandoms: Fandom[]): Map<string, Fandom> {

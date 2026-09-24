@@ -21,3 +21,6 @@ Thumbs.db
 # Vite
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# The app's fixture sticker bakes, copied for the /dev/stickers page
+/static/sticker-fixtures/

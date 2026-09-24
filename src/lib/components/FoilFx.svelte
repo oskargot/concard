@@ -27,9 +27,13 @@
 		/** Explicit grain drift (holo only, -100..100). Omit to idle-animate. */
 		gx?: number;
 		gy?: number;
+		/** An explicit CSS mask image — the ingest's baked `mask.webp`, or a
+		 *  fandom sticker's own silhouette — used instead of the one derived
+		 *  from `sticker`. */
+		mask?: string;
 	}
 
-	let { foil, sticker, iconSize = 0.82, lx, ly, gx, gy }: Props = $props();
+	let { foil, sticker, iconSize = 0.82, lx, ly, gx, gy, mask }: Props = $props();
 	const idle = $derived(lx === undefined);
 
 	// A same-glyph SVG <text>, used purely as a mask: the browser rasterizes
@@ -48,13 +52,15 @@
 
 	const baked = $derived(bakedArt(sticker));
 	const iconMask = $derived(
-		baked
-			? `url("${baked.mask}")`
-			: sticker?.image_url
-				? `url("${sticker.image_url}")`
-				: sticker?.glyph
-					? glyphMask(sticker.glyph)
-					: null
+		mask
+			? mask
+			: baked
+				? `url("${baked.mask}")`
+				: sticker?.image_url
+					? `url("${sticker.image_url}")`
+					: sticker?.glyph
+						? glyphMask(sticker.glyph)
+						: null
 	);
 
 	const pct = $derived(`${iconSize * 100}%`);

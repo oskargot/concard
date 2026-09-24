@@ -14,6 +14,13 @@
 	import CardShell from './CardShell.svelte';
 	import StickerGlyph from './StickerGlyph.svelte';
 	import FoilFx from './FoilFx.svelte';
+	import FandomSticker from './FandomSticker.svelte';
+	import {
+		AFFILIATION_STICKER_WIDTH,
+		baseSizeOf,
+		lookFor,
+		type StickerLook
+	} from '$lib/stickers/resolve';
 	import { fly } from 'svelte/transition';
 
 	interface Props {
@@ -72,7 +79,49 @@
 	const MAX_CHIPS = 3;
 	const chips = $derived(view.links.slice(0, MAX_CHIPS));
 	const more = $derived(Math.max(0, view.links.length - MAX_CHIPS));
-	const stickers = $derived([...view.stickers].sort((a, b) => a.z_index - b.z_index));
+	/**
+	 * The affiliation is a sticker too — the generative fandom sticker, as the
+	 * app draws it. Once the schema has moved it into a placement
+	 * (`is_affiliation`) that one is drawn; until then it's made from the card's
+	 * affiliation columns, on top of the others like the badge was.
+	 */
+	const AFFILIATION_ID = '__affiliation';
+	const affiliationPlaced = $derived(view.stickers.some((s) => s.is_affiliation));
+	const stickers = $derived(
+		[
+			...view.stickers,
+			...(view.affiliation && !affiliationPlaced
+				? [
+						{
+							id: AFFILIATION_ID,
+							sticker_id: `fandom-${view.affiliation.id}`,
+							kind: 'fandom' as const,
+							label: view.affiliation.name,
+							fandom_id: view.affiliation.id,
+							x: view.affiliation.x,
+							y: view.affiliation.y,
+							rotation: 0,
+							scale: 1,
+							z_index: 1000,
+							foil: 'none' as const,
+							size: AFFILIATION_STICKER_WIDTH,
+							is_affiliation: true
+						}
+					]
+				: [])
+		].sort((a, b) => a.z_index - b.z_index)
+	);
+	/** The card's width in px: a fandom sticker's layout depends on its real size. */
+	let cardPx = $state(0);
+
+	/** A new-style sticker's box, as CSS: deco by its long edge, fandom by width. */
+	function boxStyle(look: StickerLook, base: number): string {
+		if (look.kind === 'deco') {
+			const w = look.aspect >= 1 ? base * 100 : base * look.aspect * 100;
+			return `width: ${w}cqw; height: auto; aspect-ratio: ${look.aspect};`;
+		}
+		return `width: ${base * 100}cqw; height: auto;`;
+	}
 
 	// Foil stickers get a glow behind them, lit by the same drag tilt as the
 	// card's own holo frame (mirrors CardShell's --lx/--ly). Holo also drifts
@@ -273,56 +322,65 @@
 				)}
 			</div>
 		{/if}
-		{#if view.affiliation}
-			{@const a = view.affiliation}
-			<div
-				class="badge-holder"
-				class:selected={editable && badgeSelected}
-				role={editable ? 'presentation' : undefined}
-				style="left: {a.x * 100}%; top: {a.y * 100}%;"
-				onpointerdown={editable && onbadgedown
-					? (e) => {
-							e.stopPropagation();
-							onbadgedown(e);
-						}
-					: undefined}
-			>
-				<div
-					class="badge"
-					style="background: linear-gradient(150deg, {a.color_a}, {a.color_b})"
-					title={a.name}
-				>
-					<span class="mark">{a.mark}</span>
-					<span class="badge-name">{a.name}</span>
-				</div>
-			</div>
-		{/if}
+		<div class="measure" bind:clientWidth={cardPx} aria-hidden="true"></div>
 		{#each stickers as s (s.id ?? `${s.sticker_id}-${s.x}-${s.y}`)}
-			{@const isSelected = editable && s.id != null && s.id === selectedId}
+			{@const isAffiliation = s.id === AFFILIATION_ID || !!s.is_affiliation}
+			{@const isSelected =
+				editable && (isAffiliation ? badgeSelected : s.id != null && s.id === selectedId)}
 			{@const sticker = catalog.get(s.sticker_id)}
+			{@const look = lookFor(s, sticker)}
 			{@const baked = bakedArt(sticker)}
+			{@const base = baseSizeOf(s)}
 			<div
 				class="sticker"
 				class:selected={isSelected}
+				class:drawn={look.kind !== 'legacy'}
 				role={editable ? 'presentation' : undefined}
 				style="left: {s.x * 100}%; top: {s.y * 100}%; z-index: {isSelected ? 1000 : s.z_index + 1};
 					transform: translate(-50%, -50%) rotate({s.rotation +
-					stickerRotation(s.id ?? s.sticker_id)}deg) scale({s.scale});"
-				onpointerdown={editable && onstickerdown
+					(isAffiliation ? 0 : stickerRotation(s.id ?? s.sticker_id))}deg) scale({s.scale});
+					{look.kind === 'legacy' ? '' : boxStyle(look, base)}"
+				onpointerdown={editable && (isAffiliation ? onbadgedown : onstickerdown)
 					? (e) => {
 							e.stopPropagation();
-							onstickerdown(s, e);
+							if (isAffiliation) onbadgedown?.(e);
+							else onstickerdown?.(s, e);
 						}
 					: undefined}
 			>
-				<div
-					class="cut"
-					class:baked={!!baked}
-					style={baked ? `--art-scale: ${BAKED_ART_SCALE * 100}%` : undefined}
-				>
-					<StickerGlyph {sticker} label={false} />
-				</div>
-				{#if s.foil !== 'none'}
+				{#if look.kind === 'deco'}
+					<img class="art" src={look.full} alt={look.name} draggable="false" />
+				{:else if look.kind === 'fandom'}
+					<FandomSticker
+						label={look.label}
+						styleCategory={look.styleCategory}
+						width={base * cardPx}
+						foil={s.foil}
+						lx={foilLx}
+					/>
+				{:else}
+					<div
+						class="cut"
+						class:baked={!!baked}
+						style={baked ? `--art-scale: ${BAKED_ART_SCALE * 100}%` : undefined}
+					>
+						<StickerGlyph {sticker} label={false} />
+					</div>
+				{/if}
+				{#if s.foil !== 'none' && look.kind === 'deco'}
+					<div class="sticker-foil">
+						<FoilFx
+							foil={s.foil}
+							sticker={undefined}
+							mask={`url("${look.mask}")`}
+							iconSize={1}
+							lx={foilLx}
+							ly={foilLy}
+							gx={s.foil === 'holo' ? foilGx : undefined}
+							gy={s.foil === 'holo' ? foilGy : undefined}
+						/>
+					</div>
+				{:else if s.foil !== 'none' && look.kind === 'legacy'}
 					<div class="sticker-foil">
 						<FoilFx
 							foil={s.foil}
@@ -335,7 +393,7 @@
 						/>
 					</div>
 				{/if}
-				{#if isSelected && onstickerhandledown}
+				{#if isSelected && onstickerhandledown && !isAffiliation}
 					{@const handleScale = Math.min(2, Math.max(0.6, 1 / s.scale))}
 					<button
 						type="button"
@@ -615,52 +673,6 @@
 		text-transform: uppercase;
 		color: var(--mute);
 	}
-	.badge-holder {
-		position: absolute;
-		transform: translate(-50%, -50%);
-		z-index: 0;
-	}
-	:global(.editable) .badge-holder {
-		pointer-events: auto;
-		cursor: grab;
-	}
-	.badge-holder.selected .badge {
-		outline: 0.85cqw solid var(--ink, #17161b);
-		outline-offset: 0.6cqw;
-	}
-	.badge {
-		flex: none;
-		width: 20cqw;
-		height: 20cqw;
-		border-radius: 4.67cqw;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 1cqw;
-		color: #fbf9f3;
-		text-align: center;
-		padding: 1cqw;
-	}
-	.mark {
-		font:
-			700 5cqw/1 'Space Mono',
-			ui-monospace,
-			monospace;
-	}
-	.badge-name {
-		font:
-			700 1.83cqw/1.1 'Space Mono',
-			ui-monospace,
-			monospace;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		max-width: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
 	/* miniatures (binder thumbnails): the pixel floors on chip and bio type would
 	   overflow, so show name, photo and badge only */
 	@container (max-width: 180px) {
@@ -689,6 +701,25 @@
 	   arrive with that cut already drawn in (scripts/bake-stickers.mjs); the
 	   rim variables and the filter below are the fallback for stickers with no
 	   baked artwork — admin uploads, and any emoji not in the bake. */
+	/* the card's size in px, for the fandom renderer */
+	.measure {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		visibility: hidden;
+	}
+	/* a sticker drawn from the ingest's art or the fandom renderer: its box is
+	   the art itself (sized inline), no CSS rim */
+	.sticker.drawn {
+		display: block;
+	}
+	.sticker .art {
+		display: block;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		user-select: none;
+	}
 	.sticker {
 		position: absolute;
 		width: 15.33cqw;

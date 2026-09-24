@@ -27,7 +27,12 @@ export interface Affiliation {
 	y: number;
 }
 
-/** A sticker as positioned on a card face. Positions are 0..1 of the card size. */
+/**
+ * A sticker as positioned on a card face: its centre as 0..1 of the card, and
+ * `scale` of its base `size` (a fraction of the card's width). A v4 snapshot's
+ * copy also carries what the sticker is, so it draws with no catalog lookup —
+ * the same shape as concard-app's `PlacedSticker`.
+ */
 export interface PlacedSticker {
 	id?: string;
 	sticker_id: string;
@@ -37,6 +42,18 @@ export interface PlacedSticker {
 	scale: number;
 	z_index: number;
 	foil: StickerFoil;
+	size?: number | null;
+	/** The card's free fandom affiliation, as a placement. */
+	is_affiliation?: boolean;
+	kind?: 'deco' | 'fandom';
+	name?: string;
+	full_path?: string | null;
+	mask_path?: string | null;
+	thumb_path?: string | null;
+	art_aspect?: number | null;
+	fandom_id?: string | null;
+	label?: string;
+	style_category?: string;
 }
 
 /**
