@@ -44,7 +44,9 @@ describe('snapshotToView', () => {
 				rotation: 0,
 				scale: 1,
 				z_index: 0,
-				foil: 'none'
+				foil: 'none',
+				size: null,
+				is_affiliation: false
 			}
 		]);
 	});

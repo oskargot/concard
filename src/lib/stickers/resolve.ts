@@ -21,6 +21,10 @@ import { FANDOM_STYLE_CATEGORIES, type FandomStyleCategory } from './types';
 
 export const LEGACY_STICKER_WIDTH = 0.1533;
 export const AFFILIATION_STICKER_WIDTH = 64 / 250;
+/** What a newly placed sticker stores as `size`, as the app writes it. */
+export const STICKER_BASE_WIDTH = 0.24;
+/** max_stickers_per_card(); the free affiliation doesn't count. */
+export const MAX_STICKERS_PER_CARD = 20;
 
 /** A catalog row, plus the style category of the fandom it came from. */
 export type CatalogSticker = Sticker & { style_category?: string | null };

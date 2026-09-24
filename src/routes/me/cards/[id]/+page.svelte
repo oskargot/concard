@@ -21,10 +21,12 @@
 		PHOTO_SHAPES,
 		SHAPES,
 		stickerRotation,
+		STICKER_SCALE_RANGE,
 		STICKER_X_RANGE,
 		STICKER_Y_RANGE,
 		type CardStyle
 	} from '$lib/card-style';
+	import { baseSizeOf, MAX_STICKERS_PER_CARD, STICKER_BASE_WIDTH } from '$lib/stickers/resolve';
 	import type { CardView, PlacedSticker, ProfileLink } from '$lib/types';
 
 	type PlacementPatch = Partial<Pick<PlacedSticker, 'x' | 'y' | 'rotation' | 'scale' | 'z_index'>>;
@@ -93,19 +95,46 @@
 	let stickerError = $state('');
 	const selected = $derived(placed.find((p) => p.id === selectedId) ?? null);
 
-	const view = $derived<CardView>({
-		title: displayName || 'Your name',
-		handle: profile.username,
-		bio,
-		art_url: data.card.art_url,
-		art_x: artX,
-		art_y: artY,
-		art_scale: artScale,
-		style,
-		affiliation: fandomToAffiliation(affiliation ? fandoms.get(affiliation) : null, badgeX, badgeY),
-		links: links.filter((l) => l.url.trim()),
-		stickers: placed
+	// The affiliation is a placement once the schema has moved it there, and the
+	// card draws that placement rather than the card's columns. While editing,
+	// the badge being dragged (and the fandom just picked) is the truth, so the
+	// placement is redrawn from them; the server keeps the two in step on save.
+	const affiliationPlacement = $derived(placed.find((p) => p.is_affiliation));
+	const stickersOnCard = $derived(placed.filter((p) => !p.is_affiliation));
+	const view = $derived.by<CardView>(() => {
+		const fandom = affiliation ? fandoms.get(affiliation) : null;
+		const base = affiliationPlacement;
+		return {
+			title: displayName || 'Your name',
+			handle: profile.username,
+			bio,
+			art_url: data.card.art_url,
+			art_x: artX,
+			art_y: artY,
+			art_scale: artScale,
+			style,
+			affiliation: base ? null : fandomToAffiliation(fandom, badgeX, badgeY),
+			links: links.filter((l) => l.url.trim()),
+			stickers:
+				base && fandom
+					? [
+							...stickersOnCard,
+							{
+								...base,
+								sticker_id: `fandom-${fandom.id}`,
+								kind: 'fandom',
+								label: fandom.name,
+								fandom_id: fandom.id,
+								style_category: fandom.style_category,
+								x: badgeX,
+								y: badgeY
+							}
+						]
+					: stickersOnCard
+		};
 	});
+	/** The per-card cap counts everything but the free affiliation. */
+	const full = $derived(stickersOnCard.length >= MAX_STICKERS_PER_CARD);
 
 	let cardEl: HTMLDivElement | undefined = $state();
 	type Drag =
@@ -117,9 +146,6 @@
 
 	const clamp = (n: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, n));
 	const round = (n: number) => Math.round(n * 10000) / 10000;
-	// The sticker's own unscaled box is 15.33cqw square (see Card.svelte); cqw
-	// is 1% of the card's own width, which cardEl is sized to.
-	const STICKER_BASE_RADIUS_FRAC = 0.1533 / 2;
 
 	function relPos(e: PointerEvent) {
 		const r = cardEl!.getBoundingClientRect();
@@ -186,8 +212,12 @@
 			const rotation = angleFor(d.id, cx, cy, e.clientX, e.clientY);
 			placed = placed.map((q) => (q.id === d.id ? { ...q, rotation } : q));
 		} else {
-			const baseRadius = r.width * STICKER_BASE_RADIUS_FRAC;
-			const scale = clamp(round(Math.hypot(e.clientX - cx, e.clientY - cy) / baseRadius), 0.25, 3);
+			// half the sticker's unscaled base size: its long edge (deco) or width
+			const baseRadius = (r.width * baseSizeOf(p)) / 2;
+			const scale = clamp(
+				round(Math.hypot(e.clientX - cx, e.clientY - cy) / baseRadius),
+				...STICKER_SCALE_RANGE
+			);
 			placed = placed.map((q) => (q.id === d.id ? { ...q, scale } : q));
 		}
 	}
@@ -253,10 +283,24 @@
 
 	async function addSticker(stickerId: string, foil: PlacedSticker['foil']) {
 		stickerError = '';
+		if (full) {
+			stickerError = `A card holds ${MAX_STICKERS_PER_CARD} stickers at most. Take one off first.`;
+			return;
+		}
 		const z = placed.reduce((m, p) => Math.max(m, p.z_index), 0) + 1;
+		// Where the app's tap-to-place drops one: the centre, slightly high, at
+		// the app's base size.
 		const { data: row, error } = await data.supabase
 			.from('sticker_placements')
-			.insert({ card_id: data.card.id, sticker_id: stickerId, foil, x: 0.5, y: 0.5, z_index: z })
+			.insert({
+				card_id: data.card.id,
+				sticker_id: stickerId,
+				foil,
+				x: 0.5,
+				y: 0.45,
+				size: STICKER_BASE_WIDTH,
+				z_index: z
+			})
 			.select('*')
 			.single();
 		if (error || !row) {
@@ -273,7 +317,7 @@
 		selectedId = null;
 		placed = placed.filter((p) => p.id !== id);
 		const { error } = await data.supabase.from('sticker_placements').delete().eq('id', id);
-		if (error) stickerError = error.message;
+		if (error) stickerError = error.hint ?? error.message;
 		await invalidateAll();
 	}
 </script>
@@ -397,6 +441,11 @@
 		collects this card gets a copy of one of them at random.
 	</p>
 	{#if stickerError}<p class="mt-2 text-sm text-ember" role="alert">{stickerError}</p>{/if}
+	{#if full && !stickerError}
+		<p class="mt-2 text-sm text-dim">
+			This card holds {MAX_STICKERS_PER_CARD} stickers, the most it can. Take one off to add another.
+		</p>
+	{/if}
 	<ul class="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-6">
 		{#each data.available as row (`${row.sticker_id}-${row.foil}`)}
 			{@const s = catalog.get(row.sticker_id)}
@@ -404,7 +453,7 @@
 				<StickerTile
 					sticker={s}
 					foil={row.foil}
-					disabled={row.available < 1}
+					disabled={row.available < 1 || full}
 					onclick={() => addSticker(row.sticker_id, row.foil)}
 					title={s
 						? `${s.name} · ${RARITY_LABEL[s.rarity]}${row.foil !== 'none' ? ` · ${FOIL_LABEL[row.foil]}` : ''}`

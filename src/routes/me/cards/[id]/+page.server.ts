@@ -35,15 +35,13 @@ export const load: PageServerLoad = async ({ locals, params }) => {
 
 	// Copies placed on any of my cards count against what I can still place.
 	// A plain and a foil copy of the same sticker are different piles, so the
-	// count is keyed by sticker + foil tier, not sticker alone.
+	// count is keyed by sticker + foil tier, not sticker alone. The free
+	// affiliation never used a copy (sticker_available_count() skips it too).
 	const myCardIds = (myCards.data ?? []).map((c) => c.id);
 	const placedEverywhere = myCardIds.length
-		? ((
-				await supabase
-					.from('sticker_placements')
-					.select('sticker_id, foil')
-					.in('card_id', myCardIds)
-			).data ?? [])
+		? (
+				(await supabase.from('sticker_placements').select('*').in('card_id', myCardIds)).data ?? []
+			).filter((p) => !p.is_affiliation)
 		: [];
 	const pileKey = (sticker_id: string, foil: string) => `${sticker_id}:${foil}`;
 	const placedCount = new Map<string, number>();
