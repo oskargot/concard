@@ -13,7 +13,7 @@ import type {
 	StickerPlacement
 } from '$lib/types';
 
-const FOILS: StickerFoil[] = ['none', 'glitter', 'holo'];
+const FOILS: StickerFoil[] = ['none', 'glitter', 'holo', 'cosmic', 'mosaic'];
 const isFoil = (v: unknown): v is StickerFoil => FOILS.includes(v as StickerFoil);
 
 /** A foil tier off a row or a snapshot, falling back to plain when missing or unrecognized. */
@@ -21,17 +21,22 @@ export function normalizeFoil(v: unknown): StickerFoil {
 	return isFoil(v) ? v : 'none';
 }
 
-/** none -> glitter -> holo; holo is the ceiling, nothing combines past it. */
+/** none -> glitter -> holo -> cosmic -> mosaic; mosaic is the ceiling. Mirrors
+ *  sticker_foil_next() in 20260924000001. */
 export const NEXT_FOIL: Record<StickerFoil, StickerFoil | null> = {
 	none: 'glitter',
 	glitter: 'holo',
-	holo: null
+	holo: 'cosmic',
+	cosmic: 'mosaic',
+	mosaic: null
 };
 
 export const FOIL_LABEL: Record<StickerFoil, string> = {
 	none: 'Plain',
 	glitter: 'Glitter',
-	holo: 'Holo'
+	holo: 'Holo',
+	cosmic: 'Cosmic',
+	mosaic: 'Mosaic'
 };
 
 export function placementToPlaced(p: StickerPlacement): PlacedSticker {

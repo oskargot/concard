@@ -179,7 +179,8 @@ begin
    limit 1;
   if found then
     raise exception 'fandom_exists' using errcode = '23505',
-      detail = v_existing.id,
+      -- the id only for an approved fandom: a pending one is its submitter's business
+      detail = case when v_existing.status = 'approved' then v_existing.id else '' end,
       hint = case when v_existing.status = 'approved'
         then 'That fandom already exists. Pick it from the list.'
         else 'Someone has already submitted that fandom. It is waiting for review.' end;
