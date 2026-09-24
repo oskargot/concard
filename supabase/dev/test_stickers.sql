@@ -113,6 +113,13 @@ select pg_temp.as_user('00000000-0000-0000-0000-00000000000c');
 insert into public.sticker_placements (card_id, sticker_id, x, y, z_index)
   select '00000000-0000-0000-0000-0000000000cc', 'dice', 0.5, 0.5, g from generate_series(1, 20) g;
 select pg_temp.expect_error($$insert into public.sticker_placements (card_id, sticker_id, x, y) values ('00000000-0000-0000-0000-0000000000cc', 'dice', 0.5, 0.5)$$, 'too_many_stickers');
+-- the affiliation sits outside the cap: picking a fandom on a full card saves
+update public.cards set affiliation = 'anime', affiliation_x = 0.5, affiliation_y = 0.5
+ where id = '00000000-0000-0000-0000-0000000000cc';
+select pg_temp.check((select count(*) = 21 from public.sticker_placements where card_id = '00000000-0000-0000-0000-0000000000cc'), 'affiliation placed on a full card');
+-- ...and doesn't free a slot for a 21st ordinary sticker
+select pg_temp.expect_error($$insert into public.sticker_placements (card_id, sticker_id, x, y) values ('00000000-0000-0000-0000-0000000000cc', 'dice', 0.5, 0.5)$$, 'too_many_stickers');
+update public.cards set affiliation = null where id = '00000000-0000-0000-0000-0000000000cc';
 delete from public.sticker_placements where card_id = '00000000-0000-0000-0000-0000000000cc';
 
 -- the free affiliation --------------------------------------------------------
@@ -192,6 +199,7 @@ create temp table r as select public.collect_card('alice') as j;
 select pg_temp.check((select jsonb_array_length(j -> 'stickers') = 2 from r), 'two grants');
 select pg_temp.check((select (j -> 'card_snapshot' ->> 'version')::int = 4 from r), 'snapshot v4');
 select pg_temp.check((select bool_and(e ? 'kind') from r, jsonb_array_elements(j -> 'card_snapshot' -> 'stickers') e), 'snapshot stickers carry kind');
+select pg_temp.check((select bool_and((e ->> 'id')::uuid in (select id from public.sticker_placements)) from r, jsonb_array_elements(j -> 'card_snapshot' -> 'stickers') e), 'snapshot stickers carry their placement id');
 select pg_temp.check((select e ->> 'label' = 'Homestuck' and e ->> 'style_category' = 'general'
   from r, jsonb_array_elements(j -> 'card_snapshot' -> 'stickers') e where e ->> 'kind' = 'fandom'), 'fandom sticker frozen with label + style');
 select pg_temp.check((select g ->> 'sticker_id' = 'heart' and g ->> 'foil' = 'none'

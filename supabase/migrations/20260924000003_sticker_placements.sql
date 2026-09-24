@@ -1,9 +1,11 @@
 -- Stickers, part 4 of 5: placement rules, and the affiliation becomes a sticker.
 --
 -- Placement rules, enforced here and not only in the editors:
--- * At most max_stickers_per_card() = 20 stickers on a card (the free
---   affiliation included). Checked on insert under a lock on the card row,
---   so two devices placing at once can't both slip in at 20.
+-- * At most max_stickers_per_card() = 20 stickers on a card, plus the free
+--   affiliation (which never counts: picking a fandom is part of a card save,
+--   and a full card mustn't make that save fail). Checked on insert under a
+--   lock on the card row, so two devices placing at once can't both slip in
+--   at 20.
 -- * scale 0.5–2 of the sticker's base size (was 0.25–3). The one live row
 --   outside that (2.09) is clamped first.
 -- * x / y are the sticker's centre as 0..1 of the card (both clients already
@@ -137,8 +139,12 @@ begin
       hint = 'You do not have a spare copy of that sticker.';
   end if;
 
-  if (select count(*) from public.sticker_placements where card_id = new.card_id)
-     >= public.max_stickers_per_card() then
+  -- the affiliation sits outside the cap (at most one per card, by index), so
+  -- picking a fandom can never fail a card save that already holds 20
+  if not new.is_affiliation
+     and (select count(*) from public.sticker_placements
+           where card_id = new.card_id and not is_affiliation)
+         >= public.max_stickers_per_card() then
     raise exception 'too_many_stickers' using errcode = '23514',
       hint = 'A card holds 20 stickers at most. Take one off first.';
   end if;

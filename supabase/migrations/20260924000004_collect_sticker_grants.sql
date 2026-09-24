@@ -59,6 +59,9 @@ create policy "collectors see what they were granted" on public.collection_stick
 
 -- written only by collect_card(); nobody else writes here
 revoke insert, update, delete, truncate on public.collection_sticker_grants from anon, authenticated;
+-- explicit, rather than relying on the project's default privileges; the
+-- policy above still limits it to the collector's own rows
+grant select on public.collection_sticker_grants to authenticated;
 
 create or replace function public.collect_card(target_username text)
 returns jsonb
@@ -137,6 +140,9 @@ begin
     end,
     'stickers', coalesce((
       select jsonb_agg(jsonb_strip_nulls(jsonb_build_object(
+               -- the placement id seeds each sticker's wobble, so a collected
+               -- card tilts its stickers exactly as the owner's does
+               'id', sp.id,
                'sticker_id', sp.sticker_id,
                'kind', s.kind,
                'name', s.name,
